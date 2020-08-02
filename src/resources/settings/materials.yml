@@ -1,0 +1,9 @@
+Materials:
+
+  - nid: 'mat_carved_leather'
+    minecraft_nid: 'LEATHER'
+    name: 'T1 Carved Leather'
+    craftable: true
+    shaped: true
+    ingredients:
+      - type_nid: 'LEATHER'
