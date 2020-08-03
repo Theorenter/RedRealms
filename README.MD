@@ -1,4 +1,4 @@
-## RedRealms - Разрабатывается [Theorenter](https://github.com/Theorenter)
+## RedRealms [WIP]
 ___
 
 <p><img align=left src="https://i.imgur.com/Znkliat.png" width="256" height="256">
