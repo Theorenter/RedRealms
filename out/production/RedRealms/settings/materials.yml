@@ -13,3 +13,13 @@ materials:
       - '1 1'
       - '222'
       - '333'
+
+
+
+  - nid: 'mat_carved_iron'
+    minecraft_nid: 'IRON_INGOT'
+    name: 'T1 Carved Leather 2'
+    craftable: true
+    shaped: true
+    ingredients:
+      - type_nid: 'LEATHER'

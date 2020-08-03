@@ -19,7 +19,7 @@ public class LoaderFileManager {
         File redRealmsDataFolder = plugin.getDataFolder();
         if (!redRealmsDataFolder.isDirectory())
         {
-            plugin.log.info("The folder with the plugin data storage was not detected. Creating a new folder.");
+            plugin.log.warning("The folder with the plugin data storage was not detected. Creating a new folder.");
             redRealmsDataFolder.mkdir();
         }
         //endregion

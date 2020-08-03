@@ -11,7 +11,7 @@ import java.io.IOException;
 public abstract class SettingsFile {
 
     // Main class
-    protected static RedRealms plugin;
+    protected static RedRealms plugin = RedRealms.getPlugin(RedRealms.class);
 
     // CustomConfig fields
     protected static File customFile;
@@ -31,7 +31,7 @@ public abstract class SettingsFile {
 
         customFile = new File(plugin.getDataFolder(), settingsPath + YMLFileName);
         if (!customFile.exists()) {
-            plugin.log.warning(ChatColor.YELLOW + YMLFileName + " was not found. Create new ones.");
+            plugin.log.warning(YMLFileName + " was not found. Create new ones.");
             customFile.getParentFile().mkdirs();
             plugin.saveResource(settingsPath + YMLFileName, false);
         }

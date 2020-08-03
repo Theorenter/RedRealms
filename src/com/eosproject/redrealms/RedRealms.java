@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class RedRealms extends JavaPlugin {
 
-    static public Logger log = Logger.getLogger("Minecraft");
+    static public Logger log = Logger.getLogger("RedRealms");
 
     @Override
     public void onEnable() {
