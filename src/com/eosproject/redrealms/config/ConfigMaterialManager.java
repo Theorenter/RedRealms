@@ -1,6 +1,8 @@
-package com.eosproject.redrealms.file.settings;
+package com.eosproject.redrealms.config;
 
-import com.eosproject.redrealms.RedRealms;
+import com.eosproject.redrealms.main.RedColors;
+import com.eosproject.redrealms.main.RedLog;
+import com.eosproject.redrealms.main.RedRealms;
 import net.minecraft.server.v1_16_R1.ShapelessRecipes;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,11 +12,9 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class MaterialsFile extends SettingsFile {
+public class ConfigMaterialManager extends ConfigAbstractSetup {
 
     protected static RedRealms plugin = RedRealms.getPlugin(RedRealms.class);
 
@@ -28,34 +28,30 @@ public class MaterialsFile extends SettingsFile {
     private Boolean craftable;
     private Boolean shaped;
     private List<String> recipeShape;
-    private Character craftChar;
 
     // Constructor
-    public MaterialsFile(String YMLFileName) {
+    public ConfigMaterialManager(String YMLFileName) {
         super(YMLFileName);
 
-        List<Map<?, ?>> cfgMaterials = customConfig.getMapList("materials");
+        List<Map<?, ?>> cfgMaterials = customConfig.getMapList("materials.workbench_or_inventory");
         for (Map<?, ?> m : cfgMaterials) addMaterial(m);
     }
 
     public void addMaterial (Map m) {
 
         this.customNID = (String) m.get("nid");
-        plugin.log.info(customNID);
         this.materialName = (String) m.get("minecraft_nid");
-        plugin.log.info(materialName);
         this.displayName = (String) m.get("name");
-        plugin.log.info(displayName);
         this.craftable = (Boolean) m.get("craftable");
-        plugin.log.info(craftable.toString());
         this.shaped = (Boolean) m.get("shaped");
-        plugin.log.info(shaped.toString());
 
-        ItemStack material = new ItemStack(Material.getMaterial(materialName));
+        ItemStack itemStack = new ItemStack(Material.getMaterial(materialName));
         NamespacedKey key = new NamespacedKey(plugin, customNID);
 
-        materialMeta = material.getItemMeta();
-        materialMeta.setDisplayName(displayName);
+        materialMeta = itemStack.getItemMeta();
+        materialMeta.setDisplayName(RedColors.RESET + displayName);
+
+        itemStack.setItemMeta(materialMeta);
 
         if (craftable) {
             List<Character> craftableCharacters = new ArrayList<>();
@@ -71,15 +67,15 @@ public class MaterialsFile extends SettingsFile {
             craftableCharacters.add('9');
 
             if (shaped)
-                Bukkit.addRecipe(createShapedRecipe(key, material, m));
+                Bukkit.addRecipe(createShapedRecipe(key, itemStack, m));
             else {
-                // IDK -> createShapelessRecipe(key, material);
+                Bukkit.addRecipe(createShapelessRecipe(key, itemStack, m));
             }
         }
     }
 
-    private ShapedRecipe createShapedRecipe (NamespacedKey key, ItemStack material, Map m) {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(key, material);
+    private ShapedRecipe createShapedRecipe (NamespacedKey key, ItemStack itemStack, Map m) {
+        ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack);
         Map <Integer, String> ingredients = (Map<Integer, String>) m.get("ingredients");
         recipeShape = (List<String>) m.get("shape");
         shapedRecipe.shape(
@@ -90,9 +86,10 @@ public class MaterialsFile extends SettingsFile {
         return shapedRecipe;
     }
 
-    private ShapelessRecipes createShapelessRecipe (NamespacedKey key, ItemStack material) {
-        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(key, material);
-
-        return null;
+    private ShapelessRecipe createShapelessRecipe (NamespacedKey key, ItemStack itemStack, Map m) {
+        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(key, itemStack);
+        ArrayList<LinkedHashMap> ingredients = (ArrayList<LinkedHashMap>) m.get("ingredients");
+        ingredients.forEach((elements) -> shapelessRecipe.addIngredient((Integer) elements.get("count"), Material.getMaterial(elements.get("material").toString())));
+        return shapelessRecipe;
     }
 }

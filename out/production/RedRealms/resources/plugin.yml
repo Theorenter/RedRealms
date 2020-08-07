@@ -1,6 +1,6 @@
 name: RedRealms
 version: 0.1.0.0
-main: com.eosproject.redrealms.RedRealms
+main: com.eosproject.redrealms.main.RedRealms
 api-version: 1.16
 authors:
   - Theorenter

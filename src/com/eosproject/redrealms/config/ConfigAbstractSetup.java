@@ -1,6 +1,7 @@
-package com.eosproject.redrealms.file.settings;
+package com.eosproject.redrealms.config;
 
-import com.eosproject.redrealms.RedRealms;
+import com.eosproject.redrealms.main.RedLog;
+import com.eosproject.redrealms.main.RedRealms;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,7 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class SettingsFile {
+public abstract class ConfigAbstractSetup {
 
     // Main class
     protected static RedRealms plugin = RedRealms.getPlugin(RedRealms.class);
@@ -24,14 +25,14 @@ public abstract class SettingsFile {
     protected static String YMLFileName;
 
     // Constructor
-    SettingsFile(String YMLFileName) {
+    ConfigAbstractSetup(String YMLFileName) {
 
         // File Creation
         this.YMLFileName = YMLFileName;
 
         customFile = new File(plugin.getDataFolder(), settingsPath + YMLFileName);
         if (!customFile.exists()) {
-            plugin.log.warning(YMLFileName + " was not found. Create new ones.");
+            RedLog.warning(YMLFileName + " was not found. Create new ones.");
             customFile.getParentFile().mkdirs();
             plugin.saveResource(settingsPath + YMLFileName, false);
         }
@@ -43,9 +44,9 @@ public abstract class SettingsFile {
     public static void SaveCustomConfig() {
         try {
             customConfig.save(customFile);
-            plugin.log.info(    ChatColor.GREEN + YMLFileName + " has been saved successfully.");
+            RedLog.info(YMLFileName + " has been saved successfully!");
         } catch (IOException e) {
-            plugin.log.severe(ChatColor.RED + "Could not save the " + YMLFileName + " file!");
+            RedLog.error("Could not save the " + YMLFileName + " file!", e);
         }
     }
 

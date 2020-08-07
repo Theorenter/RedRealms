@@ -1,15 +1,29 @@
 materials:
 
-  - nid: 'mat_carved_leather'
-    minecraft_nid: 'LEATHER'
-    name: 'T1 Carved Leather'
-    craftable: true
-    ingredients:
-      1: 'LEATHER'
-      2: 'MINECART'
-      3: 'CRAFTING_TABLE'
-    shaped: true
-    shape:
-      - '1 1'
-      - '222'
-      - '333'
+  workbench_or_inventory:
+    - nid: 'mat_carved_leather'
+      minecraft_nid: 'LEATHER'
+      name: 'T1 Carved Leather'
+      craftable: true
+      ingredients:
+        1: 'LEATHER'
+        2: 'MINECART'
+        3: 'CRAFTING_TABLE'
+      shaped: true
+      shape:
+        - '1 1'
+        - '222'
+        - '333'
+
+    - nid: 'mat_cast_iron_ingot'
+      minecraft_nid: 'IRON_INGOT'
+      name: 'T1 Cast Iron Ingot'
+      craftable: true
+      shaped: false
+      ingredients:
+        - material: 'LEATHER'
+          count: 3
+        - material: 'IRON_BLOCK'
+          count: 5
+        - material : 'IRON_INGOT'
+          count: 1
