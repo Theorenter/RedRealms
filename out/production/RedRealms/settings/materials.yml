@@ -1,6 +1,7 @@
 materials:
 
-  workbench_or_inventory:
+  workbench:
+
     - nid: 'mat_carved_leather'
       minecraft_nid: 'LEATHER'
       name: 'T1 Carved Leather'
@@ -25,5 +26,14 @@ materials:
           count: 3
         - material: 'IRON_BLOCK'
           count: 5
-        - material : 'IRON_INGOT'
+        - material: 'IRON_INGOT'
           count: 1
+
+removed_recipes:
+
+  keys:
+    # Leather armor
+    - key: 'minecraft:leather_helmet'
+    - key: 'minecraft:leather_chestplate'
+    - key: 'minecraft:leather_leggings'
+    - key: 'minecraft:leather_boots'

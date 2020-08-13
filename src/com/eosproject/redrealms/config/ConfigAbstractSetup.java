@@ -2,7 +2,6 @@ package com.eosproject.redrealms.config;
 
 import com.eosproject.redrealms.main.RedLog;
 import com.eosproject.redrealms.main.RedRealms;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
