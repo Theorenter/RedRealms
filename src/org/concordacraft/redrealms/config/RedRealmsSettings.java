@@ -1,17 +1,15 @@
-package com.eosproject.redrealms.config;
+package org.concordacraft.redrealms.config;
 
-import com.eosproject.redrealms.main.RedLog;
-import com.eosproject.redrealms.main.RedRealms;
+import org.concordacraft.redrealms.main.RedLog;
+import org.concordacraft.redrealms.main.RedRealms;
 
 import java.io.File;
 
 public class RedRealmsSettings {
 
-    // Main class
-    private static RedRealms plugin = RedRealms.getPlugin(RedRealms.class);
 
     // Config Initialization
-    public static void initialization() {
+    public static void initialization(RedRealms plugin) {
 
         //region Checking for data folder existence
         File redRealmsDataFolder = plugin.getDataFolder();
@@ -24,10 +22,8 @@ public class RedRealmsSettings {
         //endregion
 
         // Settings loading
-        ConfigDefault configDefault = new ConfigDefault("config.yml");
-        ConfigMaterialManager configMaterialsManager = new ConfigMaterialManager("materials.yml");
-
-        // Data loading
+        ConfigDefault configDefault = new ConfigDefault(plugin,"config.yml");
+        ConfigMaterialManager configMaterialsManager = new ConfigMaterialManager(plugin, "materials.yml");
 
 
         // End message

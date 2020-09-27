@@ -1,39 +1,43 @@
 materials:
 
-  workbench:
+  items:
+    - redRealms_ID: 'weapon_wooden_spear'
+      minecraft_ID: 'TRIDENT'
+      displayName: 'Деревянное копьё'
+      lore:
+        - '&fСредняя скорость атаки'
+        - ''
+        - '&4⚔ Средний урон: 3'
+        - ''
+        - '&6❤ Может пробивать щиты'
 
-    - nid: 'mat_carved_leather'
-      minecraft_nid: 'LEATHER'
-      name: 'T1 Carved Leather'
-      craftable: true
-      ingredients:
-        1: 'LEATHER'
-        2: 'MINECART'
-        3: 'CRAFTING_TABLE'
-      shaped: true
-      shape:
-        - '1 1'
-        - '222'
-        - '333'
+  recipes:
+    shapedRecipes:
+      - recipe_key: 'shaped_woodenSpear'
+        redRealms_ID: 'weapon_wooden_spear'
+        ingredients:
+          1: 'STICK'
+          2: 'OAK_PLANKS'
+        shape:
+          - '  2'
+          - ' 1 '
+          - '1  '
+        hasReverseShape: true
 
-    - nid: 'mat_cast_iron_ingot'
-      minecraft_nid: 'IRON_INGOT'
-      name: 'T1 Cast Iron Ingot'
-      craftable: true
-      shaped: false
-      ingredients:
-        - material: 'LEATHER'
-          count: 3
-        - material: 'IRON_BLOCK'
-          count: 5
-        - material: 'IRON_INGOT'
-          count: 1
+    shapelessRecipes:
+    furnaceRecipes:
+    blastingRecipes:
+    campfireRecipes:
+    cookingRecipes:
+    smithingRecipes:
+    smokingRecipes:
+    stonecuttingRecipes:
 
 removed_recipes:
 
   keys:
     # Leather armor
-    - key: 'minecraft:leather_helmet'
-    - key: 'minecraft:leather_chestplate'
-    - key: 'minecraft:leather_leggings'
-    - key: 'minecraft:leather_boots'
+    - key: 'leather_helmet'
+    - key: 'leather_chestplate'
+    - key: 'leather_leggings'
+    - key: 'leather_boots'

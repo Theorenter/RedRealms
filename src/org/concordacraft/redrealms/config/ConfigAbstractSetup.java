@@ -1,7 +1,7 @@
-package com.eosproject.redrealms.config;
+package org.concordacraft.redrealms.config;
 
-import com.eosproject.redrealms.main.RedLog;
-import com.eosproject.redrealms.main.RedRealms;
+import org.concordacraft.redrealms.main.RedLog;
+import org.concordacraft.redrealms.main.RedRealms;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,9 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 public abstract class ConfigAbstractSetup {
-
-    // Main class
-    protected static RedRealms plugin = RedRealms.getPlugin(RedRealms.class);
 
     // CustomConfig fields
     protected static File customFile;
@@ -24,7 +21,7 @@ public abstract class ConfigAbstractSetup {
     protected static String YMLFileName;
 
     // Constructor
-    ConfigAbstractSetup(String YMLFileName) {
+    ConfigAbstractSetup(RedRealms plugin, String YMLFileName) {
 
         // File Creation
         this.YMLFileName = YMLFileName;

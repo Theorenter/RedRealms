@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="RedRealms:jar">
-    <output-path>$PROJECT_DIR$/../../EosProject 1.16.2/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../ConcordiaCraft/plugins</output-path>
     <root id="archive" name="RedRealms.jar">
       <element id="module-output" name="RedRealms" />
     </root>
