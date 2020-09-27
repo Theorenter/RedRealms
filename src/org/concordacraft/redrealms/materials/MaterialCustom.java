@@ -63,18 +63,6 @@ public class MaterialCustom {
 
         // Back meta
         itemStack.setItemMeta(itemMeta);
-
-        /*if (craftable) {
-            List<Character> craftableCharacters = new ArrayList<>();
-
-            for (int i = 1; i < 10; i++) { craftableCharacters.add((char) i); }
-
-            if (shaped)
-                Bukkit.addRecipe(createShapedRecipe(key, itemStack, m));
-            else {
-                Bukkit.addRecipe(createShapelessRecipe(key, itemStack, m));
-            }
-        }*/
     }
     // Getters
     public ItemStack getItemStack() {

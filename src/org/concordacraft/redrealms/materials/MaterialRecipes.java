@@ -9,30 +9,41 @@ import org.concordacraft.redrealms.config.ConfigMaterialManager;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class MaterialRecipes {
     public static void createCustomShapedRecipe(Map c) {
-        NamespacedKey recipeKey = new NamespacedKey(RedRealms.getPlugin(), (String) c.get("recipe_key"));
+        String stringRecipeKey = (String) c.get("recipe_key");
+        NamespacedKey recipeKey = new NamespacedKey(RedRealms.getPlugin(), stringRecipeKey);
         String itemID = (String) c.get("redRealms_ID");
+        Boolean vReverse = (Boolean) c.get("hasVerticalReverse");
 
         for (MaterialCustom customMat : ConfigMaterialManager.customMaterials) {
             if (customMat.getRedRealms_ID().equals(itemID)) {
-                ItemStack customItem = customMat.getItemStack();
-                ShapedRecipe shapedRecipe = new ShapedRecipe(recipeKey, customItem);
 
-                List<Character> craftableCharacters = new ArrayList<>();
-                for (int i = 1; i < 10; i++) { craftableCharacters.add((char) i); }
                 Map<Integer, String> ingredients = (Map<Integer, String>) c.get("ingredients");
                 List<String> recipeShape = (List<String>) c.get("shape");
+
+                ItemStack customItem = customMat.getItemStack();
+                ShapedRecipe shapedRecipe = new ShapedRecipe(recipeKey, customItem);
                 shapedRecipe.shape(
                         recipeShape.get(0),
                         recipeShape.get(1),
                         recipeShape.get(2));
-                ingredients.forEach((charID, materialNID) -> shapedRecipe.setIngredient(charID.toString().charAt(0), Material.getMaterial(materialNID)));
+                ingredients.forEach((k, v) -> shapedRecipe.setIngredient(k.toString().charAt(0), Material.getMaterial(v)));
                 Bukkit.addRecipe(shapedRecipe);
+
+                if (vReverse) {
+                    NamespacedKey recipeKey_vReverse = new NamespacedKey(RedRealms.getPlugin(), stringRecipeKey + "_vReversed");
+                    ShapedRecipe shapedRecipe_vReverse = new ShapedRecipe(recipeKey_vReverse, customItem);
+                    shapedRecipe_vReverse.shape(
+                            recipeShape.get(2),
+                            recipeShape.get(1),
+                            recipeShape.get(0));
+                    ingredients.forEach((k, v) -> shapedRecipe_vReverse.setIngredient(k.toString().charAt(0), Material.getMaterial(v)));
+                    Bukkit.addRecipe(shapedRecipe_vReverse);
+                }
             }
         }
     }
