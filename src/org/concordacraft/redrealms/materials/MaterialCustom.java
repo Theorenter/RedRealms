@@ -1,12 +1,8 @@
 package org.concordacraft.redrealms.materials;
 
-import org.concordacraft.redrealms.config.ConfigMaterialManager;
 import org.concordacraft.redrealms.main.RedLog;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.concordacraft.redrealms.utilits.NBTEditor;
 
@@ -63,6 +59,7 @@ public class MaterialCustom {
 
         // Back meta
         itemStack.setItemMeta(itemMeta);
+
     }
     // Getters
     public ItemStack getItemStack() {
@@ -72,25 +69,4 @@ public class MaterialCustom {
     public String getRedRealms_ID() {
         return this.redRealms_ID;
     }
-
-    // Recipes methods
-    private ShapedRecipe createShapedRecipe (NamespacedKey key, ItemStack itemStack, Map m) {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(key, itemStack);
-        Map <Integer, String> ingredients = (Map<Integer, String>) m.get("ingredients");
-        recipeShape = (List<String>) m.get("shape");
-        shapedRecipe.shape(
-                recipeShape.get(0),
-                recipeShape.get(1),
-                recipeShape.get(2));
-        ingredients.forEach((charID, materialNID) -> shapedRecipe.setIngredient(charID.toString().charAt(0), Material.getMaterial(materialNID)));
-        return shapedRecipe;
-    }
-
-    private ShapelessRecipe createShapelessRecipe (NamespacedKey key, ItemStack itemStack, Map m) {
-        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(key, itemStack);
-        ArrayList<LinkedHashMap> ingredients = (ArrayList<LinkedHashMap>) m.get("ingredients");
-        ingredients.forEach((elements) -> shapelessRecipe.addIngredient((Integer) elements.get("count"), Material.getMaterial(elements.get("material").toString())));
-        return shapelessRecipe;
-    }
-    //endregion
 }
