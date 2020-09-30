@@ -15,9 +15,9 @@ public class RedRealmsSettings {
         File redRealmsDataFolder = plugin.getDataFolder();
         if (!redRealmsDataFolder.isDirectory())
         {
-            RedLog.warning("The folder with the plugin settings storage was not detected.");
+            RedLog.warning("The folder with the plugin settings storage was not detected");
             redRealmsDataFolder.mkdir();
-            RedLog.warning("Creating a new settings folder.");
+            RedLog.warning("Creating a new settings folder");
         }
         //endregion
 
@@ -27,6 +27,6 @@ public class RedRealmsSettings {
 
 
         // End message
-        RedLog.info("The plugin configuration was loaded.");
+        RedLog.info("The plugin configuration was loaded");
     }
 }

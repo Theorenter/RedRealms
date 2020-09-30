@@ -1,5 +1,8 @@
 package org.concordacraft.redrealms.main;
 
+import org.concordacraft.redrealms.config.ConfigDefault;
+import org.concordacraft.redrealms.config.RedRealmsSettings;
+
 import java.util.logging.Level;
 
 public class RedLog {
