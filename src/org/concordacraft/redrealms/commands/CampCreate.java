@@ -1,5 +1,7 @@
 package org.concordacraft.redrealms.commands;
 
+import org.concordacraft.redrealms.data.DataCamps;
+import org.concordacraft.redrealms.data.DataPlayer;
 import org.concordacraft.redrealms.main.RedRealms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +26,23 @@ public class CampCreate implements CommandExecutor {
             return false;
 
         Player playerSender = (Player) commandSender;
-        playerSender.sendMessage(playerSender.getUniqueId().toString());
+        DataCamps camp = new DataCamps(strings[0]);
+        if (camp.readFile()) {
+            commandSender.sendMessage("Лагерь с таким названием уже существует!");
+            return true;
+        }
+        //region adds data in camp file
+        camp.setPlayerName(playerSender.getName());
+        camp.setChunkCoords(playerSender.getLocation().getChunk().getX(),playerSender.getLocation().getChunk().getZ());
+        camp.addChunk(playerSender.getLocation().getChunk().getX(),playerSender.getLocation().getChunk().getZ());
+        camp.updateFile();
+        //endregion
+        //region adds data in player file
+        DataPlayer dataPlayer = new DataPlayer(playerSender);
+        dataPlayer.setRealm(strings[0]);
+        dataPlayer.updateFile();
+        //endregion
+        playerSender.sendMessage("Лагерь "+ strings[0]+ " успешно создан!");
 
         return true;
     }

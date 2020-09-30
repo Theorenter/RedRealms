@@ -10,10 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-public class DataPlayer {
+public class DataPlayer implements IPluginFile {
 
     // Fields
-    private final UUID ID;
+    private final String ID;
     private String Name;
     private String Title;
     private String Realm;
@@ -43,7 +43,7 @@ public class DataPlayer {
         this.Realm = realm;
     }
 
-    public UUID getID() {
+    public String getID() {
         return ID;
     }
 
@@ -51,26 +51,17 @@ public class DataPlayer {
         return (RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator + "players");
     }
 
-    public File getDataFile() {
+    public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "players" + File.separator + ID.toString() + ".yml");
     }
 
     // Constructor
-    public DataPlayer(Player p, File dataPlayerFile) {
+    public DataPlayer(Player p) {
 
-        this.ID = p.getUniqueId();
+        this.ID = p.getUniqueId().toString();
         this.Name = p.getName();
 
-        FileConfiguration DataPlayerConfig = new YamlConfiguration();
-
-        DataPlayerConfig.set("Name", this.Name);
-        try {
-            RedLog.info("Data file for player " + this.Name + " [" + this.ID.toString() + "] was successful created!");
-            DataPlayerConfig.save(dataPlayerFile);
-        } catch (IOException e) {
-            RedLog.error("Cannot create data for " + this.Name + " [" + this.ID.toString() + "]!", e);
-        }
     }
 
 }

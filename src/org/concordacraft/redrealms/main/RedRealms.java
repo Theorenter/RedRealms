@@ -1,5 +1,6 @@
 package org.concordacraft.redrealms.main;
 
+import org.concordacraft.redrealms.commands.AddChunk;
 import org.concordacraft.redrealms.commands.CampCreate;
 import org.concordacraft.redrealms.commands.GetTestItem;
 import org.concordacraft.redrealms.config.RedRealmsSettings;
@@ -23,6 +24,7 @@ public class RedRealms extends JavaPlugin {
         // Commands
         getCommand("campcreate").setExecutor(new CampCreate(this));
         getCommand("gettestitem").setExecutor(new GetTestItem(this));
+        getCommand("addchunk").setExecutor(new AddChunk(this));
 
     }
 

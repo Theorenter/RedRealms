@@ -14,7 +14,7 @@ materials:
   recipes:
     shapedRecipes:
       - recipe_key: 'shaped_woodenSpear'
-        redRealms_ID: 'weapon_wooden_spear'
+        redRealms_ID: 'weapon_woodenSpear'
         ingredients:
           1: 'STICK'
           2: 'OAK_PLANKS'
@@ -22,7 +22,7 @@ materials:
           - '  2'
           - ' 1 '
           - '1  '
-        hasReverseShape: true
+        hasVerticalReverse: true
 
     shapelessRecipes:
     furnaceRecipes:

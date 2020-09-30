@@ -15,7 +15,7 @@ public class FirstJoinPlayer implements Listener {
     public void firstPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        File dataPlayerFile = new File(DataPlayer.getDataPath() + File.separator + p.getUniqueId().toString() + ".yml");
-        if (!dataPlayerFile.exists()) { DataPlayer dataPlayer = new DataPlayer(p, dataPlayerFile); }
+        DataPlayer dataPlayer = new DataPlayer(p);
+        if (!dataPlayer.getFile().exists()) { dataPlayer.updateFile(); }
     }
 }
