@@ -11,8 +11,8 @@ import java.util.*;
 public class MaterialCustom {
 
     // Required fields
-    private String redRealms_ID;
-    private String minecraft_ID;
+    private String redRealmsID;
+    private String minecraftID;
 
     private ItemStack itemStack;
 
@@ -25,11 +25,11 @@ public class MaterialCustom {
     public MaterialCustom(Map m) {
 
         // Getting the value of key fields
-        this.redRealms_ID = (String) m.get("redRealms_ID");
-        this.minecraft_ID = (String) m.get("minecraft_ID");
+        this.redRealmsID = (String) m.get("redRealmsID");
+        this.minecraftID = (String) m.get("minecraftID");
 
-        if (redRealms_ID == null || minecraft_ID == null ) {
-            RedLog.error("The material was not created due to missing key fields (redRealms_ID, minecraft_ID): ");
+        if (redRealmsID == null || minecraftID == null ) {
+            RedLog.error("The material was not created due to missing key fields (redRealmsID, minecraftID): ");
             RedLog.error("{");
             m.forEach((k, v)
                     -> RedLog.error("  " + k + ": " + v));
@@ -37,10 +37,10 @@ public class MaterialCustom {
             return;
         }
         // Creating an itemStack based on key fields
-        this.itemStack = new ItemStack(Material.getMaterial(minecraft_ID));
+        this.itemStack = new ItemStack(Material.getMaterial(minecraftID));
 
         // Set NBT tag
-        this.itemStack = NBTEditor.set(itemStack, this.redRealms_ID, "customID");
+        this.itemStack = NBTEditor.set(itemStack, this.redRealmsID, "customID");
 
         // Get itemMeta for further work
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -66,7 +66,7 @@ public class MaterialCustom {
         return this.itemStack;
     }
 
-    public String getRedRealms_ID() {
-        return this.redRealms_ID;
+    public String getRedRealmsID() {
+        return this.redRealmsID;
     }
 }

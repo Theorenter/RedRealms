@@ -9,7 +9,6 @@ import org.concordacraft.redrealms.materials.MaterialRemover;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class ConfigMaterialManager extends ConfigAbstractSetup {
 
@@ -32,6 +31,8 @@ public class ConfigMaterialManager extends ConfigAbstractSetup {
         for (Map <?, ?> c : customShapedRecipes) { MaterialRecipes.createCustomShapedRecipe(c); }
         List<Map<?, ?>> customShapelessRecipes = getCustomConfig().getMapList("materials.recipes.shapelessRecipes");
         for (Map <?, ?> c : customShapelessRecipes) { MaterialRecipes.createCustomShapelessRecipe(c); }
+        List<Map<?, ?>> customFurnaceRecipes = getCustomConfig().getMapList("materials.recipes.furnaceRecipes");
+        for (Map <?, ?> c : customFurnaceRecipes) { MaterialRecipes.createCustomFurnaceRecipe(c); }
         List<Map<?, ?>> customBlastingRecipes = getCustomConfig().getMapList("materials.recipes.blastingRecipes");
         for (Map <?, ?> c : customBlastingRecipes) { MaterialRecipes.createCustomBlastingRecipe(c); }
         List<Map<?, ?>> customCampfireRecipes = getCustomConfig().getMapList("materials.recipes.campfireRecipes");

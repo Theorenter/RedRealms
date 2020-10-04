@@ -1,8 +1,8 @@
 materials:
 
   items:
-    - redRealms_ID: 'weapon_woodenSpear'
-      minecraft_ID: 'TRIDENT'
+    - redRealmsID: 'weapon_woodenSpear'
+      minecraftID: 'TRIDENT'
       displayName: 'Деревянное копьё'
       lore:
         - '&fСредняя скорость атаки'
@@ -11,14 +11,18 @@ materials:
         - ''
         - '&6❤ Может пробивать щиты'
 
-    - redRealms_ID: 'test1_leather'
-      minecraft_ID: 'LEATHER'
+    - redRealmsID: 'test1_leather'
+      minecraftID: 'LEATHER'
       displayName: 'Обработанная кожа'
+
+    - redRealmsID: 'test1_milk'
+      minecraftID: 'MILK_BUCKET'
+      displayName: 'Всратое молоко'
 
   recipes:
     shapedRecipes:
-      - recipe_key: 'shaped_woodenSpear'
-        redRealms_ID: 'weapon_woodenSpear'
+      - key: 'shaped_woodenSpear'
+        redRealmsID: 'weapon_woodenSpear'
         ingredients:
           1: 'STICK'
           2: 'OAK_PLANKS'
@@ -29,8 +33,8 @@ materials:
         hasVerticalReverse: true
         amount: 3
 
-      - recipe_key: 'asd'
-        redRealms_ID: 'bruh'
+      - key: 'asd'
+        redRealmsID: 'bruh'
         ingredients:
           1: 'STICK'
           2: 'OAK_PLANKS'
@@ -42,8 +46,8 @@ materials:
         amount: 5
 
     shapelessRecipes:
-      - recipe_key: 'mat_carved_leather'
-        redRealms_ID: 'test1_leather'
+      - key: 'mat_carved_leather'
+        redRealmsID: 'test1_leather'
         ingredients:
           - material: 'IRON_BLOCK'
             count: 5
@@ -52,6 +56,12 @@ materials:
         amount: 37
 
     furnaceRecipes:
+      - key: 'test1_milkbuk'
+        redRealmsID: 'test1_milk'
+        sourceMaterial: 'GOLD_BLOCK'
+        exp: 45.16f
+        cookingTime: 10
+
     blastingRecipes:
     campfireRecipes:
     cookingRecipes:
