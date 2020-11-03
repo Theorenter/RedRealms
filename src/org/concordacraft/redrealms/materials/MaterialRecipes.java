@@ -10,6 +10,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.concordacraft.redrealms.config.ConfigMaterialManager;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
+import org.concordacraft.redrealms.utilits.NBTEditor;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -18,20 +19,19 @@ import java.util.Map;
 
 public class MaterialRecipes {
 
-    public static void createCustomShapedRecipe(Map c) {
+/*    public static void createCustomShapedRecipe(Map c) {
         String stringRecipeKey = (String) c.get("key");
         NamespacedKey key = new NamespacedKey(RedRealms.getPlugin(), stringRecipeKey);
-        String itemID = (String) c.get("redRealmsID");
-        Boolean vReverse = (Boolean) c.get("hasVerticalReverse");
+        String itemID = (String) c.get("redrealms-id");
+        Boolean vReverse = (Boolean) c.get("has-vertical-reverse");
         Integer itemAmount = (Integer) c.get("amount");
 
-        for (MaterialCustom customMat : ConfigMaterialManager.customMaterials) {
-            if (customMat.getRedRealmsID().equals(itemID)) {
+        for (ItemStack customMat : ConfigMaterialManager.customMaterials) {
+            if (customMat.equals(NBTEditor.getItemFromTag())) {
                 Map<Integer, String> ingredients = (Map<Integer, String>) c.get("ingredients");
                 List<String> recipeShape = (List<String>) c.get("shape");
-
                 ItemStack customItem;
-                customItem = customMat.getItemStack();
+                customItem = customMat;
 
                 if (itemAmount >= 1 && itemAmount <= 64)
                     customItem.setAmount(itemAmount);
@@ -58,19 +58,19 @@ public class MaterialRecipes {
     }
     public static void createCustomShapelessRecipe(Map c) {
         NamespacedKey key = new NamespacedKey(RedRealms.getPlugin(), (String) c.get("key"));
-        String itemID = (String) c.get("redRealmsID");
+        String itemID = (String) c.get("redrealms-id");
         Integer itemAmount = (Integer) c.get("amount");
 
-        for (MaterialCustom customMat : ConfigMaterialManager.customMaterials) {
-            if (customMat.getRedRealmsID().equals(itemID)) {
+        for (ItemStack customMat : ConfigMaterialManager.customMaterials) {
+            if (customMat.equals(itemID)) {
 
                 ItemStack customItem;
-                customItem = customMat.getItemStack();
+                customItem = customMat;
 
                 if (itemAmount >= 1 && itemAmount <= 64)
                     customItem.setAmount(itemAmount);
 
-                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(key, customMat.getItemStack());
+                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(key, customMat);
                 ArrayList<LinkedHashMap> ingredients = (ArrayList<LinkedHashMap>) c.get("ingredients");
                 ingredients.forEach((elements) -> shapelessRecipe.addIngredient((Integer) elements.get("count"), Material.getMaterial(elements.get("material").toString())));
                 Bukkit.addRecipe(shapelessRecipe);
@@ -79,7 +79,7 @@ public class MaterialRecipes {
     }
     public static void createCustomFurnaceRecipe(Map c) {
         NamespacedKey key = new NamespacedKey(RedRealms.getPlugin(), (String) c.get("key"));
-        String itemID = (String) c.get("redRealmsID");
+        String itemID = (String) c.get("redrealms-id");
 
         // I DON'T KNOW WHY
         String s = (String) (c.get("exp"));
@@ -87,12 +87,12 @@ public class MaterialRecipes {
 
         Float exp = n > 0f ? n : 0f;
 
-        Integer cookingTime = (Integer) c.get("cookingTime");
+        Integer cookingTime = (Integer) c.get("cooking-time");
 
-        Material sourceMaterial = Material.getMaterial((String) c.get("sourceMaterial"));
-        for (MaterialCustom customMat : ConfigMaterialManager.customMaterials) {
-            if (customMat.getRedRealmsID().equals(itemID)) {
-                ItemStack result = customMat.getItemStack();
+        Material sourceMaterial = Material.getMaterial((String) c.get("source-material"));
+        for (ItemStack customMat : ConfigMaterialManager.customMaterials) {
+            if (customMat.equals(itemID)) {
+                ItemStack result = customMat;
                 FurnaceRecipe furnaceRecipe = new FurnaceRecipe(key, result, sourceMaterial, exp, cookingTime);
                 Bukkit.addRecipe(furnaceRecipe);
             }
@@ -115,5 +115,5 @@ public class MaterialRecipes {
     }
     public static void createCustomStonecuttingRecipe(Map c) {
 
-    }
+    }*/
 }

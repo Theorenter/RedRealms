@@ -456,7 +456,7 @@ public final class NBTEditor {
      * @return
      * An NBTCompound
      */
-    static NBTCompound getItemNBTTag(ItemStack item, Object... keys) {
+    public static NBTCompound getItemNBTTag(ItemStack item, Object... keys) {
         if ( item == null ) {
             return null;
         }

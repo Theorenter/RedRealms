@@ -1,16 +1,17 @@
 package org.concordacraft.redrealms.materials;
 
+import org.bukkit.Bukkit;
 import org.concordacraft.redrealms.config.ConfigMaterialManager;
-import org.concordacraft.redrealms.main.RedRealms;
 import org.bukkit.NamespacedKey;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.List;
 
 public class MaterialRemover {
 
     public static void removeMaterials() {
-        ArrayList<LinkedHashMap> materialsForDelete = (ArrayList<LinkedHashMap>) ConfigMaterialManager.getCustomConfig().get("removed_recipes.keys");
-        materialsForDelete.forEach((recipe) -> RedRealms.getPlugin().getServer().removeRecipe(NamespacedKey.minecraft(recipe.get("key").toString())));
+        List<String> materialsForDelete = (List<String>) ConfigMaterialManager.getCustomConfig().get("removed-recipes.items");
+        for (String item : materialsForDelete) {
+            Bukkit.removeRecipe(NamespacedKey.minecraft(item));
+        }
     }
 }

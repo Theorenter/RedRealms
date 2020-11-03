@@ -18,6 +18,7 @@ public class RedRealms extends JavaPlugin {
         RedRealmsSettings.initialization(this);
         RedRealmsData.initialization(this);
 
+
         // Listeners
         Bukkit.getPluginManager().registerEvents(new FirstJoinPlayer(), this);
 

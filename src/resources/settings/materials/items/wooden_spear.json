@@ -1,0 +1,38 @@
+{
+  "redrealms-id" : "wooden_spear",
+  "item-stack" : {
+    "minecraft-material" : "TRIDENT",
+    "damage" : 25,
+    "unbreakable" : true
+  },
+  "meta" : {
+    "display-name": "Деревянное копье",
+    "lore" : [
+      "&fСредняя скорость атаки",
+      "",
+      "&4⚔ Средний урон: 3",
+      "",
+      "&6❤ Может пробивать щиты"
+    ]
+  },
+  "attributes": {
+    "attack-damage" : 10,
+    "something-2" : 20,
+    "something-3" : 40
+  },
+  "recipes" : [{
+    "shaped-recipe" : {
+      "recipe-key" : "wooden_spear_shaped",
+      "ingredients" : {
+        "1" : "STICK",
+        "2" : "OAK_PLANKS"
+      },
+      "shape": [
+        "  2",
+        " 1 ",
+        "1  "
+      ],
+      "amount": 25
+    }
+  }]
+}

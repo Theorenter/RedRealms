@@ -1,8 +1,8 @@
 package org.concordacraft.redrealms.config;
 
+import org.bukkit.inventory.ItemStack;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
-import org.concordacraft.redrealms.materials.MaterialCustom;
 import org.concordacraft.redrealms.materials.MaterialRecipes;
 import org.concordacraft.redrealms.materials.MaterialRemover;
 
@@ -13,41 +13,41 @@ import java.util.Map;
 public class ConfigMaterialManager extends ConfigAbstractSetup {
 
     // List of all RedRealms custom materials
-    public static List<MaterialCustom> customMaterials = new ArrayList<>();
+    public static List<ItemStack> customMaterials = new ArrayList<>();
 
     public ConfigMaterialManager(RedRealms plugin, String ymlFileName) {
         super(plugin, ymlFileName);
 
-        // Loading from config all custom materials
+        /*// Loading from config all custom materials
         List<Map<?, ?>> cfgCustomMaterials = getCustomConfig().getMapList("materials.items");
         // Creating materials from materials.yml file
         for (Map<?, ?> m : cfgCustomMaterials) {
             MaterialCustom materialCustom = new MaterialCustom(m);
-            ConfigMaterialManager.customMaterials.add(materialCustom);
+            ConfigMaterialManager.customMaterials.add(materialCustom.getItemStack());
         }
 
         // Initializing custom recipes
-        List<Map<?, ?>> customShapedRecipes = getCustomConfig().getMapList("materials.recipes.shapedRecipes");
+        List<Map<?, ?>> customShapedRecipes = getCustomConfig().getMapList("materials.recipes.shaped-recipes");
         for (Map <?, ?> c : customShapedRecipes) { MaterialRecipes.createCustomShapedRecipe(c); }
-        List<Map<?, ?>> customShapelessRecipes = getCustomConfig().getMapList("materials.recipes.shapelessRecipes");
+        List<Map<?, ?>> customShapelessRecipes = getCustomConfig().getMapList("materials.recipes.shapeless-recipes");
         for (Map <?, ?> c : customShapelessRecipes) { MaterialRecipes.createCustomShapelessRecipe(c); }
-        List<Map<?, ?>> customFurnaceRecipes = getCustomConfig().getMapList("materials.recipes.furnaceRecipes");
+        List<Map<?, ?>> customFurnaceRecipes = getCustomConfig().getMapList("materials.recipes.furnace-recipes");
         for (Map <?, ?> c : customFurnaceRecipes) { MaterialRecipes.createCustomFurnaceRecipe(c); }
-        List<Map<?, ?>> customBlastingRecipes = getCustomConfig().getMapList("materials.recipes.blastingRecipes");
+        List<Map<?, ?>> customBlastingRecipes = getCustomConfig().getMapList("materials.recipes.blasting-recipes");
         for (Map <?, ?> c : customBlastingRecipes) { MaterialRecipes.createCustomBlastingRecipe(c); }
-        List<Map<?, ?>> customCampfireRecipes = getCustomConfig().getMapList("materials.recipes.campfireRecipes");
+        List<Map<?, ?>> customCampfireRecipes = getCustomConfig().getMapList("materials.recipes.campfire-recipes");
         for (Map <?, ?> c : customCampfireRecipes) { MaterialRecipes.createCustomCampfireRecipe(c); }
-        List<Map<?, ?>> customCookingRecipes = getCustomConfig().getMapList("materials.recipes.cookingRecipes");
+        List<Map<?, ?>> customCookingRecipes = getCustomConfig().getMapList("materials.recipes.cooking-recipes");
         for (Map <?, ?> c : customCookingRecipes) { MaterialRecipes.createCustomCookingRecipe(c); }
-        List<Map<?, ?>> customSmithingRecipes = getCustomConfig().getMapList("materials.recipes.smithingRecipes");
+        List<Map<?, ?>> customSmithingRecipes = getCustomConfig().getMapList("materials.recipes.smithing-recipes");
         for (Map <?, ?> c : customSmithingRecipes) { MaterialRecipes.createCustomSmithingRecipe(c); }
-        List<Map<?, ?>> customSmokingRecipes = getCustomConfig().getMapList("materials.recipes.smokingRecipes");
+        List<Map<?, ?>> customSmokingRecipes = getCustomConfig().getMapList("materials.recipes.smoking-recipes");
         for (Map <?, ?> c : customSmokingRecipes) { MaterialRecipes.createCustomSmokingRecipe(c); }
-        List<Map<?, ?>> customStonecuttingRecipes = getCustomConfig().getMapList("materials.recipes.stonecuttingRecipes");
-        for (Map <?, ?> c : customStonecuttingRecipes) { MaterialRecipes.createCustomStonecuttingRecipe(c); }
+        List<Map<?, ?>> customStonecuttingRecipes = getCustomConfig().getMapList("materials.recipes.stonecutting-recipes");
+        for (Map <?, ?> c : customStonecuttingRecipes) { MaterialRecipes.createCustomStonecuttingRecipe(c); }*/
 
         MaterialRemover.removeMaterials();
 
-        RedLog.info("All custom materials and recipes were added successfully");
+        RedLog.info("All custom items and recipes were added");
     }
 }

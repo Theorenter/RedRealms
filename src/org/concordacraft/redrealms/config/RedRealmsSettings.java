@@ -2,6 +2,7 @@ package org.concordacraft.redrealms.config;
 
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
+import org.concordacraft.redrealms.materials.MaterialManager;
 
 import java.io.File;
 
@@ -23,7 +24,7 @@ public class RedRealmsSettings {
 
         // Settings loading
         ConfigDefault configDefault = new ConfigDefault(plugin,"config.yml");
-        ConfigMaterialManager configMaterialsManager = new ConfigMaterialManager(plugin, "materials.yml");
+        MaterialManager materialReader = new MaterialManager(plugin);
 
 
         // End message
