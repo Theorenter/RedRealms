@@ -15,11 +15,12 @@
       "&6❤ Может пробивать щиты"
     ]
   },
-  "attributes": {
-    "attack-damage" : 10,
-    "something-2" : 20,
-    "something-3" : 40
-  },
+  "attributes": [{
+    "attribute-modifier" : "GENERIC-ATTACK-DAMAGE",
+    "attribute-amount" : 15,
+    "attribute-operation" : "ADD-NUMBER",
+    "equipment-slot" : "HAND"
+  }],
   "recipes" : [{
     "shaped-recipe" : {
       "recipe-key" : "wooden_spear_shaped",

@@ -1,8 +1,9 @@
 package org.concordacraft.redrealms.materials;
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.concordacraft.redrealms.main.RedLog;
@@ -18,6 +19,7 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -72,6 +74,7 @@ public class MaterialManager {
         if (customItemsFile.listFiles().length > 0) {
             for (File customItem : customItemsFile.listFiles()) {
                 try {
+                    // Main part
                     JSONParser jsonParser = new JSONParser();
                     Object parsed = jsonParser.parse(new BufferedReader(new InputStreamReader(new FileInputStream(customItem.getPath()), "UTF-8")));
                     JSONObject jsonObject = (JSONObject) parsed;
@@ -85,7 +88,7 @@ public class MaterialManager {
                     }
                     itemStack = new ItemStack(minecraftMaterial);
 
-                    
+                    // Meta
                     JSONObject metaObject = (JSONObject) jsonObject.get("meta");
                     if (metaObject != null) {
                         itemMeta = itemStack.getItemMeta();
@@ -97,15 +100,22 @@ public class MaterialManager {
                         itemMeta.setDisplayName(displayName);
                         itemMeta.setLore(lore);
                         itemMeta.setUnbreakable(unbreakable);
-
-                        itemStack.setItemMeta(itemMeta);
                     }
+
+                    // Attributes
+                    if (jsonObject.containsKey("attributes")) {
+                        JSONArray attributesObject = (JSONArray) jsonObject.get("attributes");
+                        for (Object objAttribute : attributesObject) {
+                            JSONObject attribute = (JSONObject) objAttribute;
+                            itemMeta = addAttribute(attribute, itemMeta);
+                        }
+                    }
+
+                    itemStack.setItemMeta(itemMeta);
                     customItems.add(itemStack);
-
                     JSONArray recipesObject = (JSONArray) jsonObject.get("recipes");
-
-                    for (Object ObjRecipe: recipesObject){
-                        JSONObject recipe = (JSONObject) ObjRecipe;
+                    for (Object objRecipe: recipesObject){
+                        JSONObject recipe = (JSONObject) objRecipe;
                         if (recipe.containsKey("shaped-recipe")) {
                             newShapedRecipe(recipe, itemStack); break; }
                         /*if (recipe.containsKey("shapeless-recipe")) {
@@ -142,7 +152,7 @@ public class MaterialManager {
             } else {
                 RedLog.warning("The amount of executed items for the recipe " +
                         keyString + " is specified incorrectly! Max stack size of this itemStack: " +
-                        itemStack.getMaxStackSize() + "nSpecified number: " + amount);
+                        itemStack.getMaxStackSize() + " | Specified number: " + amount);
             }
         }
 
@@ -164,4 +174,75 @@ public class MaterialManager {
     private CampfireRecipe newCampfireRecipe () { CampfireRecipe campfireRecipe; return campfireRecipe; }
     private SmithingRecipe newSmithingRecipe () { SmithingRecipe smithingRecipe; return smithingRecipe; }
     private StonecuttingRecipe newStonecuttingRecipe () { StonecuttingRecipe stonecuttingRecipe; return stonecuttingRecipe; }*/
+
+    private ItemMeta addAttribute(JSONObject attribute, ItemMeta itemMeta) {
+        String attributeMod = (String) attribute.get("attribute-modifier");
+        Long amount = (Long) attribute.get("attribute-amount");
+        String operationSt = (String) attribute.get("attribute-operation");
+        String eqSlot = (String) attribute.get("equipment-slot");
+
+        AttributeModifier modifier;
+
+        AttributeModifier.Operation operation = null;
+        if (operationSt != null) {
+
+            switch (operationSt) {
+                case "ADD-NUMBER": {
+                    operation = AttributeModifier.Operation.ADD_NUMBER;
+                    break;
+                }
+                case "ADD-SCALAR": {
+                    operation = AttributeModifier.Operation.ADD_SCALAR;
+                    break;
+                }
+                case "MULTIPLY-SCALAR": {
+                    operation = AttributeModifier.Operation.MULTIPLY_SCALAR_1;
+                }
+                default: {
+                    RedLog.warning("Field \"attribute-operation\" for the item \"" + itemMeta.getDisplayName() + "\" is set incorrectly!");
+                    RedLog.warning("Available values for this field: \"ADD-NUMBER\", \"ADD-SCALAR\", \"MULTIPLY-SCALAR\"");
+                }
+            }
+        }
+
+        EquipmentSlot equipmentSlot = null;
+        if (eqSlot != null) {
+            switch (eqSlot) {
+                case "HAND": { equipmentSlot = EquipmentSlot.HAND; break; }
+                case "OFF-HAND": { equipmentSlot = EquipmentSlot.OFF_HAND; break; }
+                case "HEAD": { equipmentSlot = EquipmentSlot.HEAD; break; }
+                case "CHEST": { equipmentSlot = EquipmentSlot.CHEST; break; }
+                case "LEGS": { equipmentSlot = EquipmentSlot.LEGS; break; }
+                case "FEET": { equipmentSlot = EquipmentSlot.FEET; break; }
+                default : {
+                    RedLog.warning("Field \"equipment-slot\" for the item \"" + itemMeta.getDisplayName() + "\" is set incorrectly!");
+                    RedLog.warning("Available values for this field: \"HAND\", \"OFF-HAND\", \"HEAD\", \"CHEST\", \"LEGS\", \"FEET\" (or you can simply delete this field so that the modifier applies to everything at once)");
+                }
+            }
+            modifier = new AttributeModifier(UUID.randomUUID(), attributeMod, amount, operation, equipmentSlot);
+        } else {
+            modifier = new AttributeModifier(UUID.randomUUID(), attributeMod, amount, operation);
+        }
+
+        Attribute atr = null;
+        switch (attributeMod) {
+            case "GENERIC-ARMOR": { atr = Attribute.GENERIC_ARMOR; break; }
+            case "GENERIC-ARMOR-TOUGHNESS": { atr = Attribute.GENERIC_ARMOR_TOUGHNESS; break; }
+            case "GENERIC-ATTACK-DAMAGE": { atr = Attribute.GENERIC_ATTACK_DAMAGE; break; }
+            case "GENERIC-ATTACK-KNOCKBACK": { atr = Attribute.GENERIC_ATTACK_KNOCKBACK; break; }
+            case "GENERIC-ATTACK-SPEED": { atr = Attribute.GENERIC_ATTACK_SPEED; break; }
+            case "GENERIC-FLYING-SPEED": { atr = Attribute.GENERIC_FLYING_SPEED; break; }
+            case "GENERIC-FOLLOW-RANGE": { atr = Attribute.GENERIC_FOLLOW_RANGE; break; }
+            case "GENERIC-KNOCKBACK-RESISTANCE": { atr = Attribute.GENERIC_KNOCKBACK_RESISTANCE; break; }
+            case "GENERIC-LUCK": { atr = Attribute.GENERIC_LUCK; break; }
+            case "GENERIC-MAX-HEALTH": { atr = Attribute.GENERIC_MAX_HEALTH; break; }
+            case "GENERIC-MOVEMENT-SPEED": { atr = Attribute.GENERIC_MOVEMENT_SPEED; break; }
+            default : {
+                RedLog.warning("Field \"attribute-modifier\" for the item \"" + itemMeta.getDisplayName() + "\" is set incorrectly!");
+                RedLog.warning("Available values for this field: \"GENERIC-ARMOR\", \"GENERIC-ARMOR-TOUGHNESS\", \"GENERIC-ATTACK-DAMAGE\", \"GENERIC-ATTACK-KNOCKBACK\", \"GENERIC-ATTACK-SPEED\", \"GENERIC-FOLLOW-RANGE\", \"GENERIC-KNOCKBACK-RESISTANCE\", \"GENERIC-LUCK\", \"GENERIC-MAX-HEALTH\", \"GENERIC-MOVEMENT-SPEED\"");
+            }
+        }
+        itemMeta.addAttributeModifier(atr, modifier);
+        return itemMeta;
+    }
 }
