@@ -39,6 +39,7 @@ public class MaterialManager {
     private Boolean unbreakable;
     private String displayName;
     private List<String> lore;
+    private Long customModelData;
 
     public MaterialManager(RedRealms plugin) {
 
@@ -96,10 +97,12 @@ public class MaterialManager {
                         displayName = (String) metaObject.get("display-name");
                         lore = (List<String>) metaObject.get("lore");
                         unbreakable = (Boolean) itemStackObject.get("unbreakable");
+                        customModelData = (Long) metaObject.get("custom-model-data");
 
                         itemMeta.setDisplayName(displayName);
                         itemMeta.setLore(lore);
                         itemMeta.setUnbreakable(unbreakable);
+                        itemMeta.setCustomModelData(customModelData.intValue());
                     }
 
                     // Attributes

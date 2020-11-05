@@ -13,7 +13,8 @@
       "&4⚔ Средний урон: 3",
       "",
       "&6❤ Может пробивать щиты"
-    ]
+    ],
+    "custom-model-data" : 101
   },
   "attributes": [{
     "attribute-modifier" : "GENERIC-ATTACK-DAMAGE",

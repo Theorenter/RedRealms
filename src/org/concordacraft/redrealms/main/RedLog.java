@@ -20,7 +20,7 @@ public class RedLog {
     }
     public static void info(String message) { RedRealms.getPlugin().getLogger().log(Level.INFO, message); }
     public static void debug(String message) { RedRealms.getPlugin().getLogger().log(Level.INFO,"[DEBUG] " + message); }
-    public static void warning(String message) { RedRealms.getPlugin().getLogger().log(Level.WARNING, ASCIIYellow + message); }
+    public static void warning(String message) { RedRealms.getPlugin().getLogger().log(Level.WARNING, ASCIIYellow + message + ASCIIReset); }
     public static void error(String message) { RedRealms.getPlugin().getLogger().log(Level.SEVERE, ASCIIRed + message); }
 
     public static void info(String message, Exception e) { RedRealms.getPlugin().getLogger().log(Level.INFO, message, e); }
