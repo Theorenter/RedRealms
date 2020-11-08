@@ -9,9 +9,6 @@ commands:
   campcreate:
     description: 'Create a new camp'
     usage: /campcreate <name>
-  gettestitem:
-    description: 'Get test item with custom NBT'
-    usage: /gettestitem
   addchunk:
     description: 'Adds Chunk to Currently existing realm'
     usage: /addchunk

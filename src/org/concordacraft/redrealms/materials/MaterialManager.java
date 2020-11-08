@@ -8,6 +8,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
+import org.concordacraft.redrealms.utilits.RedColoring;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,18 +29,6 @@ public class MaterialManager {
     private List<ItemStack> customItems = new ArrayList<>();
     private final String customItemsPath = ("settings" + File.separator + "materials" + File.separator + "items");
     private File customItemsFile;
-
-    // Custom item fields
-    private String itemID;
-    private ItemStack itemStack;
-    private Material minecraftMaterial;
-
-    private ItemMeta itemMeta;
-    private Short damage;
-    private Boolean unbreakable;
-    private String displayName;
-    private List<String> lore;
-    private Long customModelData;
 
     public MaterialManager(RedRealms plugin) {
 
@@ -75,17 +64,30 @@ public class MaterialManager {
         if (customItemsFile.listFiles().length > 0) {
             for (File customItem : customItemsFile.listFiles()) {
                 try {
+                    // Custom item fields
+                    String itemID;
+                    ItemStack itemStack;
+                    Material minecraftMaterial;
+
+                    ItemMeta itemMeta = null;
+                    Long damage;
+                    Boolean unbreakable;
+                    String displayName;
+                    List<String> lore;
+                    Long customModelData;
+
                     // Main part
                     JSONParser jsonParser = new JSONParser();
                     Object parsed = jsonParser.parse(new BufferedReader(new InputStreamReader(new FileInputStream(customItem.getPath()), "UTF-8")));
                     JSONObject jsonObject = (JSONObject) parsed;
 
                     itemID = (String) jsonObject.get("redrealms-id");
-
                     JSONObject itemStackObject = (JSONObject) jsonObject.get("item-stack");
                     {
                         minecraftMaterial = Material.getMaterial((String) itemStackObject.get("minecraft-material"));
-                        Long damageLong = (Long) itemStackObject.get("damage"); damage = damageLong.shortValue(); damageLong = null;
+                        if (itemStackObject.containsKey("damage")) {
+                            damage = (Long) itemStackObject.get("damage");
+                        }
                     }
                     itemStack = new ItemStack(minecraftMaterial);
 
@@ -94,17 +96,29 @@ public class MaterialManager {
                     if (metaObject != null) {
                         itemMeta = itemStack.getItemMeta();
 
-                        displayName = (String) metaObject.get("display-name");
-                        lore = (List<String>) metaObject.get("lore");
-                        unbreakable = (Boolean) itemStackObject.get("unbreakable");
-                        customModelData = (Long) metaObject.get("custom-model-data");
-
-                        itemMeta.setDisplayName(displayName);
-                        itemMeta.setLore(lore);
-                        itemMeta.setUnbreakable(unbreakable);
-                        itemMeta.setCustomModelData(customModelData.intValue());
+                        if (metaObject.containsKey("display-name")) {
+                            String formatDisplayName;
+                            displayName = (String) metaObject.get("display-name");
+                            formatDisplayName = RedColoring.setInternalColor(displayName);
+                            itemMeta.setDisplayName(formatDisplayName);
+                        }
+                        if (metaObject.containsKey("lore")) {
+                            lore = (List<String>) metaObject.get("lore");
+                            List<String> formatLore = new ArrayList<>();
+                            for (String s : lore) {
+                                formatLore.add(RedColoring.setInternalColor(s));
+                            }
+                            itemMeta.setLore(formatLore);
+                        }
+                        if (metaObject.containsKey("unbreakable")) {
+                            unbreakable = (Boolean) itemStackObject.get("unbreakable");
+                            itemMeta.setUnbreakable(unbreakable);
+                        }
+                        if (metaObject.containsKey("custom-model-data")) {
+                            customModelData = (Long) metaObject.get("custom-model-data");
+                            itemMeta.setCustomModelData(customModelData.intValue());
+                        }
                     }
-
                     // Attributes
                     if (jsonObject.containsKey("attributes")) {
                         JSONArray attributesObject = (JSONArray) jsonObject.get("attributes");
@@ -150,7 +164,7 @@ public class MaterialManager {
 
         if (shapedObject.containsKey("amount")) {
             Long amount = (Long) shapedObject.get("amount");
-            if (amount > 1 && amount < itemStack.getMaxStackSize()) {
+            if (amount > 0 && amount <= itemStack.getMaxStackSize()) {
                 itemStack.setAmount(amount.intValue());
             } else {
                 RedLog.warning("The amount of executed items for the recipe " +
