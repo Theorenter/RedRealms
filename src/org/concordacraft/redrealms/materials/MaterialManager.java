@@ -8,7 +8,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
-import org.concordacraft.redrealms.utilits.RedColoring;
+import org.concordacraft.redrealms.main.RedFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -99,14 +99,14 @@ public class MaterialManager {
                         if (metaObject.containsKey("display-name")) {
                             String formatDisplayName;
                             displayName = (String) metaObject.get("display-name");
-                            formatDisplayName = RedColoring.setInternalColor(displayName);
+                            formatDisplayName = RedFormatter.format(displayName);
                             itemMeta.setDisplayName(formatDisplayName);
                         }
                         if (metaObject.containsKey("lore")) {
                             lore = (List<String>) metaObject.get("lore");
                             List<String> formatLore = new ArrayList<>();
                             for (String s : lore) {
-                                formatLore.add(RedColoring.setInternalColor(s));
+                                formatLore.add(RedFormatter.format(s));
                             }
                             itemMeta.setLore(formatLore);
                         }
