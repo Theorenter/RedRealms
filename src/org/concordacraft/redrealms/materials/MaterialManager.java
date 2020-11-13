@@ -4,8 +4,11 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.concordacraft.redrealms.main.RedLog;
 import org.concordacraft.redrealms.main.RedRealms;
 import org.concordacraft.redrealms.main.RedFormatter;
@@ -17,10 +20,7 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.net.URL;
 import java.security.CodeSource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -31,8 +31,6 @@ public class MaterialManager {
     private File customItemsFile;
 
     public MaterialManager(RedRealms plugin) {
-
-
         itemsFileLoader(plugin);
         initializeCustomItems(plugin);
     }
@@ -118,18 +116,34 @@ public class MaterialManager {
                             customModelData = (Long) metaObject.get("custom-model-data");
                             itemMeta.setCustomModelData(customModelData.intValue());
                         }
-                    }
-                    // Attributes
-                    if (jsonObject.containsKey("attributes")) {
-                        JSONArray attributesObject = (JSONArray) jsonObject.get("attributes");
-                        for (Object objAttribute : attributesObject) {
-                            JSONObject attribute = (JSONObject) objAttribute;
-                            itemMeta = addAttribute(attribute, itemMeta);
+                        // Enchantments
+                        if (metaObject.containsKey("enchantments")) {
+                            JSONArray enchantmentsObject = (JSONArray) metaObject.get("enchantments");
+                            for (Object objAEnchant : enchantmentsObject) {
+                                JSONObject enchant = (JSONObject) objAEnchant;
+                                itemMeta = addEnchantment(enchant, itemMeta, itemStack);
+                            }
+                        }
+                        // Attributes
+                        if (metaObject.containsKey("attributes")) {
+                            JSONArray attributesObject = (JSONArray) metaObject.get("attributes");
+                            for (Object objAttribute : attributesObject) {
+                                JSONObject attribute = (JSONObject) objAttribute;
+                                itemMeta = addAttribute(attribute, itemMeta);
+                            }
+                        }
+                        // Persistent data
+                        if (metaObject.containsKey("persistent-data")) {
+                            JSONArray dataObject = (JSONArray) metaObject.get("persistent-data");
+                            for (Object objData : dataObject) {
+                                JSONObject data = (JSONObject) objData;
+                                itemMeta = addPersistentData(data, itemMeta);
+                            }
                         }
                     }
-
                     itemStack.setItemMeta(itemMeta);
                     customItems.add(itemStack);
+
                     JSONArray recipesObject = (JSONArray) jsonObject.get("recipes");
                     for (Object objRecipe: recipesObject){
                         JSONObject recipe = (JSONObject) objRecipe;
@@ -191,6 +205,67 @@ public class MaterialManager {
     private CampfireRecipe newCampfireRecipe () { CampfireRecipe campfireRecipe; return campfireRecipe; }
     private SmithingRecipe newSmithingRecipe () { SmithingRecipe smithingRecipe; return smithingRecipe; }
     private StonecuttingRecipe newStonecuttingRecipe () { StonecuttingRecipe stonecuttingRecipe; return stonecuttingRecipe; }*/
+
+    private ItemMeta addEnchantment(JSONObject enchantment, ItemMeta itemMeta, ItemStack itemStack) {
+        String enchantmentString = (String) enchantment.get("enchantment");
+        Long level = (Long) enchantment.get("level");
+        Boolean ignoreLevelRestriction = (Boolean) enchantment.get("ignore-level-restriction");
+        Enchantment enchant = null;
+        switch (enchantmentString) {
+            case "ARROW-DAMAGE": { enchant = Enchantment.ARROW_DAMAGE; break; }
+            case "ARROW-FIRE": { enchant = Enchantment.ARROW_FIRE; break; }
+            case "ARROW-INFINITE": { enchant = Enchantment.ARROW_INFINITE; break; }
+            case "ARROW-KNOCKBACK": { enchant = Enchantment.ARROW_KNOCKBACK; break; }
+            case "BINDING-CURSE": { enchant = Enchantment.BINDING_CURSE; break; }
+            case "CHANNELING": { enchant = Enchantment.CHANNELING; break; }
+            case "DAMAGE-ALL": { enchant = Enchantment.DAMAGE_ALL; break; }
+            case "DAMAGE-ARTHROPODS": { enchant = Enchantment.DAMAGE_ARTHROPODS; break; }
+            case "DAMAGE-UNDEAD": { enchant = Enchantment.DAMAGE_UNDEAD; break; }
+            case "DEPTH-STRIDER": { enchant = Enchantment.DEPTH_STRIDER; break; }
+            case "DIG-SPEED": { enchant = Enchantment.DIG_SPEED; break; }
+            case "DURABILITY": { enchant = Enchantment.DURABILITY; break; }
+            case "FIRE-ASPECT": { enchant = Enchantment.FIRE_ASPECT; break; }
+            case "FROST-WALKER": { enchant = Enchantment.FROST_WALKER; break; }
+            case "IMPALING": { enchant = Enchantment.IMPALING; break; }
+            case "KNOCKBACK": { enchant = Enchantment.KNOCKBACK; break; }
+            case "LOOT-BONUS-BLOCKS": { enchant = Enchantment.LOOT_BONUS_BLOCKS; break; }
+            case "LOOT-BONUS-MOBS": { enchant = Enchantment.LOOT_BONUS_MOBS; break; }
+            case "LOYALTY": { enchant = Enchantment.LOYALTY; break; }
+            case "LUCK": { enchant = Enchantment.LUCK; break; }
+            case "LURE": { enchant = Enchantment.LURE; break; }
+            case "MENDING": { enchant = Enchantment.MENDING; break; }
+            case "MULTISHOT": { enchant = Enchantment.MULTISHOT; break; }
+            case "OXYGEN": { enchant = Enchantment.OXYGEN; break; }
+            case "PIERCING": { enchant = Enchantment.PIERCING; break; }
+            case "PROTECTION-ENVIRONMENTAL": { enchant = Enchantment.PROTECTION_ENVIRONMENTAL; break; }
+            case "PROTECTION-EXPLOSIONS": { enchant = Enchantment.PROTECTION_EXPLOSIONS; break; }
+            case "PROTECTION-FALL": { enchant = Enchantment.PROTECTION_FALL; break; }
+            case "PROTECTION-FIRE": { enchant = Enchantment.PROTECTION_FIRE; break; }
+            case "PROTECTION-PROJECTILE": { enchant = Enchantment.PROTECTION_PROJECTILE; break; }
+            case "QUICK-CHARGE": { enchant = Enchantment.QUICK_CHARGE; break; }
+            case "RIPTIDE": { enchant = Enchantment.RIPTIDE; break; }
+            case "SILK-TOUCH": { enchant = Enchantment.SILK_TOUCH; break; }
+            case "SOUL-SPEED": { enchant = Enchantment.SOUL_SPEED; break; }
+            case "SWEEPING-EDGE": { enchant = Enchantment.SWEEPING_EDGE; break; }
+            case "THORNS": { enchant = Enchantment.THORNS; break; }
+            case "VANISHING-CURSE": { enchant = Enchantment.VANISHING_CURSE; break; }
+            case "WATER-WORKER": { enchant = Enchantment.WATER_WORKER; break; }
+            default: {
+                RedLog.warning("Field \"enchantment\" for the item \"" + itemMeta.getDisplayName() + "\" is set incorrectly!");
+                RedLog.warning("Here is a list of acceptable values for this field (last values):");
+                for (Object element : Arrays.stream(Enchantment.values()).toArray()) { RedLog.warning(element.toString().replace('_', '-')); }
+                return itemMeta;
+            }
+        }
+        if (!enchant.canEnchantItem(itemStack)) {
+            RedLog.warning("Enchantment \"" + enchantmentString + "\" cannot be applied to an item named \""+ itemMeta.getDisplayName() + "\"");
+        }
+        if ((level > enchant.getMaxLevel()) && (ignoreLevelRestriction == false)) {
+            RedLog.warning("The maximum enchantment \"" + enchantmentString + "\" of an item named \""+ itemMeta.getDisplayName() +"\" is: " + enchant.getMaxLevel());
+        }
+        itemMeta.addEnchant(enchant, level.intValue(), ignoreLevelRestriction);
+        return itemMeta;
+    }
 
     private ItemMeta addAttribute(JSONObject attribute, ItemMeta itemMeta) {
         String attributeMod = (String) attribute.get("attribute-modifier");
@@ -260,6 +335,82 @@ public class MaterialManager {
             }
         }
         itemMeta.addAttributeModifier(atr, modifier);
+        return itemMeta;
+    }
+
+    private ItemMeta addPersistentData(JSONObject persistentData, ItemMeta itemMeta) {
+        String dataKey = (String) persistentData.get("data-key");
+        String dataTypeStr = (String) persistentData.get("data-type");
+        PersistentDataContainer dataContainer = itemMeta.getPersistentDataContainer();
+        PersistentDataType persistentDataType;
+
+        switch (dataTypeStr) {
+            case "BYTE" : {
+                persistentDataType = PersistentDataType.BYTE;
+                Byte dataValue = (Byte) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "BYTE_ARRAY" : {
+                persistentDataType = PersistentDataType.BYTE_ARRAY;
+                Byte[] dataValue = (Byte[]) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "DOUBLE" : {
+                persistentDataType = PersistentDataType.DOUBLE;
+                Double dataValue = (Double) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "FLOAT" : {
+                persistentDataType = PersistentDataType.FLOAT;
+                Float dataValue = (Float) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "INTEGER" : {
+                persistentDataType = PersistentDataType.INTEGER;
+                Integer dataValue = (Integer) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "INTEGER_ARRAY" : {
+                persistentDataType = PersistentDataType.INTEGER_ARRAY;
+                Integer[] dataValue = (Integer[]) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "LONG" : {
+                persistentDataType = PersistentDataType.LONG;
+                Long dataValue = (Long) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "LONG_ARRAY" : {
+                persistentDataType = PersistentDataType.LONG_ARRAY;
+                Long[] dataValue = (Long[]) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "SHORT" : {
+                persistentDataType = PersistentDataType.SHORT;
+                Short dataValue = (Short) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            case "STRING" : {
+                persistentDataType = PersistentDataType.STRING;
+                String dataValue = (String) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                break;
+            }
+            default : {
+                RedLog.warning("Field \"data-type\" for the item \"" + itemMeta.getDisplayName() + "\" is set incorrectly!");
+                RedLog.warning("Here is a list of acceptable values for this field:");
+                RedLog.warning("BYTE, BYTE_ARRAY, DOUBLE, FLOAT, INTEGER, INTEGER_ARRAY, SHORT, STRING");
+                return itemMeta; }
+        }
         return itemMeta;
     }
 }

@@ -1,13 +1,10 @@
 package org.concordacraft.redrealms.data;
 
-import org.bukkit.Chunk;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public interface IPluginFile {
     File getFile();
@@ -15,30 +12,27 @@ public interface IPluginFile {
         return false;
     };
 
-    default boolean updateFile()  {
+    default boolean updateFile() {
         Field[] fields = getClass().getDeclaredFields();
         try {
             if (!getFile().exists()) getFile().createNewFile();
             YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
-            for (Field field : fields) { // checks all fields of class which implemented IPluginFile, allowing to automatically read/update all fields;
-                field.setAccessible(true); // lets you get value of field
+            for (Field field : fields) {
+                // checks all fields of class which implemented IPluginFile, allowing to automatically read/update all fields
+                // lets you get value of field
+                field.setAccessible(true);
                 if (field.get(this) != null) {
                             yamlFile.set(field.getName(), field.get(this));
-                } else
-                {
-                    yamlFile.set(field.getName(), null);
-                }
+                } else { yamlFile.set(field.getName(), null); }
             }
             yamlFile.save(getFile());
         }
-            catch(IllegalAccessException | IOException e1 ){
-                    e1.printStackTrace();
-                }
-
-
+        catch(IllegalAccessException | IOException e1 ) {
+            e1.printStackTrace();
+        }
         return true;
     };
-    default boolean readFile()  {
+    default boolean readFile() {
         Field[] fields = getClass().getDeclaredFields();
         if(!getFile().exists()) return false;
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
