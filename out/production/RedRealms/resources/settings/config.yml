@@ -1,0 +1,20 @@
+############################################################
+# +------------------------------------------------------+ #
+# |            RedRealms Configuration File              | #
+# +------------------------------------------------------+ #
+############################################################
+
+# The language file you wish to use
+language: english.yml
+
+############################################################
+# +------------------------------------------------------+ #
+# |                 Plugin interfacing                   | #
+# +------------------------------------------------------+ #
+############################################################
+
+plugin:
+  # Track all plugin actions that will be displayed in the console
+  debug: true
+  # Link to the resource pack used by the plugin
+  resource-pack: "https://drive.google.com/drive/folders/1suZcXkioTbFxqoLzY78da4PDHySS1ZUz?usp=sharing"
