@@ -12,7 +12,8 @@
       "",
       "<#FF0000>⚔ <#FFFFFF>Средний урон: <#FF0000>3",
       "",
-      "<#808080>❒ <#EFA04A>Может пробивать щиты"
+      "<#808080>❒ <#EFA04A>С шансом в 25%",
+      "<#808080>❒ <#EFA04A>может пробить щит"
     ],
     "custom-model-data" : 101,
     "attributes": [{
@@ -22,9 +23,9 @@
       "equipment-slot" : "HAND"
     }],
     "persistent-data" : [{
-      "data-key" : "sounds_like_communist_propaganda_but_ok",
-      "data-type" : "STRING",
-      "data-value" : "Призрак бродит по Европе — призрак коммунизма. Все силы старой Европы объединились для священной травли этого призрака: папа и царь, Меттерних и Гизо, французские радикалы и немецкие полицейские."
+      "data-key" : "UNQ-SHIELD-BREAKER",
+      "data-type" : "INTEGER_ARRAY",
+      "data-value" : [120, 25]
     }]
   },
   "recipes" : [{

@@ -5,7 +5,7 @@ import org.bukkit.Chunk;
 
 import java.util.ArrayList;
 
-//this class allows easy conversion between Bukkit class Chunk and our chunks
+// This class allows easy conversion between Bukkit class Chunk and our chunks
 public abstract class ChunkWork {
     public static ArrayList<Integer> chunkCreate (int X, int Z){
         ArrayList<Integer> chunkCoords= new ArrayList<>();

@@ -347,8 +347,8 @@ public class MaterialManager {
         switch (dataTypeStr) {
             case "BYTE" : {
                 persistentDataType = PersistentDataType.BYTE;
-                Byte dataValue = (Byte) persistentData.get("data-value");
-                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                Long dataValue = (Long) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue.byteValue());
                 break;
             }
             case "BYTE_ARRAY" : {
@@ -371,13 +371,19 @@ public class MaterialManager {
             }
             case "INTEGER" : {
                 persistentDataType = PersistentDataType.INTEGER;
-                Integer dataValue = (Integer) persistentData.get("data-value");
-                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
+                Long dataValue = (Long) persistentData.get("data-value");
+                dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue.intValue());
                 break;
             }
             case "INTEGER_ARRAY" : {
                 persistentDataType = PersistentDataType.INTEGER_ARRAY;
-                Integer[] dataValue = (Integer[]) persistentData.get("data-value");
+                JSONArray valuesArray = (JSONArray) persistentData.get("data-value");
+                int[] dataValue = new int[valuesArray.size()];
+                int i = 0;
+                for (Object el : valuesArray) {
+                    dataValue[i] = ((Long) el).intValue();
+                    i++;
+                }
                 dataContainer.set(new NamespacedKey(RedRealms.getPlugin(), dataKey), persistentDataType, dataValue);
                 break;
             }

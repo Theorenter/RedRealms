@@ -1,6 +1,6 @@
 name: RedRealms
 version: 0.1.0.0
-main: org.concordacraft.redrealms.main.RedRealms
+main: org.concordiacraft.redrealms.main.RedRealms
 api-version: 1.13
 authors:
   - Theorenter
