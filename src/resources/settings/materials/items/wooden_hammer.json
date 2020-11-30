@@ -24,7 +24,7 @@
   },
   "recipes" : [{
     "shaped-recipe" : {
-      "recipe-key" : "wooden_hammer_shaped",
+      "recipe-key" : "_shaped",
       "ingredients" : {
         "1" : "STICK",
         "2" : "OAK_PLANKS"

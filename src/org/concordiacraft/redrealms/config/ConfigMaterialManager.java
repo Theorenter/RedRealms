@@ -3,7 +3,7 @@ package org.concordiacraft.redrealms.config;
 import org.bukkit.inventory.ItemStack;
 import org.concordiacraft.redrealms.main.RedLog;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redrealms.materials.MaterialRemover;
+import org.concordiacraft.redrealms.materials.DefaultRecipesRemover;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class ConfigMaterialManager extends ConfigAbstractSetup {
         List<Map<?, ?>> customStonecuttingRecipes = getCustomConfig().getMapList("materials.recipes.stonecutting-recipes");
         for (Map <?, ?> c : customStonecuttingRecipes) { MaterialRecipes.createCustomStonecuttingRecipe(c); }*/
 
-        MaterialRemover.removeMaterials();
+        DefaultRecipesRemover.removeMaterials();
 
         RedLog.info("All custom items and recipes were added");
     }

@@ -25,7 +25,7 @@
   },
   "recipes" : [{
     "shaped-recipe" : {
-      "recipe-key" : "iron_hammer_shaped",
+      "recipe-key" : "_shaped",
       "ingredients" : {
         "1" : "STICK",
         "2" : "IRON_INGOT"

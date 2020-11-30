@@ -4,6 +4,7 @@ import org.concordiacraft.redrealms.commands.AddChunk;
 import org.concordiacraft.redrealms.commands.CampCreate;
 import org.concordiacraft.redrealms.config.RedRealmsSettings;
 import org.concordiacraft.redrealms.data.RedRealmsData;
+import org.concordiacraft.redrealms.listener.CustomItemRiderModifier;
 import org.concordiacraft.redrealms.listener.CustomItemShieldBreaker;
 import org.concordiacraft.redrealms.listener.PlayerJoin;
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public class RedRealms extends JavaPlugin {
 
         // Events & Listeners
         Bukkit.getPluginManager().registerEvents(new CustomItemShieldBreaker(this), this);
+        Bukkit.getPluginManager().registerEvents(new CustomItemRiderModifier(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
 
         // Commands

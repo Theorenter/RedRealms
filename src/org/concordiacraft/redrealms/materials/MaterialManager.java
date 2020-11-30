@@ -148,7 +148,7 @@ public class MaterialManager {
                     for (Object objRecipe: recipesObject){
                         JSONObject recipe = (JSONObject) objRecipe;
                         if (recipe.containsKey("shaped-recipe")) {
-                            newShapedRecipe(recipe, itemStack); break; }
+                            newShapedRecipe(recipe, itemStack, itemID); break; }
                         /*if (recipe.containsKey("shapeless-recipe")) {
                             Bukkit.addRecipe(newShapelessRecipe()); }
                         if (recipe.containsKey("furnace-recipe")) {
@@ -171,9 +171,9 @@ public class MaterialManager {
             }
         }
     }
-    private void newShapedRecipe(JSONObject recipe, ItemStack itemStack) {
+    private void newShapedRecipe(JSONObject recipe, ItemStack itemStack, String itemID) {
         JSONObject shapedObject = (JSONObject) recipe.get("shaped-recipe");
-        String keyString = (String) shapedObject.get("recipe-key");
+        String keyString = itemID + shapedObject.get("recipe-key");
         Map<String, String> ingredients = (Map<String, String>) shapedObject.get("ingredients");
 
         if (shapedObject.containsKey("amount")) {

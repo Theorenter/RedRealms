@@ -1,16 +1,16 @@
 {
-  "redrealms-id" : "wooden_spear",
+  "redrealms-id" : "iron_spear",
   "item-stack" : {
     "minecraft-material" : "TRIDENT",
     "damage" : 25,
-    "unbreakable" : true
+    "unbreakable" : false
   },
   "meta" : {
-    "display-name": "<#FFFFFF>Деревянное копье",
+    "display-name": "<#FFFFFF>Железное копье",
     "lore" : [
       "<#FFFFFF>Имеет среднюю скорость атаки",
       "",
-      "<#FF0000>⚔ <#FFFFFF>Средний урон: <#FF0000>3",
+      "<#FF0000>⚔ <#FFFFFF>Средний урон: <#FF0000>5",
       "",
       "<#808080>❒ <#EFA04A>С шансом в 25%",
       "<#808080>❒ <#EFA04A>может пробить щит"
@@ -18,7 +18,7 @@
     "custom-model-data" : 101,
     "attributes": [{
       "attribute-modifier" : "GENERIC-ATTACK-DAMAGE",
-      "attribute-amount" : 15,
+      "attribute-amount" : 5,
       "attribute-operation" : "ADD-NUMBER",
       "equipment-slot" : "HAND"
     }],
@@ -26,19 +26,24 @@
       "data-key" : "UNQ-SHIELD-BREAKER",
       "data-type" : "INTEGER_ARRAY",
       "data-value" : [120, 25]
+    },
+    {
+      "data-key" : "UNQ-RIDING-MODIFIER",
+      "data-type" : "DOUBLE",
+      "data-value" : 1.25
     }]
   },
   "recipes" : [{
     "shaped-recipe" : {
-      "recipe-key" : "wooden_spear_shaped",
+      "recipe-key" : "_shaped",
       "ingredients" : {
         "1" : "STICK",
-        "2" : "OAK_PLANKS"
+        "2" : "IRON_INGOT"
       },
       "shape": [
-        "  2",
+        "2  ",
         " 1 ",
-        "1  "
+        "  1"
       ],
       "amount": 1
     }
