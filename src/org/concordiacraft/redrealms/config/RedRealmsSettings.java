@@ -2,7 +2,6 @@ package org.concordiacraft.redrealms.config;
 
 import org.concordiacraft.redrealms.main.RedLog;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redrealms.materials.MaterialManager;
 
 import java.io.File;
 
@@ -23,9 +22,9 @@ public class RedRealmsSettings {
         //endregion
 
         // Settings loading
-        ConfigDefault configDefault = new ConfigDefault(plugin,"config.yml");
-        MaterialManager materialReader = new MaterialManager(plugin);
 
+        ConfigDefault configDefault = new ConfigDefault(plugin,"settings" + File.separator + "config.yml");
+        ConfigLocalization configLocalization = new ConfigLocalization(plugin, "settings" + File.separator + "localization" + File.separator + ConfigDefault.getGlobalLocalization());
 
         // End message
         RedLog.info("The plugin configuration was loaded");

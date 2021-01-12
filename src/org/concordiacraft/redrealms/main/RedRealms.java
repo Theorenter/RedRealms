@@ -1,12 +1,11 @@
 package org.concordiacraft.redrealms.main;
 
+import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.AddChunk;
-import org.concordiacraft.redrealms.commands.CampCreate;
+import org.concordiacraft.redrealms.commands.town.TownCreate;
 import org.concordiacraft.redrealms.config.RedRealmsSettings;
 import org.concordiacraft.redrealms.data.RedRealmsData;
-import org.concordiacraft.redrealms.listener.CustomItemRiderModifier;
-import org.concordiacraft.redrealms.listener.CustomItemShieldBreaker;
-import org.concordiacraft.redrealms.listener.PlayerJoin;
+import org.concordiacraft.redrealms.listeners.PlayerJoin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,19 +14,18 @@ public class RedRealms extends JavaPlugin {
     @Override
     public void onEnable() {
         RedLog.showPluginTitle();
+        // Loading addon-manager
+        AddonManager.initialization();
 
         // Settings init
         RedRealmsSettings.initialization(this);
         RedRealmsData.initialization(this);
 
-
-        // Events & Listeners
-        Bukkit.getPluginManager().registerEvents(new CustomItemShieldBreaker(this), this);
-        Bukkit.getPluginManager().registerEvents(new CustomItemRiderModifier(this), this);
+        // Events & Listeners (without addons)
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
 
         // Commands
-        getCommand("campcreate").setExecutor(new CampCreate(this));
+        getCommand("campcreate").setExecutor(new TownCreate(this));
         getCommand("addchunk").setExecutor(new AddChunk(this));
 
     }

@@ -14,23 +14,20 @@ public abstract class ConfigAbstractSetup {
     protected static File customFile;
     protected static FileConfiguration customConfig;
 
-    // Path to settings files
-    protected static String settingsPath = "settings" + File.separator;
-
     // Name of .yml that we will work with
-    protected static String YMLFileName;
+    protected static String fullFileName;
 
     // Constructor
-    ConfigAbstractSetup(RedRealms plugin, String YMLFileName) {
+    ConfigAbstractSetup(RedRealms plugin, String fullFileName) {
 
         // File Creation
-        this.YMLFileName = YMLFileName;
+        this.fullFileName = fullFileName;
 
-        customFile = new File(plugin.getDataFolder(), settingsPath + YMLFileName);
+        customFile = new File(plugin.getDataFolder(),  fullFileName);
         if (!customFile.exists()) {
-            RedLog.warning(YMLFileName + " was not found. Create new ones.");
+            RedLog.warning(fullFileName + " was not found. Create new ones.");
             customFile.getParentFile().mkdirs();
-            plugin.saveResource(settingsPath + YMLFileName, false);
+            plugin.saveResource(fullFileName, false);
         }
 
         // File configuration
@@ -40,9 +37,9 @@ public abstract class ConfigAbstractSetup {
     public static void SaveCustomConfig() {
         try {
             customConfig.save(customFile);
-            RedLog.info(YMLFileName + " has been saved successfully!");
+            RedLog.info(fullFileName + " has been saved successfully!");
         } catch (IOException e) {
-            RedLog.error("Could not save the " + YMLFileName + " file!", e);
+            RedLog.error("Could not save the " + fullFileName, e);
         }
     }
 

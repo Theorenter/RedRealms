@@ -6,20 +6,20 @@ import org.concordiacraft.redrealms.main.RedRealms;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DataCamps implements IPluginFile {
-    private String campName;
+public class DataTowns implements IPluginFile {
+    private String townName;
     private String playerName;
     ArrayList<Integer> ChunkCoords = new ArrayList<>();
     ArrayList<ArrayList<Integer>> Chunks = new ArrayList<>();
-    public DataCamps(String campName) {
-        this.campName = campName;
+    public DataTowns(String campName) {
+        this.townName = campName;
 
 
     }
     //region Getters,setters,implemented functions
     public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
-                "camps" + File.separator + campName + ".yml");
+                "towns" + File.separator + townName + ".yml");
     }
 
     public ArrayList<Integer> getChunkCoords() {
@@ -33,12 +33,12 @@ public class DataCamps implements IPluginFile {
         ChunkCoords.add(ChunkX);
         ChunkCoords.add(ChunkZ);
     }
-    public String getCampName() {
-        return campName;
+    public String getTownName() {
+        return townName;
     }
 
-    public void setCampName(String campName) {
-        this.campName = campName;
+    public void setTownName(String townName) {
+        this.townName = townName;
     }
 
     public void addChunk(int ChunkX,int ChunkZ){

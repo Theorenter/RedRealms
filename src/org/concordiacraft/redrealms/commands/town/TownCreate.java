@@ -1,26 +1,27 @@
-package org.concordiacraft.redrealms.commands;
+package org.concordiacraft.redrealms.commands.town;
 
 import org.bukkit.Chunk;
-import org.concordiacraft.redrealms.data.DataCamps;
+import org.concordiacraft.redrealms.config.ConfigLocalization;
+import org.concordiacraft.redrealms.data.DataTowns;
 import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataRegions;
+import org.concordiacraft.redrealms.data.DataChunks;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CampCreate implements CommandExecutor {
+public class TownCreate implements CommandExecutor {
 
     RedRealms plugin;
-    public CampCreate(RedRealms plugin) {
+    public TownCreate(RedRealms plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("Данная команда доступна только для игроков");
+            commandSender.sendMessage(ConfigLocalization.getString("msg_error_only_for_players"));
             return true;
         }
 
@@ -29,25 +30,25 @@ public class CampCreate implements CommandExecutor {
 
         Player playerSender = (Player) commandSender;
         Chunk chunk = playerSender.getLocation().getChunk();
-        DataCamps camp = new DataCamps(strings[0]);
-        if (camp.readFile()) {
-            commandSender.sendMessage("Лагерь с таким названием уже существует!");
+        DataTowns town = new DataTowns(strings[0]);
+        if (town.readFile()) {
+            commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_name_already"));
             return true;
         }
-        //add data in camp file
-        camp.setPlayerName(playerSender.getName());
-        camp.setChunkCoords(chunk.getX(),chunk.getZ());
-        camp.addChunk(chunk.getX(),chunk.getZ());
-        camp.updateFile();
+        //add data in town file
+        town.setPlayerName(playerSender.getName());
+        town.setChunkCoords(chunk.getX(),chunk.getZ());
+        town.addChunk(chunk.getX(),chunk.getZ());
+        town.updateFile();
         //creating region file
-        DataRegions region = new DataRegions();
+        DataChunks region = new DataChunks();
 
 
         region.setWorld(chunk.getWorld());
         region.setChunk(chunk);
         region.readFile();
-        if (region.getOwner()!=null){
-            commandSender.sendMessage("Лагерь на этой территории уже существует!");
+        if (region.getOwner() != null){
+            commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_territory_already"));
             return true;
         }
         region.setOwner(strings[0]);

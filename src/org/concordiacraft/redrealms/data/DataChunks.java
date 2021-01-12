@@ -6,9 +6,11 @@ import org.bukkit.Chunk;
 
 import java.io.File;
 
-public class DataRegions implements IPluginFile{
+public class DataChunks implements IPluginFile{
     private String World;
     private Integer X;
+    private Integer Z;
+    private String Owner;
 
     public String getWorld() {
         return World;
@@ -42,18 +44,16 @@ public class DataRegions implements IPluginFile{
         Owner = owner;
     }
 
-    private Integer Z;
-    private String Owner;
     public File getFile() {
         String fileName = World +"_"+ X.toString()+"_"+Z.toString();
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
-                "regions" + File.separator + fileName +  ".yml");
+                "chunks" + File.separator + fileName +  ".yml");
     }
     public void setWorld(World world){
         World = world.getName();
     }
     public void setChunk(Chunk chunk){
-        X= chunk.getX();
-        Z=chunk.getZ();
+        X = chunk.getX();
+        Z = chunk.getZ();
     }
 }

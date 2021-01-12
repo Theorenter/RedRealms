@@ -1,4 +1,4 @@
-package org.concordiacraft.redrealms.listener;
+package org.concordiacraft.redrealms.listeners;
 
 import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.data.DataPlayer;

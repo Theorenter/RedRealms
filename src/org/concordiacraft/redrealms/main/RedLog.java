@@ -1,5 +1,6 @@
 package org.concordiacraft.redrealms.main;
 
+import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.fusesource.jansi.Ansi;
 
 import java.util.logging.Level;
@@ -17,14 +18,21 @@ public class RedLog {
         RedRealms.getPlugin().getLogger().log(Level.INFO, "");
     }
     public static void info(String message) { RedRealms.getPlugin().getLogger().log(Level.INFO, message); }
-    public static void debug(String message) { RedRealms.getPlugin().getLogger().log(Level.INFO,"[DEBUG] " + message); }
     public static void warning(String message) { RedRealms.getPlugin().getLogger().log(Level.WARNING, ASCIIYellow + message + ASCIIReset); }
     public static void error(String message) { RedRealms.getPlugin().getLogger().log(Level.SEVERE, ASCIIRed + message); }
 
-    public static void info(String message, Exception e) { RedRealms.getPlugin().getLogger().log(Level.INFO, message, e); }
-    public static void debug(String message, Exception e) { RedRealms.getPlugin().getLogger().log(Level.INFO,"[DEBUG] " + message, e); }
     public static void warning(String message, Exception e) { RedRealms.getPlugin().getLogger().log(Level.WARNING, ASCIIYellow + message, e); }
     public static void error(String message, Exception e) { RedRealms.getPlugin().getLogger().log(Level.SEVERE, ASCIIRed + message, e); }
+
+
+    public static void debug(String message) {
+        if (ConfigDefault.isDebugMode())
+            RedRealms.getPlugin().getLogger().log(Level.INFO,"["+ ASCIICyan +"DEBUG"+ ASCIIWhite +"] " + message);
+    }
+    public static void debug(String message, Exception e) {
+        if (ConfigDefault.isDebugMode())
+        RedRealms.getPlugin().getLogger().log(Level.INFO,"["+ ASCIICyan +"DEBUG"+ ASCIIWhite +"] " + message, e);
+    }
 
     // ASCII colors
     private final static String ASCIIBlack = Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLACK).bold().toString();

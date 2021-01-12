@@ -1,4 +1,4 @@
-package org.concordiacraft.redrealms.listener;
+package org.concordiacraft.redrealms.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

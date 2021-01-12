@@ -1,4 +1,4 @@
-package org.concordiacraft.redrealms.listener;
+package org.concordiacraft.redrealms.listeners;
 
 public class CustomItemBlockComponentsForDefaultRecipes {
 }

@@ -1,7 +1,7 @@
 {
   "redrealms-id" : "iron_hammer",
   "item-stack" : {
-    "minecraft-material" : "IRON_SWORD"
+    "minecraft-material" : "WOODEN_SWORD"
   },
   "meta" : {
     "display-name": "<#E7A81B>Железный молот",

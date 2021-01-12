@@ -5,9 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.concordiacraft.redrealms.data.DataCamps;
+import org.concordiacraft.redrealms.data.DataTowns;
 import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataRegions;
+import org.concordiacraft.redrealms.data.DataChunks;
 import org.concordiacraft.redrealms.main.RedRealms;
 
 public class AddChunk implements CommandExecutor {
@@ -28,11 +28,11 @@ public class AddChunk implements CommandExecutor {
         dataPlayer.readFile();
 
         String Realm = dataPlayer.getRealm();
-        DataCamps camp = new DataCamps(Realm);
-        camp.readFile();
+        DataTowns town = new DataTowns(Realm);
+        town.readFile();
 
          // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file
-        DataRegions region = new DataRegions();
+        DataChunks region = new DataChunks();
         region.setWorld(chunk.getWorld());
         region.setChunk(chunk);
         region.readFile();
@@ -42,11 +42,9 @@ public class AddChunk implements CommandExecutor {
         }
         region.setOwner(dataPlayer.getRealm());
         region.updateFile();
-        camp.addChunk(chunk);
+        town.addChunk(chunk);
 
-
-
-        camp.updateFile();
+        town.updateFile();
         commandSender.sendMessage("Чанк с координатами X=" +playerSender.getLocation().getChunk().getX() +" Z = " + playerSender.getLocation().getChunk().getZ()+"Добавлен в лагерь" + Realm);
         return true;
     }

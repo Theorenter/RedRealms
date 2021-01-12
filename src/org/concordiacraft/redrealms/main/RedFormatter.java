@@ -34,4 +34,21 @@ public final class RedFormatter {
             }
         } return str;
     }
+    public static String[] format(String... strs) {
+        for (String str : strs) {
+            Matcher matcher = hexColor.matcher(str);
+            while (matcher.find()) {
+                String fullColor = str.substring(matcher.start(), matcher.end());
+                String color = str.substring(matcher.start() + 1, matcher.end() - 1);
+                str = str.replace(fullColor, ChatColor.of(color).toString());
+                matcher = hexColor.matcher(str);
+            }
+            for (Map.Entry<String, String> entry : formatMap.entrySet()) {
+                String k = entry.getKey();
+                String v = entry.getValue();
+                while (str.contains(k)) { str = str.replace(k, v); }
+            }
+        }
+        return strs;
+    }
 }

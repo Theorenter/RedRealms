@@ -1,21 +1,18 @@
-package org.concordiacraft.redrealms.listener;
+package org.concordiacraft.redrealms.listeners;
 
-import org.bukkit.Chunk;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.concordiacraft.redrealms.data.DataRegions;
+import org.concordiacraft.redrealms.data.DataChunks;
 
 public class BreakBlockInPrivate implements Listener {
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void Playerinteract(PlayerInteractEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void PlayerInteractWithBlock(PlayerInteractEvent e) {
         if (!e.hasBlock()) return;
         Block block = e.getClickedBlock();
-        DataRegions chunk = new DataRegions();
+        DataChunks chunk = new DataChunks();
         chunk.setChunk(block.getChunk());
         chunk.setWorld(block.getWorld());
         chunk.readFile();

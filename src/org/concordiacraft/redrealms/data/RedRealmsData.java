@@ -10,16 +10,14 @@ public class RedRealmsData {
     {
         String dataPath = plugin.getDataFolder() + File.separator + "data";
 
-        //region Creation - folder of the data
+        // Creation - folder of the data
         File data = new File(dataPath);
         if (!data.isDirectory()) {
             data.mkdir();
         }
-        //endregion
-        //region Creation - folders of the players, regions, towns and states
+        // Creation - folders of the players, regions, towns and states
         File playersData = new File(dataPath + File.separator + "players");
-        File regionsData = new File(dataPath + File.separator + "regions");
-        File campsData = new File(dataPath + File.separator + "camps");
+        File regionsData = new File(dataPath + File.separator + "chunks");
         File townsData = new File(dataPath + File.separator + "towns");
         File statesData = new File(dataPath + File.separator + "states");
 
@@ -30,16 +28,11 @@ public class RedRealmsData {
         if (!regionsData.isDirectory()) {
             regionsData.mkdir();
         }
-        if (!campsData.isDirectory()) {
-            campsData.mkdir();
-        }
         if (!townsData.isDirectory()) {
             townsData.mkdir();
         }
         if (!statesData.isDirectory()) {
             statesData.mkdir();
         }
-        //endregion
     }
-    //endregion
 }

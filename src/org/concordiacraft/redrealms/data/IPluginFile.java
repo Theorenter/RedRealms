@@ -15,15 +15,19 @@ public interface IPluginFile {
     default boolean updateFile() {
         Field[] fields = getClass().getDeclaredFields();
         try {
-            if (!getFile().exists()) getFile().createNewFile();
+            if (!getFile().exists()) {
+                getFile().createNewFile();
+            }
             YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
             for (Field field : fields) {
                 // checks all fields of class which implemented IPluginFile, allowing to automatically read/update all fields
                 // lets you get value of field
                 field.setAccessible(true);
                 if (field.get(this) != null) {
-                            yamlFile.set(field.getName(), field.get(this));
-                } else { yamlFile.set(field.getName(), null); }
+                    yamlFile.set(field.getName(), field.get(this));
+                } else {
+                    yamlFile.set(field.getName(), null);
+                }
             }
             yamlFile.save(getFile());
         }
@@ -31,7 +35,7 @@ public interface IPluginFile {
             e1.printStackTrace();
         }
         return true;
-    };
+    }
     default boolean readFile() {
         Field[] fields = getClass().getDeclaredFields();
         if(!getFile().exists()) return false;
@@ -39,17 +43,13 @@ public interface IPluginFile {
         for (Field field : fields){
             field.setAccessible(true);
             try {
-
-                            field.set(this,yamlFile.get(field.getName()));
-
+                field.set(this,yamlFile.get(field.getName()));
             }
             catch (IllegalAccessException e1){
                 e1.printStackTrace();
             }
         }
-
         return true;
-
     }
     default boolean deleteFile(){
         if (!getFile().exists()) return false;
