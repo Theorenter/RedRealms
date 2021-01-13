@@ -1,7 +1,8 @@
 package org.concordiacraft.redrealms.config;
 
-import org.concordiacraft.redrealms.main.RedFormatter;
+
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redutils.main.utils.RedFormatter;
 
 public class ConfigLocalization extends ConfigAbstractSetup {
     ConfigLocalization(RedRealms plugin, String YMLFileName) {

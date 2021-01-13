@@ -5,10 +5,11 @@ api-version: 1.13
 authors:
   - Theorenter
   - Nicekita
+softdepend: [RedUtils]
 commands:
-  campcreate:
+  towncreate:
     description: 'Create a new camp'
-    usage: /campcreate <name>
+    usage: /towncreate <name>
   addchunk:
     description: 'Adds Chunk to Currently existing realm'
     usage: /addchunk

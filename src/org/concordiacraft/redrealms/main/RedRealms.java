@@ -8,12 +8,14 @@ import org.concordiacraft.redrealms.data.RedRealmsData;
 import org.concordiacraft.redrealms.listeners.PlayerJoin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.concordiacraft.redutils.main.utils.RedLog;
 
 public class RedRealms extends JavaPlugin {
-
+    public static RedLog redlog;
     @Override
     public void onEnable() {
-        RedLog.showPluginTitle();
+        redlog = new RedLog(this);
+        redlog.showPluginTitle();
         // Loading addon-manager
         AddonManager.initialization();
 
@@ -25,7 +27,7 @@ public class RedRealms extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
 
         // Commands
-        getCommand("campcreate").setExecutor(new TownCreate(this));
+        getCommand("towncreate").setExecutor(new TownCreate(this));
         getCommand("addchunk").setExecutor(new AddChunk(this));
 
     }

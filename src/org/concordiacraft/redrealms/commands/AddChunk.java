@@ -37,7 +37,7 @@ public class AddChunk implements CommandExecutor {
         region.setChunk(chunk);
         region.readFile();
         if (region.getOwner()!=null){
-            commandSender.sendMessage("Лагерь на этой территории уже существует!");
+            commandSender.sendMessage("Это территория города " + region.getOwner());
             return true;
         }
         region.setOwner(dataPlayer.getRealm());
@@ -45,7 +45,7 @@ public class AddChunk implements CommandExecutor {
         town.addChunk(chunk);
 
         town.updateFile();
-        commandSender.sendMessage("Чанк с координатами X=" +playerSender.getLocation().getChunk().getX() +" Z = " + playerSender.getLocation().getChunk().getZ()+"Добавлен в лагерь" + Realm);
+        commandSender.sendMessage("Чанк с координатами X=" +playerSender.getLocation().getChunk().getX() +" Z = " + playerSender.getLocation().getChunk().getZ()+" Добавлен во владения города " + Realm);
         return true;
     }
 

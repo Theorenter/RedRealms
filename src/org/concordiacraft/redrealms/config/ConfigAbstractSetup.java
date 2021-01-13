@@ -1,6 +1,5 @@
 package org.concordiacraft.redrealms.config;
 
-import org.concordiacraft.redrealms.main.RedLog;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -25,7 +24,7 @@ public abstract class ConfigAbstractSetup {
 
         customFile = new File(plugin.getDataFolder(),  fullFileName);
         if (!customFile.exists()) {
-            RedLog.warning(fullFileName + " was not found. Create new ones.");
+            RedRealms.redlog.warning(fullFileName + " was not found. Create new ones.");
             customFile.getParentFile().mkdirs();
             plugin.saveResource(fullFileName, false);
         }
@@ -37,9 +36,9 @@ public abstract class ConfigAbstractSetup {
     public static void SaveCustomConfig() {
         try {
             customConfig.save(customFile);
-            RedLog.info(fullFileName + " has been saved successfully!");
+            RedRealms.redlog.info(fullFileName + " has been saved successfully!");
         } catch (IOException e) {
-            RedLog.error("Could not save the " + fullFileName, e);
+            RedRealms.redlog.error("Could not save the " + fullFileName, e);
         }
     }
 
