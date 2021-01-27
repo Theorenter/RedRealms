@@ -20,10 +20,14 @@ public class RedRealmsData {
         File regionsData = new File(dataPath + File.separator + "chunks");
         File townsData = new File(dataPath + File.separator + "towns");
         File statesData = new File(dataPath + File.separator + "states");
+        File regionData = new File(dataPath + File.separator + "region");
 
 
         if (!playersData.isDirectory()) {
             playersData.mkdir();
+        }
+        if (!regionData.isDirectory()){
+            regionData.mkdir();
         }
         if (!regionsData.isDirectory()) {
             regionsData.mkdir();

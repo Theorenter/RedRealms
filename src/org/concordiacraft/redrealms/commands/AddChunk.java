@@ -5,9 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.concordiacraft.redrealms.data.DataTowns;
+import org.concordiacraft.redrealms.data.DataTown;
 import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataChunks;
+import org.concordiacraft.redrealms.data.DataChunk;
 import org.concordiacraft.redrealms.main.RedRealms;
 
 public class AddChunk implements CommandExecutor {
@@ -28,13 +28,11 @@ public class AddChunk implements CommandExecutor {
         dataPlayer.readFile();
 
         String Realm = dataPlayer.getRealm();
-        DataTowns town = new DataTowns(Realm);
+        DataTown town = new DataTown(Realm);
         town.readFile();
 
          // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file
-        DataChunks region = new DataChunks();
-        region.setWorld(chunk.getWorld());
-        region.setChunk(chunk);
+        DataChunk region = new DataChunk(chunk);
         region.readFile();
         if (region.getOwner()!=null){
             commandSender.sendMessage("Это территория города " + region.getOwner());

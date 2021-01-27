@@ -56,7 +56,7 @@ public class DataPlayer implements IPluginFile {
 
         this.ID = p.getUniqueId().toString();
         this.Name = p.getName();
-
+        readFile();
     }
 
 }

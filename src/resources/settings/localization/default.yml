@@ -12,3 +12,4 @@ msg_error_only_for_players: "Данная команда доступна тол
 msg_town_create_1: "Вы решаете основать здесь поселение "
 msg_error_this_name_already: "<#B22222>⚠ <reset>Посление с таким названием уже существует!"
 msg_error_this_territory_already: "<#B22222>⚠ <reset>На данном участке уже существует другое поселение!"
+msg_error_private_territory_break: "<#B22222>⚠ <reset>Вы не можете разрушать блоки на этой территории!"

@@ -1,11 +1,10 @@
 package org.concordiacraft.redrealms.addons;
 
 import org.bukkit.Bukkit;
-import org.concordiacraft.redrealms.listeners.CustomItemRiderModifier;
-import org.concordiacraft.redrealms.listeners.CustomItemShieldBreaker;
+import org.concordiacraft.redrealms.listeners.customitems.CustomItemRiderModifier;
+import org.concordiacraft.redrealms.listeners.customitems.CustomItemShieldBreaker;
 import org.concordiacraft.redrealms.listeners.TownNewListener;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redutils.main.utils.RedLog;
 
 public class AddonManager {
     private static Boolean redItemsStatus = null;

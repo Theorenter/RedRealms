@@ -1,6 +1,5 @@
 package org.concordiacraft.redrealms.listeners;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
@@ -15,8 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.concordiacraft.redrealms.config.ConfigLocalization;
-import org.concordiacraft.redrealms.data.DataChunks;
 import org.concordiacraft.redrealms.main.RedRealms;
 
 import java.util.List;

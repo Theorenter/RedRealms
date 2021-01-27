@@ -13,3 +13,6 @@ commands:
   addchunk:
     description: 'Adds Chunk to Currently existing realm'
     usage: /addchunk
+  region:
+    description: 'Adds interaction with regions'
+    usage: /region add  adds chunk you are standing on. /region create <name>

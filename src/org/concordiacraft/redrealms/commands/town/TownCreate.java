@@ -2,9 +2,9 @@ package org.concordiacraft.redrealms.commands.town;
 
 import org.bukkit.Chunk;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
-import org.concordiacraft.redrealms.data.DataTowns;
+import org.concordiacraft.redrealms.data.DataTown;
 import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataChunks;
+import org.concordiacraft.redrealms.data.DataChunk;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,28 +30,26 @@ public class TownCreate implements CommandExecutor {
 
         Player playerSender = (Player) commandSender;
         Chunk chunk = playerSender.getLocation().getChunk();
-        DataTowns town = new DataTowns(strings[0]);
+        DataTown town = new DataTown(strings[0]);
         if (town.readFile()) {
             commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_name_already"));
             return true;
         }
         //add data in town file
-        town.setPlayerName(playerSender.getName());
+        town.setPlayerID(playerSender.getUniqueId().toString());
+        town.addResident(playerSender.getUniqueId().toString());
         town.setChunkCoords(chunk.getX(),chunk.getZ());
         town.addChunk(chunk.getX(),chunk.getZ());
         town.updateFile();
         //creating region file
-        DataChunks region = new DataChunks();
-
-
-        region.setWorld(chunk.getWorld());
-        region.setChunk(chunk);
+        DataChunk region = new DataChunk(chunk);
         region.readFile();
         if (region.getOwner() != null){
             commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_territory_already"));
             return true;
         }
         region.setOwner(strings[0]);
+        region.setTownRegion("capital");
         region.updateFile();
         //add data in player file
         DataPlayer dataPlayer = new DataPlayer(playerSender);
