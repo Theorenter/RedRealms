@@ -1,7 +1,6 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.Chunk;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
@@ -17,14 +16,19 @@ public class DataChunk implements IPluginFile{
     private Boolean municipality;
     private String townRegion;
     private String chunkProf;
-    private String BiomeKey;
+    private String biomeKey;
 
     public DataChunk(Chunk chunk){
         this.setChunk(chunk);
         this.setWorld(chunk.getWorld());
-        if (!readFile()) this.BiomeKey = ChunkWork.getBiome(chunk);
-
-
+        if (!readFile()) this.biomeKey = ChunkWork.getBiome(chunk);
+    }
+    //
+    public DataChunk(ArrayList<Integer> chunk){
+        this.X = chunk.get(0);
+        this.Z = chunk.get(1);
+        this.world = "world";
+        readFile();
     }
     public String getWorld() {
         return world;
@@ -100,6 +104,6 @@ public class DataChunk implements IPluginFile{
     }
 
     public String getBiomeKey() {
-        return BiomeKey;
+        return biomeKey;
     }
 }

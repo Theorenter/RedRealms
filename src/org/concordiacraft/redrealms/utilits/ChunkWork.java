@@ -13,13 +13,16 @@ import java.util.HashMap;
 // This class allows easy conversion between Bukkit class Chunk and our chunks
 public abstract class ChunkWork {
 
-
+    //@param X chunk X
+    //@param Z chunk Z
+    //@return arraylist for other methods
     public static ArrayList<Integer> chunkCreate (int X, int Z){
         ArrayList<Integer> chunkCoords = new ArrayList<>();
         chunkCoords.add(X);
         chunkCoords.add(Z);
         return chunkCoords;
     }
+
     public static boolean canInteract(Chunk chunk, Player player){
         DataPlayer dataPlayer = new DataPlayer(player);
         DataChunk dataChunk = new DataChunk(chunk);
@@ -27,8 +30,12 @@ public abstract class ChunkWork {
 
         DataTown town = new DataTown(dataChunk.getOwner());
 
-        return town.getResidentNames().contains(dataPlayer.getID());
+        return town.getResidentNames().contains(dataPlayer.getId());
     }
+    /*
+    @param chunk Chunk we want to convert
+    @return converted chunk
+     */
     public static ArrayList<Integer> chunkCreate (Chunk chunk){
         ArrayList<Integer> chunkCoords = new ArrayList<>();
         chunkCoords.add(chunk.getX());

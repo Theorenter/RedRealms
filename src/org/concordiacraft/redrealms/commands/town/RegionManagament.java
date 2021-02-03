@@ -11,12 +11,16 @@ import org.concordiacraft.redrealms.data.DataRegion;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
-public class RegionMgmt implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class RegionManagament implements CommandExecutor {
     RedRealms plugin;
-    public RegionMgmt (RedRealms plugin) {
+    public RegionManagament(RedRealms plugin) {
         this.plugin = plugin;
     }
-
+    private final List<String> chunkProfs = new ArrayList<>(Arrays.asList("bank","farm","market","jail"));
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
@@ -72,8 +76,16 @@ public class RegionMgmt implements CommandExecutor {
             DataRegion region = new DataRegion(strings[1],playerSender.getRealm());
             if (!region.readFile()) {
                 commandSender.sendMessage("Region does not exists");
+                return true;
             }
             //todo set chunkProfs/free
+            if(!chunkProfs.contains(strings[2])){commandSender.sendMessage("Данной специализации региона не существует");return true;}
+            region.getChunks().forEach(chunk -> {
+                DataChunk mChunk = new DataChunk(chunk);
+                mChunk.setChunkProf(strings[2]);
+            });
+            commandSender.sendMessage("Специализация чанков успешно изменена!");
+            return true;
         }
         return false;
     }

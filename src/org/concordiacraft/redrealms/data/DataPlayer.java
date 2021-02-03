@@ -8,38 +8,38 @@ import java.io.File;
 public class DataPlayer implements IPluginFile {
 
     // Fields
-    private final String ID;
-    private String Name;
-    private String Title;
-    private String Realm;
+    private final String id;
+    private String name;
+    private String title;
+    private String realm;
 
     // Getters and Setters
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        this.Name = name;
+        this.name = name;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.Title = title;
+        this.title = title;
     }
 
     public String getRealm() {
-        return Realm;
+        return realm;
     }
 
     public void setRealm(String realm) {
-        this.Realm = realm;
+        this.realm = realm;
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public static String getDataPath() {
@@ -48,14 +48,14 @@ public class DataPlayer implements IPluginFile {
 
     public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
-                "players" + File.separator + ID.toString() + ".yml");
+                "players" + File.separator + id.toString() + ".yml");
     }
 
     // Constructor
     public DataPlayer(Player p) {
 
-        this.ID = p.getUniqueId().toString();
-        this.Name = p.getName();
+        this.id = p.getUniqueId().toString();
+        this.name = p.getName();
         readFile();
     }
 

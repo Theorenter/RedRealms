@@ -2,7 +2,7 @@ package org.concordiacraft.redrealms.main;
 
 import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.AddChunk;
-import org.concordiacraft.redrealms.commands.town.RegionMgmt;
+import org.concordiacraft.redrealms.commands.town.RegionManagament;
 import org.concordiacraft.redrealms.commands.town.TownCreate;
 import org.concordiacraft.redrealms.config.RedRealmsSettings;
 import org.concordiacraft.redrealms.data.RedRealmsData;
@@ -31,7 +31,7 @@ public class RedRealms extends JavaPlugin {
         // Commands
         getCommand("towncreate").setExecutor(new TownCreate(this));
         getCommand("addchunk").setExecutor(new AddChunk(this));
-        getCommand("region").setExecutor(new RegionMgmt(this));
+        getCommand("region").setExecutor(new RegionManagament(this));
 
     }
 
