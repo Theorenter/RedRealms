@@ -16,6 +16,9 @@ import org.concordiacraft.redrealms.data.DataChunk;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChunkGuardListener implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -44,7 +47,6 @@ public class ChunkGuardListener implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void TownExplode(EntityExplodeEvent e) {
-
         DataChunk chunk = new DataChunk(e.getLocation().getChunk());
         if (chunk.getOwner()!=null) {
             e.setCancelled(true);
@@ -57,5 +59,18 @@ public class ChunkGuardListener implements Listener {
         if (!chunkTo.readFile()) return;
         if (!chunkFrom.getOwner().equals(chunkTo.getOwner())&&chunkTo.getOwner()!=null) {e.setCancelled(true);}
     }
+    @EventHandler(priority = EventPriority.HIGH)
+    public void CloseToTownExplode(EntityExplodeEvent e) {
+        DataChunk chunk = new DataChunk(e.getLocation().getChunk());
+        List<Block> blockList = new ArrayList<>();
+        if (chunk.getOwner()==null) {
+            for (Block b:e.blockList()) {
+                chunk = new DataChunk(b.getChunk());
+                if (chunk.getOwner()!=null) {
+                    e.blockList().remove(b);
+                }
+            }
 
+        }
+    }
 }

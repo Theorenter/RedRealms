@@ -34,7 +34,7 @@ public abstract class ChunkWork {
     }
     /*
     @param chunk Chunk we want to convert
-    @return converted chunk
+    @return array list that represents coordinates of converted chunk
      */
     public static ArrayList<Integer> chunkCreate (Chunk chunk){
         ArrayList<Integer> chunkCoords = new ArrayList<>();
