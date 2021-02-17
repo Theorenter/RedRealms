@@ -1,6 +1,9 @@
 package org.concordiacraft.redrealms.commands.town;
 
 import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.DataTown;
 import org.concordiacraft.redrealms.data.DataPlayer;
@@ -20,6 +23,7 @@ public class TownCreate implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(ConfigLocalization.getString("msg_error_only_for_players"));
             return true;
