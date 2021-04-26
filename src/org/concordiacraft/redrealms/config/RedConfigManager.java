@@ -4,7 +4,7 @@ import org.concordiacraft.redrealms.main.RedRealms;
 
 import java.io.File;
 
-public class RedRealmsSettings {
+public class RedConfigManager {
 
 
     // Config Initialization
@@ -14,9 +14,9 @@ public class RedRealmsSettings {
         File redRealmsDataFolder = plugin.getDataFolder();
         if (!redRealmsDataFolder.isDirectory())
         {
-            RedRealms.redlog.warning("The folder with the plugin settings storage was not detected");
+            plugin.getRedLogger().warning("The folder with the plugin settings storage was not detected");
+            plugin.getRedLogger().warning("Creating a new settings folder");
             redRealmsDataFolder.mkdir();
-            RedRealms.redlog.warning("Creating a new settings folder");
         }
         //endregion
 
@@ -26,6 +26,6 @@ public class RedRealmsSettings {
         ConfigLocalization configLocalization = new ConfigLocalization(plugin, "settings" + File.separator + "localization" + File.separator + ConfigDefault.getGlobalLocalization());
 
         // End message
-        RedRealms.redlog.info("The plugin configuration was loaded");
+        plugin.getRedLogger().info("The plugin configuration was loaded");
     }
 }

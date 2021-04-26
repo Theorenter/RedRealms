@@ -21,7 +21,7 @@ public class DataChunk implements IPluginFile{
     public DataChunk(Chunk chunk){
         this.setChunk(chunk);
         this.setWorld(chunk.getWorld());
-        if (!readFile()) this.biomeKey = ChunkWork.getBiome(chunk);
+        if (!readFile()) this.biomeKey = ChunkWork.getBiome(chunk).name();
     }
     //
     public DataChunk(ArrayList<Integer> chunk){

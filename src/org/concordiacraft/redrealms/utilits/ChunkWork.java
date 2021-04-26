@@ -2,6 +2,7 @@ package org.concordiacraft.redrealms.utilits;
 
 
 import org.bukkit.Chunk;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.data.DataChunk;
 import org.concordiacraft.redrealms.data.DataPlayer;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 // This class allows easy conversion between Bukkit class Chunk and our chunks
-public abstract class ChunkWork {
+public final class ChunkWork {
 
     //@param X chunk X
     //@param Z chunk Z
@@ -51,13 +52,13 @@ public abstract class ChunkWork {
         chunkCoords.add(chunk.getZ());
         return chunks.contains(chunkCoords);
     }
-    public static String getBiome(Chunk chunk){
+    public static Biome getBiome(Chunk chunk) {
         int maxCount = 0;
-        String maxBiome = "";
-        HashMap<String,Integer> biomeCount = new HashMap<>(); 
-        for (int x = 0;x<16;x++) {
-            for (int z = 0;z<16;z++) {
-                String biome = chunk.getBlock(x, 64, z).getBiome().getKey().toString();
+        Biome maxBiome = null;
+        HashMap<Biome, Integer> biomeCount = new HashMap<>();
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                Biome biome = chunk.getBlock(x, 64, z).getBiome();
                 if (biomeCount.containsKey(biome)) {
                     int biomeC = biomeCount.get(biome) + 1;
                     if (biomeC > maxCount) maxBiome = biome;
@@ -66,6 +67,5 @@ public abstract class ChunkWork {
             }
         }
         return maxBiome;
-        }
-
+    }
 }

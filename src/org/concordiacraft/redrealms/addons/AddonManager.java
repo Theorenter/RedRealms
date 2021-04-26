@@ -1,12 +1,11 @@
 package org.concordiacraft.redrealms.addons;
 
 import org.bukkit.Bukkit;
-import org.concordiacraft.redrealms.listeners.customitems.CustomItemRiderModifier;
-import org.concordiacraft.redrealms.listeners.customitems.CustomItemShieldBreaker;
-import org.concordiacraft.redrealms.listeners.TownNewListener;
+import org.concordiacraft.redrealms.listeners.reditems.TownBannerPlaceListener;
 import org.concordiacraft.redrealms.main.RedRealms;
 
 public class AddonManager {
+
     private static Boolean redItemsStatus = null;
     private static Boolean redUtilsStatus = null;
 
@@ -30,11 +29,9 @@ public class AddonManager {
 
     private static void RedItemsManage(Boolean hasAddon) {
         if (hasAddon) {
-            Bukkit.getPluginManager().registerEvents(new CustomItemShieldBreaker(RedRealms.getPlugin()), RedRealms.getPlugin());
-            Bukkit.getPluginManager().registerEvents(new CustomItemRiderModifier(RedRealms.getPlugin()), RedRealms.getPlugin());
-            Bukkit.getPluginManager().registerEvents(new TownNewListener(RedRealms.getPlugin()), RedRealms.getPlugin());
+            Bukkit.getPluginManager().registerEvents(new TownBannerPlaceListener(), RedRealms.getPlugin());
         } else {
-            RedRealms.redlog.warning("This server does not use the RedItems addon! ");
+            RedRealms.getPlugin().getRedLogger().warning("This server does not use the RedItems addon!");
         }
     }
 }

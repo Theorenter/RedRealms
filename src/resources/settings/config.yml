@@ -1,22 +1,124 @@
 ############################################################
 # +------------------------------------------------------+ #
-# |            RedRealms Configuration File              | #
+# |              Main plugin interfacing                 | #
 # +------------------------------------------------------+ #
 ############################################################
 
-# The language file you wish to use
-localization: default.yml
-
-
-############################################################
-# +------------------------------------------------------+ #
-# |                 Plugin interfacing                   | #
-# +------------------------------------------------------+ #
-############################################################
-
-plugin:
+main:
   # Track all plugin actions that will be displayed in the console
   debug: true
-  # Plugin's localization file name
-  # Link to the resource pack used by the plugin
-  resource-pack: "https://drive.google.com/drive/folders/1suZcXkioTbFxqoLzY78da4PDHySS1ZUz?usp=sharing"
+
+  # The language file you wish to use
+  localization: default.yml
+
+############################################################
+# +------------------------------------------------------+ #
+# |                     Plugim biomes                    | #
+# +------------------------------------------------------+ #
+############################################################
+
+biomes:
+  # List of the biomes types
+  biomes-list:
+    snowy:
+      - "SNOWY_TUNDRA"
+      - "FROZEN_RIVER"
+      - "SNOWY_MOUNTAINS"
+      - "SNOWY_BEACH"
+      - "SNOWY_TAIGA"
+      - "SNOWY_TAIGA_HILLS"
+      - "ICE_SPIKES"
+      - "SNOWY_TAIGA_MOUNTAINS"
+    cold:
+      - "MOUNTAINS"
+      - "TAIGA"
+      - "TAIGA_HILLS"
+      - "MOUNTAIN_EDGE"
+      - "GIANT_TREE_TAIGA"
+      - "GIANT_TREE_TAIGA_HILLS"
+      - "GRAVELLY_MOUNTAINS"
+      - "TAIGA_MOUNTAINS"
+      - "GIANT_SPRUCE_TAIGA"
+      - "GIANT_SPRUCE_TAIGA_HILLS"
+      - "MODIFIED_GRAVELLY_MOUNTAINS"
+    temperate:
+      - "PLAINS"
+      - "FOREST"
+      - "SWAMP"
+      - "RIVER"
+      - "MUSHROOM_FIELDS"
+      - "MUSHROOM_FIELD_SHORE"
+      - "BEACH"
+      - "WOODED_HILLS"
+      - "JUNGLE"
+      - "JUNGLE_HILLS"
+      - "JUNGLE_EDGE"
+      - "STONE_SHORE"
+      - "BIRCH_FOREST"
+      - "BIRCH_FOREST_HILLS"
+      - "DARK_FOREST"
+      - "WOODED_MOUNTAINS"
+      - "SUNFLOWER_PLAINS"
+      - "FLOWER_FOREST"
+      - "SWAMP_HILLS"
+      - "MODIFIED_JUNGLE"
+      - "MODIFIED_JUNGLE_EDGE"
+      - "TALL_BIRCH_FOREST"
+      - "TALL_BIRCH_HILLS"
+      - "DARK_FOREST_HILLS"
+      - "BAMBOO_JUNGLE"
+      - "BAMBOO_JUNGLE_HILLS"
+    warm:
+      - "DESERT"
+      - "DESERT_HILLS"
+      - "SAVANNA"
+      - "SAVANNA_PLATEAU"
+      - "BADLANDS"
+      - "WOODED_BADLANDS_PLATEAU"
+      - "BADLANDS_PLATEAU"
+      - "DESERT_LAKES"
+      - "SHATTERED_SAVANNA"
+      - "SHATTERED_SAVANNA_PLATEAU"
+      - "ERODED_BADLANDS"
+      - "MODIFIED_WOODED_BADLANDS_PLATEAU"
+      - "MODIFIED_BADLANDS_PLATEAU"
+    water:
+      - "OCEAN"
+      - "DEEP_OCEAN"
+      - "FROZEN_OCEAN"
+      - "DEEP_FROZEN_OCEAN"
+      - "COLD_OCEAN"
+      - "DEEP_COLD_OCEAN"
+      - "WARM_OCEAN"
+      - "DEEP_WARM_OCEAN"
+      - "LUKEWARM_OCEAN"
+      - "DEEP_LUKEWARM_OCEAN"
+    nether:
+      - "NETHER_WASTES"
+      - "SOUL_SAND_VALLEY"
+      - "CRIMSON_FOREST"
+      - "WARPED_FOREST"
+      - "BASALT_DELTAS"
+    end:
+      - "THE_END"
+      - "SMALL_END_ISLANDS"
+      - "END_MIDLANDS"
+      - "END_HIGHLANDS"
+      - "END_BARRENS"
+      - "THE_VOID"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                   Managing strings                   | #
+# +------------------------------------------------------+ #
+############################################################
+
+string-format:
+  # Character max-limit for naming cities, regions, and states
+  name-max-length: 24
+
+  # Character min-limit for naming cities, regions, and states
+  name-min-length: 2
+
+  # Acceptable characters in the names of cities, states, regions, etc.
+  name-regex: '^[а-яА-Я0-9._\[\]-]*$'
