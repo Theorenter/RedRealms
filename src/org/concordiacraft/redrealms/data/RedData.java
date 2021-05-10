@@ -1,20 +1,26 @@
 package org.concordiacraft.redrealms.data;
 
-import org.bukkit.block.banner.Pattern;
+import org.bukkit.Chunk;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class RedData {
     abstract File getFile();
 
+    //
+    public static HashMap<ArrayList<Integer>, RedChunk> allChunks = new HashMap<>();
+    public static HashMap<String, RedTown> allTowns = new HashMap<>();
+    public static HashMap<Player,RedPlayer> allPlayers = new HashMap<>();
     protected boolean setCustomFile(){
         return false;
     };
@@ -79,5 +85,34 @@ public abstract class RedData {
         if (!getFile().exists())
         getFile().delete();
     }
+    public RedChunk createChunk(Chunk chunk){
+        ArrayList<Integer> convertedChunk = ChunkWork.chunkCreate(chunk);
+        if (allChunks.containsKey(convertedChunk)){
+            return allChunks.get(convertedChunk);
+        } else {
+            RedChunk newChunk = new RedChunk(convertedChunk);
+            allChunks.put(convertedChunk,newChunk);
+            return newChunk;
+        }
+    }
+    public RedTown createTown(String name){
 
+        if (allTowns.containsKey(name)){
+            return allTowns.get(name);
+        } else {
+            RedTown newTown = new RedTown(name);
+            allTowns.put(name,newTown);
+            return newTown;
+        }
+    }
+    public RedPlayer createPlayer(Player player){
+
+        if (allPlayers.containsKey(player)){
+            return allPlayers.get(player);
+        } else {
+            RedPlayer newPlayer = new RedPlayer(player);
+            allPlayers.put(player,newPlayer);
+            return newPlayer;
+        }
+    }
 }

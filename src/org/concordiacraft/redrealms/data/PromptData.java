@@ -19,7 +19,7 @@ public class PromptData {
 
     private final static String fileName = "prompt-data.yml";
     private final static File promptDataFile = new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator + fileName);
-    private final static YamlConfiguration yamlConf = new YamlConfiguration();;
+    private final static YamlConfiguration yamlConf = new YamlConfiguration();
 
     public static void loadPromptData(RedRealms plugin) {
         if (promptDataFile.exists()) {

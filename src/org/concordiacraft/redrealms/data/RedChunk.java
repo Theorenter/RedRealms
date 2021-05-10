@@ -1,6 +1,7 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.World;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.Chunk;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
@@ -25,16 +26,19 @@ public class RedChunk extends RedData {
 
     public RedChunk(Chunk chunk) {
         this.setChunk(chunk);
-        this.setWorld(chunk.getWorld());
-        if (!readFile()) this.biomeKey = ChunkWork.getBiome(chunk).name();
-        updateFile();
+        if (!readFile()){
+            this.setWorld(chunk.getWorld());
+            this.biomeKey = ChunkWork.getBiome(chunk).name();
+            updateFile();
+        }
     }
 
     public RedChunk(ArrayList<Integer> chunk){
         this.X = chunk.get(0);
         this.Z = chunk.get(1);
-        this.world = "world";
-        readFile();
+        if (!readFile()){
+            updateFile();
+        }
     }
 
     public String getWorld() {

@@ -1,6 +1,7 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.Chunk;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
@@ -22,9 +23,7 @@ public class RedRegion extends RedData {
         this.townName = townName;
         readFile();
     }
-    public RedRegion(){
 
-    }
     public String getName() {
         return name;
     }

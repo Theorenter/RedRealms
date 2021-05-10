@@ -30,7 +30,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
 
         // Settings init
         RedConfigManager.initialization(this);
-        RedRealmsData.initialization(this);
+        DataManager.initialization(this);
 
         // Listeners (without addons)
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);

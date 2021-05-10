@@ -1,5 +1,6 @@
 package org.concordiacraft.redrealms.data;
 
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.entity.Player;
 
@@ -55,8 +56,11 @@ public class RedPlayer extends RedData {
     public RedPlayer(Player p) {
 
         this.id = p.getUniqueId().toString();
-        this.name = p.getName();
-        readFile();
+
+        if (!readFile()) {
+            this.name = p.getName();
+            updateFile();
+        }
     }
 
 }

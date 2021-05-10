@@ -6,6 +6,8 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
+import org.concordiacraft.redrealms.data.RedChunk;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
@@ -31,13 +33,12 @@ public class RedTown extends RedData {
     }
 
     public RedTown(String townName, Player mayor, ItemStack townBanner, Chunk capitalChunk) {
+        if(!readFile())
         this.townName = townName;
         this.mayorID = mayor.getUniqueId().toString();
         this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
         addChunk(capitalChunk);
-
         Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, mayor, townBanner, capitalChunk));
-
         new RedChunk(capitalChunk);
         updateFile();
     }
