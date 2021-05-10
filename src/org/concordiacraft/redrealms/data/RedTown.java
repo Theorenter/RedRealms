@@ -1,22 +1,45 @@
 package org.concordiacraft.redrealms.data;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class DataTown implements IPluginFile {
+public class RedTown extends RedData {
     private String townName;
-    private String playerID;
+    private String mayorID;
+
     private ArrayList<String> residentID = new ArrayList<>();
-    ArrayList<Integer> chunkCoords = new ArrayList<>();
+    ArrayList<Integer> capitalChunk = new ArrayList<>();
+
+    private HashMap<String, List<Pattern>> townBanner = new HashMap<>();
     ArrayList<ArrayList<Integer>> chunks = new ArrayList<>();
-    public DataTown(String townName) {
+
+    public RedTown(String townName) {
         this.townName = townName;
         readFile();
+    }
 
+    public RedTown(String townName, Player mayor, ItemStack townBanner, Chunk capitalChunk) {
+        this.townName = townName;
+        this.mayorID = mayor.getUniqueId().toString();
+        this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
+        addChunk(capitalChunk);
+
+        Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, mayor, townBanner, capitalChunk));
+
+        new RedChunk(capitalChunk);
+        updateFile();
     }
 
     //region Getters,setters,implemented functions
@@ -25,16 +48,16 @@ public class DataTown implements IPluginFile {
                 "towns" + File.separator + townName + ".yml");
     }
 
-    public ArrayList<Integer> getChunkCoords() {
-        return chunkCoords;
+    public ArrayList<Integer> getCapitalChunk() {
+        return capitalChunk;
     }
 
-    public void setChunkCoords(ArrayList<Integer> chunkCoords) {
-        this.chunkCoords = chunkCoords;
+    public void setCapitalChunk(ArrayList<Integer> capitalChunk) {
+        this.capitalChunk = capitalChunk;
     }
     public void setChunkCoords(int ChunkX,int ChunkZ) {
-        chunkCoords.add(ChunkX);
-        chunkCoords.add(ChunkZ);
+        capitalChunk.add(ChunkX);
+        capitalChunk.add(ChunkZ);
     }
     public String getTownName() {
         return townName;
@@ -57,12 +80,8 @@ public class DataTown implements IPluginFile {
         return chunks;
     }
 
-    public String getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(String playerID) {
-        this.playerID = playerID;
+    public void setMayorID(String playerID) {
+        this.mayorID = playerID;
     }
 
     public ArrayList<String> getResidentNames() {

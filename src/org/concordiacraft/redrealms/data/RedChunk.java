@@ -8,7 +8,12 @@ import org.concordiacraft.redrealms.utilits.ChunkWork;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DataChunk implements IPluginFile{
+/**
+ * @author Theorneter, Nicekita
+ * Class for working with data about chunks
+ */
+
+public class RedChunk extends RedData {
     private String world;
     private Integer X;
     private Integer Z;
@@ -18,18 +23,20 @@ public class DataChunk implements IPluginFile{
     private String chunkProf;
     private String biomeKey;
 
-    public DataChunk(Chunk chunk){
+    public RedChunk(Chunk chunk) {
         this.setChunk(chunk);
         this.setWorld(chunk.getWorld());
         if (!readFile()) this.biomeKey = ChunkWork.getBiome(chunk).name();
+        updateFile();
     }
-    //
-    public DataChunk(ArrayList<Integer> chunk){
+
+    public RedChunk(ArrayList<Integer> chunk){
         this.X = chunk.get(0);
         this.Z = chunk.get(1);
         this.world = "world";
         readFile();
     }
+
     public String getWorld() {
         return world;
     }

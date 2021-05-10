@@ -4,6 +4,10 @@ import org.bukkit.Bukkit;
 import org.concordiacraft.redrealms.listeners.reditems.TownBannerPlaceListener;
 import org.concordiacraft.redrealms.main.RedRealms;
 
+/**
+ * @author Theorenter
+ * Class manager for accounting for other RedPlagins
+ */
 public class AddonManager {
 
     private static Boolean redItemsStatus = null;

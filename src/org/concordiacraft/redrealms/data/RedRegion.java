@@ -7,7 +7,7 @@ import org.concordiacraft.redrealms.utilits.ChunkWork;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DataRegion implements IPluginFile {
+public class RedRegion extends RedData {
     private String name;
     private String townName;
     private ArrayList<ArrayList<Integer>> chunks = new ArrayList<>();
@@ -17,12 +17,12 @@ public class DataRegion implements IPluginFile {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "region" + File.separator + fileName +  ".yml");
     }
-    public DataRegion(String name,String townName){
+    public RedRegion(String name, String townName){
         this.name = name;
         this.townName = townName;
         readFile();
     }
-    public DataRegion(){
+    public RedRegion(){
 
     }
     public String getName() {

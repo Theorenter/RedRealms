@@ -1,11 +1,14 @@
 package org.concordiacraft.redrealms.main;
 
 import org.concordiacraft.redrealms.addons.AddonManager;
-import org.concordiacraft.redrealms.commands.AddChunk;
-import org.concordiacraft.redrealms.commands.town.RegionManagament;
+import org.concordiacraft.redrealms.chat.RedChat;
+import org.concordiacraft.redrealms.commands.gui.Menu;
+import org.concordiacraft.redrealms.commands.gui.Profile;
+import org.concordiacraft.redrealms.commands.gui.Realm;
+import org.concordiacraft.redrealms.commands.gui.Town;
 import org.concordiacraft.redrealms.config.RedConfigManager;
-import org.concordiacraft.redrealms.data.PromptData;
-import org.concordiacraft.redrealms.data.RedRealmsData;
+import org.concordiacraft.redrealms.data.*;
+import org.concordiacraft.redrealms.listeners.GUIListener;
 import org.concordiacraft.redrealms.listeners.PlayerInteractListener;
 import org.concordiacraft.redrealms.listeners.PlayerJoin;
 import org.bukkit.Bukkit;
@@ -16,7 +19,6 @@ import org.concordiacraft.redutils.main.RedPlugin;
 import org.concordiacraft.redutils.main.utils.RedLog;
 
 public class RedRealms extends JavaPlugin implements RedPlugin {
-
     private static RedLog redlog;
 
     @Override
@@ -35,10 +37,14 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         Bukkit.getPluginManager().registerEvents(new ChunkGuardListener(), this);
         Bukkit.getPluginManager().registerEvents(new TownListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
+        Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
+        Bukkit.getPluginManager().registerEvents(new RedChat(), this);
 
         // Commands
-        getCommand("addchunk").setExecutor(new AddChunk(this));
-        getCommand("region").setExecutor(new RegionManagament(this));
+        getCommand("menu").setExecutor(new Menu());
+        getCommand("profile").setExecutor(new Profile());
+        getCommand("town").setExecutor(new Town());
+        getCommand("realm").setExecutor(new Realm());
 
         // Data
         PromptData.loadPromptData(this);

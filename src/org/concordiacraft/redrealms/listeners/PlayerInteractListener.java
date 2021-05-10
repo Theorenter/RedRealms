@@ -13,7 +13,7 @@ public class PlayerInteractListener implements Listener {
     public void blockWhenPrompt(PlayerInteractEvent e) {
         if (PromptData.getPromptMap().containsKey(e.getPlayer().getUniqueId())) {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(RedFormatter.format(ConfigLocalization.getString("messages.errors.player-in-prompt")));
+            e.getPlayer().sendMessage(RedFormatter.format(ConfigLocalization.getRawString("messages.errors.player-in-prompt")));
         }
     }
 }

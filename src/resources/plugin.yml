@@ -7,12 +7,15 @@ authors:
   - Nicekita
 softdepend: [RedUtils]
 commands:
-  towncreate:
-    description: 'Create a new camp'
-    usage: /towncreate <name>
-  addchunk:
-    description: 'Adds Chunk to Currently existing realm'
-    usage: /addchunk
-  region:
-    description: 'Adds interaction with regions'
-    usage: /region add  adds chunk you are standing on. /region create <name>
+  menu:
+    description: "Открыть внутриигровое меню"
+    usage: /menu
+  profile:
+    description: "Октрыть меню личного профиля"
+    usage: /profile
+  town:
+    description: "Открыть меню взаимодействия с Вашим городом"
+    usage: /town
+  realm:
+    description: "Открыть меню взаимодействия с Вашей державой"
+    usage: /realm

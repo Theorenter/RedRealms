@@ -5,9 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.concordiacraft.redrealms.data.DataChunk;
-import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataRegion;
+import org.concordiacraft.redrealms.data.RedChunk;
+import org.concordiacraft.redrealms.data.RedPlayer;
+import org.concordiacraft.redrealms.data.RedRegion;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
@@ -30,11 +30,11 @@ public class RegionManagament implements CommandExecutor {
         Player player = (Player) commandSender;
         if (strings[0].equalsIgnoreCase("create")){
             if (strings.length!=2) {player.sendMessage("Введите название региона"); return true;}
-            DataPlayer dataPlayer = new DataPlayer(player);
-            DataRegion region = new DataRegion(strings[1],dataPlayer.getRealm());
+            RedPlayer redPlayer = new RedPlayer(player);
+            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (region.getFile().exists()) {player.sendMessage("Регион с таким названием уже существует"); return true;}
             Chunk gameChunk = player.getLocation().getChunk();
-            DataChunk chunk = new DataChunk(gameChunk);
+            RedChunk chunk = new RedChunk(gameChunk);
 
             if (chunk.getTownRegion()!=null||chunk.getOwner()!=null) {player.sendMessage("Этот чанк уже занят другим регионом или не находится в городе"); return true;}
             chunk.setTownRegion(strings[1]);
@@ -46,13 +46,13 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("add")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
-            DataPlayer dataPlayer = new DataPlayer(player);
-            if (dataPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
-            DataRegion region = new DataRegion(strings[1],dataPlayer.getRealm());
+            RedPlayer redPlayer = new RedPlayer(player);
+            if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
+            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (!region.readFile()) {commandSender.sendMessage("Данного региона не существует"); return true;}
-            DataChunk chunk = new DataChunk(player.getLocation().getChunk());
+            RedChunk chunk = new RedChunk(player.getLocation().getChunk());
             if (chunk.getTownRegion()!=null) {commandSender.sendMessage("Данный чанк принадлежит другому региону!"); return true;}
-            if (!chunk.getOwner().equalsIgnoreCase(dataPlayer.getRealm())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
+            if (!chunk.getOwner().equalsIgnoreCase(redPlayer.getRealm())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
             chunk.setTownRegion(strings[1]);
             region.addChunk(player.getLocation().getChunk());
             chunk.updateFile();
@@ -60,9 +60,9 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("remove")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
-            DataPlayer dataPlayer = new DataPlayer(player);
-            if (dataPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
-            DataRegion region = new DataRegion(strings[1],dataPlayer.getRealm());
+            RedPlayer redPlayer = new RedPlayer(player);
+            if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
+            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (!region.readFile()) {commandSender.sendMessage("Данный чанк не занят регионом"); return true;}
             if (region.getChunks().contains(ChunkWork.chunkCreate(((Player) commandSender).getLocation().getChunk()))) {
                region.removeChunk(((Player) commandSender).getLocation().getChunk());
@@ -72,8 +72,8 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("set")) {
             if (strings.length>3) {return false;}
-            DataPlayer playerSender = new DataPlayer(player);
-            DataRegion region = new DataRegion(strings[1],playerSender.getRealm());
+            RedPlayer playerSender = new RedPlayer(player);
+            RedRegion region = new RedRegion(strings[1],playerSender.getRealm());
             if (!region.readFile()) {
                 commandSender.sendMessage("Region does not exists");
                 return true;
@@ -81,7 +81,7 @@ public class RegionManagament implements CommandExecutor {
             //todo set chunkProfs/free
             if(!chunkProfs.contains(strings[2])){commandSender.sendMessage("Данной специализации региона не существует");return true;}
             region.getChunks().forEach(chunk -> {
-                DataChunk mChunk = new DataChunk(chunk);
+                RedChunk mChunk = new RedChunk(chunk);
                 mChunk.setChunkProf(strings[2]);
             });
             commandSender.sendMessage("Специализация чанков успешно изменена!");

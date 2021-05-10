@@ -11,12 +11,14 @@ public class TownCreationConversationEvent extends Event implements Cancellable 
 
     private static final HandlerList handlers = new HandlerList();
 
+    private String townName;
     private Player townFounder;
     private ItemStack townBanner;
     private Chunk townChunk;
     private boolean cancelled;
 
-    public TownCreationConversationEvent(Player townFounder, ItemStack townBanner, Chunk townChunk) {
+    public TownCreationConversationEvent(String townName, Player townFounder, ItemStack townBanner, Chunk townChunk) {
+        this.townName = townName;
         this.townFounder = townFounder;
         this.townBanner = townBanner;
         this.townChunk = townChunk;
@@ -25,6 +27,8 @@ public class TownCreationConversationEvent extends Event implements Cancellable 
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
+    public String getTownName() { return townName; }
 
     public Player getTownFounder() {
         return townFounder;

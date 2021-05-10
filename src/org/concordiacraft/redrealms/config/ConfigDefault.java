@@ -6,6 +6,10 @@ import org.concordiacraft.redutils.main.config.ConfigAbstractSetup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Theorenter
+ * Default RedRealms configuration
+ */
 public final class ConfigDefault extends ConfigAbstractSetup {
 
     private static boolean debugMode;

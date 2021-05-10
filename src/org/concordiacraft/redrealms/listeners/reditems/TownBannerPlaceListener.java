@@ -8,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,7 +16,6 @@ import org.concordiacraft.reditems.main.RedItems;
 import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.PromptData;
-import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.prompts.town.TownCreatePrompt;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
@@ -40,7 +38,7 @@ public class TownBannerPlaceListener implements Listener {
 
         Player p = e.getPlayer();
         if (!p.hasPermission("redrealms.town.create")) {
-            p.sendMessage(ConfigLocalization.getFormatString("msg-error-dont-have-permissions-to-do"));
+            p.sendMessage(ConfigLocalization.getString("msg-error-dont-have-permissions-to-do"));
             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 1);
             return;
         }
@@ -76,7 +74,7 @@ public class TownBannerPlaceListener implements Listener {
         }
 
         // Conversation
-        TownCreatePrompt prompt = new TownCreatePrompt(biomeType);
+        TownCreatePrompt prompt = new TownCreatePrompt(biomeType, p.getWorld().getChunkAt(p.getLocation()), townBanner);
         ConversationFactory cf = new ConversationFactory(RedRealms.getPlugin()).withFirstPrompt(prompt);
         cf.buildConversation(p).begin();
 

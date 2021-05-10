@@ -1,13 +1,10 @@
 package org.concordiacraft.redrealms.commands.town;
 
 import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
-import org.concordiacraft.redrealms.data.DataTown;
-import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataChunk;
+import org.concordiacraft.redrealms.data.RedTown;
+import org.concordiacraft.redrealms.data.RedPlayer;
+import org.concordiacraft.redrealms.data.RedChunk;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +23,7 @@ public class TownCreate implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(ConfigLocalization.getString("msg_error_only_for_players"));
+            commandSender.sendMessage(ConfigLocalization.getRawString("msg_error_only_for_players"));
             return true;
         }
 
@@ -35,31 +32,31 @@ public class TownCreate implements CommandExecutor {
 
         Player playerSender = (Player) commandSender;
         Chunk chunk = playerSender.getLocation().getChunk();
-        DataTown town = new DataTown(strings[0]);
+        RedTown town = new RedTown(strings[0]);
         if (town.readFile()) {
-            commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_name_already"));
+            commandSender.sendMessage(ConfigLocalization.getString("msg_error_this_name_already"));
             return true;
         }
         //add data in town file
-        town.setPlayerID(playerSender.getUniqueId().toString());
+        town.setMayorID(playerSender.getUniqueId().toString());
         town.addResident(playerSender.getUniqueId().toString());
         town.setChunkCoords(chunk.getX(),chunk.getZ());
         town.addChunk(chunk.getX(),chunk.getZ());
         town.updateFile();
         //creating region file
-        DataChunk region = new DataChunk(chunk);
+        RedChunk region = new RedChunk(chunk);
         region.readFile();
         if (region.getOwner() != null){
-            commandSender.sendMessage(ConfigLocalization.getFormatString("msg_error_this_territory_already"));
+            commandSender.sendMessage(ConfigLocalization.getString("msg_error_this_territory_already"));
             return true;
         }
         region.setOwner(strings[0]);
         region.setTownRegion("capital");
         region.updateFile();
         //add data in player file
-        DataPlayer dataPlayer = new DataPlayer(playerSender);
-        dataPlayer.setRealm(strings[0]);
-        dataPlayer.updateFile();
+        RedPlayer redPlayer = new RedPlayer(playerSender);
+        redPlayer.setRealm(strings[0]);
+        redPlayer.updateFile();
         playerSender.sendMessage("Лагерь "+ strings[0]+ " успешно создан!");
 
         return true;

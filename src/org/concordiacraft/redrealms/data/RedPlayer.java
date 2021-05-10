@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-public class DataPlayer implements IPluginFile {
+public class RedPlayer extends RedData {
 
     // Fields
     private final String id;
@@ -52,7 +52,7 @@ public class DataPlayer implements IPluginFile {
     }
 
     // Constructor
-    public DataPlayer(Player p) {
+    public RedPlayer(Player p) {
 
         this.id = p.getUniqueId().toString();
         this.name = p.getName();

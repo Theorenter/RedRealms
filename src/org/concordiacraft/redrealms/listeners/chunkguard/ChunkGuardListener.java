@@ -9,7 +9,7 @@ import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
-import org.concordiacraft.redrealms.data.DataChunk;
+import org.concordiacraft.redrealms.data.RedChunk;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.util.ArrayList;
@@ -18,50 +18,50 @@ import java.util.List;
 public class ChunkGuardListener implements Listener {
     
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void PlayerInteractTownBlock(PlayerInteractEvent e) {
+    public void playerInteractTownBlock(PlayerInteractEvent e) {
         if (!e.hasBlock()) return;
         Block block = e.getClickedBlock();
-        DataChunk chunk = new DataChunk(block.getChunk());
+        RedChunk chunk = new RedChunk(block.getChunk());
         chunk.readFile();
 
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ConfigLocalization.getFormatString("msg_error_private_territory_break"));
+            e.getPlayer().sendMessage(ConfigLocalization.getString("msg_error_private_territory_break"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void PlayerBreakTownBlock(BlockBreakEvent e) {
+    public void playerBreakTownBlock(BlockBreakEvent e) {
         Block block = e.getBlock();
-        DataChunk chunk = new DataChunk(block.getChunk());
+        RedChunk chunk = new RedChunk(block.getChunk());
         chunk.readFile();
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ConfigLocalization.getFormatString("msg_error_private_territory_break"));
+            e.getPlayer().sendMessage(ConfigLocalization.getString("msg_error_private_territory_break"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void TownExplode(EntityExplodeEvent e) {
-        DataChunk chunk = new DataChunk(e.getLocation().getChunk());
+    public void townExplode(EntityExplodeEvent e) {
+        RedChunk chunk = new RedChunk(e.getLocation().getChunk());
         if (chunk.getOwner()!=null) {
             e.setCancelled(true);
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void InTownFluidFlow(BlockFromToEvent e){
-        DataChunk chunkFrom = new DataChunk(e.getBlock().getChunk());
-        DataChunk chunkTo = new DataChunk(e.getToBlock().getChunk());
+    public void inTownFluidFlow(BlockFromToEvent e){
+        RedChunk chunkFrom = new RedChunk(e.getBlock().getChunk());
+        RedChunk chunkTo = new RedChunk(e.getToBlock().getChunk());
         if (!chunkTo.readFile()) return;
         if (!chunkFrom.getOwner().equals(chunkTo.getOwner())&&chunkTo.getOwner()!=null) {e.setCancelled(true);}
     }
     @EventHandler(priority = EventPriority.HIGH)
-    public void CloseToTownExplode(EntityExplodeEvent e) {
-        DataChunk chunk = new DataChunk(e.getLocation().getChunk());
+    public void closeToTownExplode(EntityExplodeEvent e) {
+        RedChunk chunk = new RedChunk(e.getLocation().getChunk());
         List<Block> blockList = new ArrayList<>();
         if (chunk.getOwner()==null) {
             for (Block b:e.blockList()) {
-                chunk = new DataChunk(b.getChunk());
+                chunk = new RedChunk(b.getChunk());
                 if (chunk.getOwner()!=null) {
                     e.blockList().remove(b);
                 }

@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-import org.concordiacraft.redrealms.data.DataTown;
+import org.concordiacraft.redrealms.data.RedTown;
 
 public class TownCreateEvent extends Event implements Cancellable {
 
@@ -13,10 +13,10 @@ public class TownCreateEvent extends Event implements Cancellable {
 
     private Player townFounder;
     private ItemStack townBanner;
-    private DataTown newTown;
+    private RedTown newTown;
     private boolean cancelled;
 
-    public TownCreateEvent(Player townFounder, DataTown newTown) {
+    public TownCreateEvent(Player townFounder, RedTown newTown) {
         this.townFounder = townFounder;
         this.newTown = newTown;
     }
@@ -43,7 +43,7 @@ public class TownCreateEvent extends Event implements Cancellable {
         return townFounder;
     }
 
-    public DataTown getNewTown() {
+    public RedTown getNewTown() {
         return newTown;
     }
 

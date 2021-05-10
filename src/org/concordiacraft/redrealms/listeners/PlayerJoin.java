@@ -1,10 +1,9 @@
 package org.concordiacraft.redrealms.listeners;
 
-import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
-import org.concordiacraft.redrealms.data.DataPlayer;
+import org.concordiacraft.redrealms.data.RedPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,8 +21,8 @@ public class PlayerJoin implements Listener {
     public void firstPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        DataPlayer dataPlayer = new DataPlayer(p);
-        if (!dataPlayer.getFile().exists()) { dataPlayer.updateFile(); }
+        RedPlayer redPlayer = new RedPlayer(p);
+        if (!redPlayer.getFile().exists()) { redPlayer.updateFile(); }
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void interruptedConversationCheck(PlayerJoinEvent e) {
@@ -39,12 +38,12 @@ public class PlayerJoin implements Listener {
 
         if (pi.firstEmpty() == -1) {
             p.getWorld().dropItem(p.getLocation(), i);
-            s = String.format(RedFormatter.format(ConfigLocalization.getString("messages.notifications.prompt-data-item-back"))
-                    + RedFormatter.format(ConfigLocalization.getString("messages.notifications.prompt-data-item-back-inventory-full")), i.getItemMeta().getDisplayName());
+            s = String.format(RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back"))
+                    + RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back-inventory-full")), i.getItemMeta().getDisplayName());
             logS = "Игроку " + e.getPlayer().getName() + " [" + uuid+ "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName() + " (Заспаунился рядом с игроком)";
         } else {
             pi.addItem(i);
-            s = String.format(RedFormatter.format(ConfigLocalization.getString("messages.notifications.prompt-data-item-back")), i.getItemMeta().getDisplayName());
+            s = String.format(RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back")), i.getItemMeta().getDisplayName());
             logS = "Игроку " + e.getPlayer().getName() + " [" + uuid+ "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName();
         }
         p.sendMessage(s);

@@ -4,9 +4,9 @@ package org.concordiacraft.redrealms.utilits;
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
-import org.concordiacraft.redrealms.data.DataChunk;
-import org.concordiacraft.redrealms.data.DataPlayer;
-import org.concordiacraft.redrealms.data.DataTown;
+import org.concordiacraft.redrealms.data.RedChunk;
+import org.concordiacraft.redrealms.data.RedPlayer;
+import org.concordiacraft.redrealms.data.RedTown;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +25,13 @@ public final class ChunkWork {
     }
 
     public static boolean canInteract(Chunk chunk, Player player){
-        DataPlayer dataPlayer = new DataPlayer(player);
-        DataChunk dataChunk = new DataChunk(chunk);
-        if (dataChunk.getOwner()==null) return true;
+        RedPlayer redPlayer = new RedPlayer(player);
+        RedChunk redChunk = new RedChunk(chunk);
+        if (redChunk.getOwner()==null) return true;
 
-        DataTown town = new DataTown(dataChunk.getOwner());
+        RedTown town = new RedTown(redChunk.getOwner());
 
-        return town.getResidentNames().contains(dataPlayer.getId());
+        return town.getResidentNames().contains(redPlayer.getId());
     }
     /*
     @param chunk Chunk we want to convert

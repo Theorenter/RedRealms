@@ -4,6 +4,10 @@ import org.concordiacraft.redrealms.main.RedRealms;
 
 import java.io.File;
 
+/**
+ * @author Theorenter
+ * Plugin Configuration File Loader
+ */
 public class RedConfigManager {
 
 
