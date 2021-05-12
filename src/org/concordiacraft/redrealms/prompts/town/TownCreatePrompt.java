@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redutils.main.utils.RedFormatter;
@@ -151,7 +152,7 @@ public class TownCreatePrompt extends ValidatingPrompt {
         }
 
         // Name check
-        RedTown town = new RedTown(input);
+        RedTown town = RedData.createTown(input);
         if (town.readFile()) {
             context.getForWhom().sendRawMessage(String.format(ConfigLocalization.getString("messages.errors.this-town-name-already-taken"), ConfigDefault.getNameMinLength()));
             hasInvalidInput = true;

@@ -80,7 +80,6 @@ public abstract class RedData {
                 e1.printStackTrace();
             }
         }
-        RedRealms.getPlugin().getRedLogger().debug("Произошло считывание файла");
         return true;
     }
 
@@ -110,13 +109,13 @@ public abstract class RedData {
         }
     }
 
-    public RedPlayer createPlayer(Player player) {
+    public static RedPlayer createPlayer(Player player) {
 
         if (allPlayers.containsKey(player)){
             return allPlayers.get(player);
         } else {
             RedPlayer newPlayer = new RedPlayer(player);
-            allPlayers.put(player,newPlayer);
+            allPlayers.put(player, newPlayer);
             return newPlayer;
         }
     }

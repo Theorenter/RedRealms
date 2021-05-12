@@ -25,11 +25,11 @@ public class AddChunk implements CommandExecutor {
         }
         Player playerSender = (Player) commandSender;
         Chunk chunk = playerSender.getLocation().getChunk();
-        RedPlayer redPlayer = new RedPlayer(playerSender);
+        RedPlayer redPlayer = RedData.createPlayer(playerSender);
         redPlayer.readFile();
 
         String Realm = redPlayer.getRealm();
-        RedTown town = new RedTown(Realm);
+        RedTown town = RedData.createTown(Realm);
         town.readFile();
 
          // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file

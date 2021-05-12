@@ -26,11 +26,11 @@ public final class ChunkWork {
     }
 
     public static boolean canInteract(Chunk chunk, Player player){
-        RedPlayer redPlayer = new RedPlayer(player);
+        RedPlayer redPlayer = RedData.createPlayer(player);
         RedChunk redChunk = RedData.createChunk(chunk);
         if (redChunk.getOwner()==null) return true;
 
-        RedTown town = new RedTown(redChunk.getOwner());
+        RedTown town = RedData.createTown(redChunk.getOwner());
 
         return town.getResidentNames().contains(redPlayer.getId());
     }

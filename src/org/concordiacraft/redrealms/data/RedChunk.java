@@ -1,7 +1,6 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.World;
-import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.Chunk;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class RedChunk extends RedData {
-    private String world;
+    private String worldName;
     private Integer X;
     private Integer Z;
     private String ownerTown;
@@ -35,6 +34,7 @@ public class RedChunk extends RedData {
     }
 
     public RedChunk(ArrayList<Integer> chunk){
+        RedRealms.getPlugin().getRedLogger().debug("Создание нового чанка...");
         this.X = chunk.get(0);
         this.Z = chunk.get(1);
         if (!readFile()){
@@ -42,12 +42,12 @@ public class RedChunk extends RedData {
         }
     }
 
-    public String getWorld() {
-        return world;
+    public String getWorldName() {
+        return worldName;
     }
 
-    public void setWorld(String world) {
-        this.world = world;
+    public void setWorldName(String worldName) {
+        this.worldName = worldName;
     }
 
     public Integer getX() {
@@ -75,12 +75,12 @@ public class RedChunk extends RedData {
     }
 
     public File getFile() {
-        String fileName = world +"_"+ X.toString()+"_"+Z.toString();
+        String fileName = worldName +"_"+ X.toString()+"_"+Z.toString();
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "chunks" + File.separator + fileName +  ".yml");
     }
     public void setWorld(World world){
-        this.world = world.getName();
+        this.worldName = world.getName();
     }
     public void setChunk(Chunk chunk){
         X = chunk.getX();

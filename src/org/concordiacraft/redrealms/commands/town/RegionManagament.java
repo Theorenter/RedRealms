@@ -31,7 +31,7 @@ public class RegionManagament implements CommandExecutor {
         Player player = (Player) commandSender;
         if (strings[0].equalsIgnoreCase("create")){
             if (strings.length!=2) {player.sendMessage("Введите название региона"); return true;}
-            RedPlayer redPlayer = new RedPlayer(player);
+            RedPlayer redPlayer = RedData.createPlayer(player);
             RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (region.getFile().exists()) {player.sendMessage("Регион с таким названием уже существует"); return true;}
             Chunk gameChunk = player.getLocation().getChunk();
@@ -47,7 +47,7 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("add")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
-            RedPlayer redPlayer = new RedPlayer(player);
+            RedPlayer redPlayer = RedData.createPlayer(player);
             if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
             RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (!region.readFile()) {commandSender.sendMessage("Данного региона не существует"); return true;}
@@ -61,7 +61,7 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("remove")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
-            RedPlayer redPlayer = new RedPlayer(player);
+            RedPlayer redPlayer = RedData.createPlayer(player);
             if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
             RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (!region.readFile()) {commandSender.sendMessage("Данный чанк не занят регионом"); return true;}
@@ -73,7 +73,7 @@ public class RegionManagament implements CommandExecutor {
         }
         if (strings[0].equalsIgnoreCase("set")) {
             if (strings.length>3) {return false;}
-            RedPlayer playerSender = new RedPlayer(player);
+            RedPlayer playerSender = RedData.createPlayer(player);
             RedRegion region = new RedRegion(strings[1],playerSender.getRealm());
             if (!region.readFile()) {
                 commandSender.sendMessage("Region does not exists");

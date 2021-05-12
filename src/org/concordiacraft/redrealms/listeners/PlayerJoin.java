@@ -3,6 +3,7 @@ package org.concordiacraft.redrealms.listeners;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public class PlayerJoin implements Listener {
     public void firstPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        RedPlayer redPlayer = new RedPlayer(p);
+        RedPlayer redPlayer = RedData.createPlayer(p);
         if (!redPlayer.getFile().exists()) { redPlayer.updateFile(); }
     }
     @EventHandler(priority = EventPriority.LOWEST)
