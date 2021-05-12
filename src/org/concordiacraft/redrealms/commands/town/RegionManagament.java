@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.data.RedChunk;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedRegion;
 import org.concordiacraft.redrealms.main.RedRealms;
@@ -34,7 +35,7 @@ public class RegionManagament implements CommandExecutor {
             RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (region.getFile().exists()) {player.sendMessage("Регион с таким названием уже существует"); return true;}
             Chunk gameChunk = player.getLocation().getChunk();
-            RedChunk chunk = new RedChunk(gameChunk);
+            RedChunk chunk = RedData.createChunk(gameChunk);
 
             if (chunk.getTownRegion()!=null||chunk.getOwner()!=null) {player.sendMessage("Этот чанк уже занят другим регионом или не находится в городе"); return true;}
             chunk.setTownRegion(strings[1]);
@@ -50,7 +51,7 @@ public class RegionManagament implements CommandExecutor {
             if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
             RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
             if (!region.readFile()) {commandSender.sendMessage("Данного региона не существует"); return true;}
-            RedChunk chunk = new RedChunk(player.getLocation().getChunk());
+            RedChunk chunk = RedData.createChunk(player.getLocation().getChunk());
             if (chunk.getTownRegion()!=null) {commandSender.sendMessage("Данный чанк принадлежит другому региону!"); return true;}
             if (!chunk.getOwner().equalsIgnoreCase(redPlayer.getRealm())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
             chunk.setTownRegion(strings[1]);

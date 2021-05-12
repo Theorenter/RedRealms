@@ -19,7 +19,7 @@ public class DataManager {
         File playersData = new File(dataPath + File.separator + "players");
         File regionsData = new File(dataPath + File.separator + "chunks");
         File townsData = new File(dataPath + File.separator + "towns");
-        File statesData = new File(dataPath + File.separator + "states");
+        File realmsData = new File(dataPath + File.separator + "realms");
         File regionData = new File(dataPath + File.separator + "region");
 
 
@@ -35,8 +35,8 @@ public class DataManager {
         if (!townsData.isDirectory()) {
             townsData.mkdir();
         }
-        if (!statesData.isDirectory()) {
-            statesData.mkdir();
+        if (!realmsData.isDirectory()) {
+            realmsData.mkdir();
         }
     }
 }

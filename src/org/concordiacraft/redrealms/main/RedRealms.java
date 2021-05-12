@@ -1,7 +1,6 @@
 package org.concordiacraft.redrealms.main;
 
 import org.concordiacraft.redrealms.addons.AddonManager;
-import org.concordiacraft.redrealms.chat.RedChat;
 import org.concordiacraft.redrealms.commands.gui.Menu;
 import org.concordiacraft.redrealms.commands.gui.Profile;
 import org.concordiacraft.redrealms.commands.gui.Realm;
@@ -38,7 +37,6 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         Bukkit.getPluginManager().registerEvents(new TownListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
         Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
-        Bukkit.getPluginManager().registerEvents(new RedChat(), this);
 
         // Commands
         getCommand("menu").setExecutor(new Menu());

@@ -39,7 +39,7 @@ public class TownBannerPlaceListener implements Listener {
         Player p = e.getPlayer();
         if (!p.hasPermission("redrealms.town.create")) {
             p.sendMessage(ConfigLocalization.getString("msg-error-dont-have-permissions-to-do"));
-            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 1, 1);
+            p.playSound(p.getLocation(), ConfigDefault.getErrorSoundName(), ConfigDefault.getErrorSoundVolume(), ConfigDefault.getErrorSoundPitch());
             return;
         }
         // TODO Учесть, что игрок не находится в другом городе/государстве
@@ -77,44 +77,5 @@ public class TownBannerPlaceListener implements Listener {
         TownCreatePrompt prompt = new TownCreatePrompt(biomeType, p.getWorld().getChunkAt(p.getLocation()), townBanner);
         ConversationFactory cf = new ConversationFactory(RedRealms.getPlugin()).withFirstPrompt(prompt);
         cf.buildConversation(p).begin();
-
-
-
-        //String townName = null;
-
-        //p.sendMessage(ConfigLocalization.getFormatString("msg_town_create_1"));
-        //Chunk chunk = p.getLocation().getChunk();
-
-            //DataChunks dataChunk = new DataChunks();
-
-        /*dataChunk.setWorld(chunk.getWorld());
-        dataChunk.setChunk(chunk);
-        dataChunk.readFile();
-        if (dataChunk.getOwner() != null) {
-            p.sendMessage(ConfigLocalization.getFormatString("msg_error_this_territory_already"));
-        }
-        dataChunk.setOwner(strings[0]);
-        dataChunk.updateFile();*/
-
-        //if (dataChunk.getOwner() != null){
-        //    townCreator.sendMessage(ConfigLocalization.getFormatString("msg_error_this_territory_already"));
-        //    return;
-        //}
-        //ItemStack townBanner = e.getItem();
-        //townBanner.setAmount(townBanner.getAmount() - 1);
-        //p.getInventory().setItemInMainHand(townBanner);
-        // Установить здесь, чтобы израсходовался один баннер
-        //Biome b = Objects.requireNonNull(e.getClickedBlock()).getBiome();
-        //showBannerInfo(e.getItem(), e.getPlayer());
-    }
-    private static void showBannerInfo(ItemStack banner, Player p) {
-        BannerMeta b = (BannerMeta) banner.getItemMeta();
-        b.getPatterns();
-        p.sendMessage("Паттерн баннера таков:");
-        List<Pattern> tbPatterns = b.getPatterns();
-        for (Pattern pt: tbPatterns) {
-            p.sendMessage("Паттерн: " + pt.getPattern().getIdentifier() + " | Цвет:" + pt.getColor().toString());
-        }
-        p.sendMessage("Цвет флага: " + banner.getType().getKey().getKey());
     }
 }

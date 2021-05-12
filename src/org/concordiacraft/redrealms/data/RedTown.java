@@ -39,7 +39,7 @@ public class RedTown extends RedData {
         this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
         addChunk(capitalChunk);
         Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, mayor, townBanner, capitalChunk));
-        new RedChunk(capitalChunk);
+        RedData.createChunk(capitalChunk);
         updateFile();
     }
 

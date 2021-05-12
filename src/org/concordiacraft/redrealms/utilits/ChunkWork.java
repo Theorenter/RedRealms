@@ -5,6 +5,7 @@ import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.data.RedChunk;
+import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedTown;
 
@@ -26,7 +27,7 @@ public final class ChunkWork {
 
     public static boolean canInteract(Chunk chunk, Player player){
         RedPlayer redPlayer = new RedPlayer(player);
-        RedChunk redChunk = new RedChunk(chunk);
+        RedChunk redChunk = RedData.createChunk(chunk);
         if (redChunk.getOwner()==null) return true;
 
         RedTown town = new RedTown(redChunk.getOwner());

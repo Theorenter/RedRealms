@@ -17,10 +17,11 @@ import java.util.Map;
 public abstract class RedData {
     abstract File getFile();
 
-    //
-    public static HashMap<ArrayList<Integer>, RedChunk> allChunks = new HashMap<>();
-    public static HashMap<String, RedTown> allTowns = new HashMap<>();
-    public static HashMap<Player,RedPlayer> allPlayers = new HashMap<>();
+
+    private static HashMap<ArrayList<Integer>, RedChunk> allChunks = new HashMap<>();
+    private static HashMap<Player, RedPlayer> allPlayers = new HashMap<>();
+    private static HashMap<String, RedTown> allTowns = new HashMap<>();
+
     protected boolean setCustomFile(){
         return false;
     };
@@ -79,13 +80,16 @@ public abstract class RedData {
                 e1.printStackTrace();
             }
         }
+        RedRealms.getPlugin().getRedLogger().debug("Произошло считывание файла");
         return true;
     }
+
     protected void deleteFile(){
         if (!getFile().exists())
         getFile().delete();
     }
-    public RedChunk createChunk(Chunk chunk){
+
+    public static RedChunk createChunk(Chunk chunk) {
         ArrayList<Integer> convertedChunk = ChunkWork.chunkCreate(chunk);
         if (allChunks.containsKey(convertedChunk)){
             return allChunks.get(convertedChunk);
@@ -95,9 +99,9 @@ public abstract class RedData {
             return newChunk;
         }
     }
-    public RedTown createTown(String name){
 
-        if (allTowns.containsKey(name)){
+    public static RedTown createTown(String name) {
+        if (allTowns.containsKey(name)) {
             return allTowns.get(name);
         } else {
             RedTown newTown = new RedTown(name);
@@ -105,7 +109,8 @@ public abstract class RedData {
             return newTown;
         }
     }
-    public RedPlayer createPlayer(Player player){
+
+    public RedPlayer createPlayer(Player player) {
 
         if (allPlayers.containsKey(player)){
             return allPlayers.get(player);
@@ -115,4 +120,17 @@ public abstract class RedData {
             return newPlayer;
         }
     }
+
+    public static HashMap<ArrayList<Integer>, RedChunk> getAllChunks() {
+        return allChunks;
+    }
+
+    public static HashMap<Player, RedPlayer> getAllPlayers() {
+        return allPlayers;
+    }
+
+    public static HashMap<String, RedTown> getAllTowns() {
+        return allTowns;
+    }
+
 }
