@@ -21,9 +21,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void firstPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-
         RedPlayer redPlayer = RedData.createPlayer(p);
-        if (!redPlayer.getFile().exists()) { redPlayer.updateFile(); }
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void interruptedConversationCheck(PlayerJoinEvent e) {

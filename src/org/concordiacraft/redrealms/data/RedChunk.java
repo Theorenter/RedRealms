@@ -23,7 +23,6 @@ public class RedChunk extends RedData {
     private String chunkProf;
     private String biomeKey;
 
-    @Deprecated
     public RedChunk(Chunk chunk) {
         this.setChunk(chunk);
         if (!readFile()){

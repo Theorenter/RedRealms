@@ -18,8 +18,8 @@ public abstract class RedData {
     abstract File getFile();
 
 
-    private static HashMap<ArrayList<Integer>, RedChunk> allChunks = new HashMap<>();
-    private static HashMap<Player, RedPlayer> allPlayers = new HashMap<>();
+    private static HashMap<Chunk, RedChunk> allChunks = new HashMap<>();
+    private static HashMap<String, RedPlayer> allPlayers = new HashMap<>();
     private static HashMap<String, RedTown> allTowns = new HashMap<>();
 
     protected boolean setCustomFile(){
@@ -89,12 +89,12 @@ public abstract class RedData {
     }
 
     public static RedChunk createChunk(Chunk chunk) {
-        ArrayList<Integer> convertedChunk = ChunkWork.chunkCreate(chunk);
-        if (allChunks.containsKey(convertedChunk)){
-            return allChunks.get(convertedChunk);
+
+        if (allChunks.containsKey(chunk)){
+            return allChunks.get(chunk);
         } else {
-            RedChunk newChunk = new RedChunk(convertedChunk);
-            allChunks.put(convertedChunk,newChunk);
+            RedChunk newChunk = new RedChunk(chunk);
+            allChunks.put(chunk,newChunk);
             return newChunk;
         }
     }
@@ -110,21 +110,25 @@ public abstract class RedData {
     }
 
     public static RedPlayer createPlayer(Player player) {
+        String playerID=player.getUniqueId().toString();
+        if (allPlayers.containsKey(playerID)){
 
-        if (allPlayers.containsKey(player)){
-            return allPlayers.get(player);
+            return allPlayers.get(playerID);
+
         } else {
+
             RedPlayer newPlayer = new RedPlayer(player);
-            allPlayers.put(player, newPlayer);
+            allPlayers.put(playerID, newPlayer);
             return newPlayer;
         }
     }
 
-    public static HashMap<ArrayList<Integer>, RedChunk> getAllChunks() {
+
+    public static HashMap<Chunk, RedChunk> getAllChunks() {
         return allChunks;
     }
 
-    public static HashMap<Player, RedPlayer> getAllPlayers() {
+    public static HashMap<String, RedPlayer> getAllPlayers() {
         return allPlayers;
     }
 
