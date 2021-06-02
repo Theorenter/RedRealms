@@ -8,9 +8,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.RedChunk;
 import org.concordiacraft.redrealms.data.RedData;
+import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ChunkGuardListener implements Listener {
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ConfigLocalization.getString("msg_error_private_territory_break"));
+            e.getPlayer().sendMessage(RedRealms.getLocalization().getString("msg_error_private_territory_break"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -38,7 +38,7 @@ public class ChunkGuardListener implements Listener {
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(ConfigLocalization.getString("msg_error_private_territory_break"));
+            e.getPlayer().sendMessage(RedRealms.getLocalization().getString("msg_error_private_territory_break"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -52,8 +52,7 @@ public class ChunkGuardListener implements Listener {
     public void inTownFluidFlow(BlockFromToEvent e){
         RedChunk chunkFrom = RedData.createChunk(e.getBlock().getChunk());
         RedChunk chunkTo = RedData.createChunk(e.getToBlock().getChunk());
-        if (!chunkTo.readFile()) return;
-        if (!chunkFrom.getOwner().equals(chunkTo.getOwner())&&chunkTo.getOwner()!=null) {e.setCancelled(true);}
+        //if (!chunkFrom.getOwner().equals(chunkTo.getOwner()) && chunkTo.getOwner() != null) { e.setCancelled(true); }
     }
     @EventHandler(priority = EventPriority.HIGH)
     public void closeToTownExplode(EntityExplodeEvent e) {

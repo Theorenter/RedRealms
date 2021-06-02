@@ -1,57 +1,108 @@
 package org.concordiacraft.redrealms.config;
 
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redutils.main.config.ConfigAbstractSetup;
+import org.concordiacraft.redutils.config.ExtendedRedConfig;
+import org.concordiacraft.redutils.utils.RedDataConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Theorenter
- * Default RedRealms configuration
+ * Configuration of the RedRealms plugin
  */
-public final class ConfigDefault extends ConfigAbstractSetup {
+public final class ConfigDefault extends ExtendedRedConfig {
 
-    private static boolean debugMode;
-    private static String localization;
+    // fields main
+    private final boolean debug;
+    private final String localizationFileName;
 
-    private static String nameRegex;
-    private static int nameMaxLength;
-    private static int nameMinLength;
+    // fields world
+    private final List<String> availableWorlds;
 
-    private static String errorSoundName;
-    private static int errorSoundVolume;
-    private static int errorSoundPitch;
+    // fields biomes
+    private final Map<String, List<String>> biomeTypes;
 
-    private static HashMap<String, ArrayList<String>> biomeMap = new HashMap<>();
+    // fields string-format
+    private final int nameMaxLength;
+    private final int nameMinLength;
+    private final String nameRegex;
+
+    // fields effects-sounds
+        // error-sound
+    private final String errorSoundName;
+    private final int errorSoundPitch;
+    private final int errorSoundVolume;
+
+    // fields towns
+        // towns-presets
+    private final Map<String, Boolean> snowyTownPresets;
+    private final Map<String, Boolean> coldTownPresets;
+    private final Map<String, Boolean> temperateTownPresets;
+    private final Map<String, Boolean> warmTownPresets;
 
     ConfigDefault(RedRealms plugin, String YMLFileName) {
         super(plugin, YMLFileName);
-        debugMode = customConfig.getBoolean("main.debug");
-        localization = customConfig.getString("main.localization");
 
-        nameRegex = customConfig.getString("string-format.name-regex");
-        nameMaxLength = customConfig.getInt("string-format.name-max-length");
-        nameMinLength = customConfig.getInt("string-format.name-min-length");
+        // main
+        this.debug = customConfig.getBoolean("main.debug");
+        this.localizationFileName = customConfig.getString("main.localization");
 
-        for (String key : customConfig.getConfigurationSection("biomes.biomes-list").getKeys(false)) {
-            biomeMap.put(key, (ArrayList<String>) customConfig.get("biomes.biomes-list." + key));
-        }
+        // world
+        this.availableWorlds = new ArrayList<>(customConfig.getStringList("world.available-worlds"));
 
-        errorSoundName = customConfig.getString("effects-sounds.error-sound.name");
-        errorSoundPitch = customConfig.getInt("effects-sounds.error-sound.pitch");
-        errorSoundVolume = customConfig.getInt("effects-sounds.error-sound.volume");
+        // biomes
+        this.biomeTypes = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("biomes.biomes-list")));
 
+        // string-format
+        this.nameMaxLength = customConfig.getInt("string-format.name-max-length");
+        this.nameMinLength = customConfig.getInt("string-format.name-min-length");
+        this.nameRegex = customConfig.getString("string-format.name-regex");
+
+        // effects-sounds
+        this.errorSoundName = customConfig.getString("effects-sounds.error-sound.name");
+        this.errorSoundPitch = customConfig.getInt("effects-sounds.error-sound.pitch");
+        this.errorSoundVolume = customConfig.getInt("effects-sounds.error-sound.volume");
+
+        // towns
+            // towns-presets
+        this.snowyTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
+        this.coldTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
+        this.temperateTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
+        this.warmTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
+
+
+
+        // goodbye
+        customConfig = null;
     }
-    public static boolean isDebugMode() { return debugMode; }
-    public static String getGlobalLocalization() { return localization; }
 
-    public static String getNameRegex() { return nameRegex; }
-    public static long getNameMaxLength() { return nameMaxLength; }
-    public static long getNameMinLength() { return nameMinLength; }
-    public static HashMap<String, ArrayList<String>> getBiomeMap() { return biomeMap; }
+    // Getters
 
-    public static String getErrorSoundName() { return errorSoundName; }
-    public static int getErrorSoundPitch() { return errorSoundPitch; }
-    public static int getErrorSoundVolume() { return errorSoundVolume; }
+    public boolean isDebug() { return debug; }
+
+    public String getLocalizationFileName() { return localizationFileName; }
+
+    public List<String> getAvailableWorlds() { return availableWorlds; }
+
+    public Map<String, List<String>> getBiomeTypes() { return biomeTypes; }
+
+    public int getNameMaxLength() { return nameMaxLength; }
+
+    public int getNameMinLength() { return nameMinLength; }
+
+    public String getNameRegex() { return nameRegex; }
+
+    public String getErrorSoundName() { return errorSoundName; }
+
+    public int getErrorSoundPitch() { return errorSoundPitch; }
+
+    public int getErrorSoundVolume() { return errorSoundVolume; }
+
+    public Map<String, Boolean> getSnowyTownPresets() { return snowyTownPresets; }
+    public Map<String, Boolean> getColdTownPresets() { return snowyTownPresets; }
+    public Map<String, Boolean> getTemperateTownPresets() { return snowyTownPresets; }
+    public Map<String, Boolean> getWarmTownPresets() { return snowyTownPresets; }
 }

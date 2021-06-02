@@ -1,6 +1,8 @@
 package org.concordiacraft.redrealms.config;
 
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.rules.RuleManager;
+import org.concordiacraft.redrealms.utilits.BiomeManager;
 
 import java.io.File;
 
@@ -8,11 +10,10 @@ import java.io.File;
  * @author Theorenter
  * Plugin Configuration File Loader
  */
-public class RedConfigManager {
-
+public final class ConfigLoader {
 
     // Config Initialization
-    public static void initialization(RedRealms plugin) {
+    public static void init(RedRealms plugin) {
 
         //region Checking for data folder existence
         File redRealmsDataFolder = plugin.getDataFolder();
@@ -25,9 +26,11 @@ public class RedConfigManager {
         //endregion
 
         // Settings loading
+        plugin.setConfig(new ConfigDefault(plugin,"settings" + File.separator + "config.yml"));
+        plugin.setLocalization(new ConfigLocalization(plugin, "settings" + File.separator + "localization" + File.separator + RedRealms.getDefaultConfig().getLocalizationFileName()));
 
-        ConfigDefault configDefault = new ConfigDefault(plugin,"settings" + File.separator + "config.yml");
-        ConfigLocalization configLocalization = new ConfigLocalization(plugin, "settings" + File.separator + "localization" + File.separator + ConfigDefault.getGlobalLocalization());
+        RuleManager.init(plugin);
+
 
         // End message
         plugin.getRedLogger().info("The plugin configuration was loaded");

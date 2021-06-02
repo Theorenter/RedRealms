@@ -13,12 +13,12 @@ public class AddonManager {
     private static Boolean redItemsStatus = null;
     private static Boolean redUtilsStatus = null;
 
-    public static void initialization() {
-        redItemsStatus = initializePlugin("RedItems");
-        redUtilsStatus = initializePlugin("RedUtils");
+    public static void init() {
+        redItemsStatus = initPlugin("RedItems");
+        redUtilsStatus = initPlugin("RedUtils");
         RedItemsManage(redItemsStatus);
     }
-    private static boolean initializePlugin(String pluginName){
+    private static boolean initPlugin(String pluginName){
         boolean pluginStatus;
         try {
             pluginStatus = RedRealms.getPlugin().getServer().getPluginManager().getPlugin(pluginName).isEnabled();

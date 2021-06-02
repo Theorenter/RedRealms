@@ -42,7 +42,7 @@ public abstract class RedGUI implements Listener {
         inventories.add(inv);
     }
 
-    protected ItemStack getGUIItemStack(Material material, int customModelData, String name, String... lore) {
+    protected ItemStack createGUIItemStack(Material material, int customModelData, String name, String... lore) {
         ItemStack i = new ItemStack(material);
         ItemMeta meta = i.getItemMeta();
 
@@ -54,7 +54,7 @@ public abstract class RedGUI implements Listener {
         return i;
     }
 
-    protected ItemStack getFunctionalGUIItemStack(Material material, int customModelData, String name, String tagKey, String tagValue, String... lore) {
+    protected ItemStack createFunctionalGUIItemStack(Material material, int customModelData, String name, String tagKey, String tagValue, String... lore) {
         ItemStack i = new ItemStack(material);
         ItemMeta meta = i.getItemMeta();
 

@@ -1,0 +1,28 @@
+reforms:
+  - ID: "monopoly_of_agriculture"
+    displayName: "Государственная монополия с/х"
+    rules:
+      monopolyOfAgriculture: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      required-rules:
+        agriculture: 'true'
+
+# In the future, the principle of tax collection needs to be redone
+
+  - ID: "taxes_citizens"
+    displayName: "Земельный налог с граждан"
+    rules:
+      citizenTaxes: 'true'
+    description:
+      - "<#FFFFFF>Граждане обязаны самостоятельно"
+      - "<#FFFFFF>уплачивать налоги за владение"
+      - "<#FFFFFF>земельными участками"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      required-rules:
+        taxSystem: 'true'

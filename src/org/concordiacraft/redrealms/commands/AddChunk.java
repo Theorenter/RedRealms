@@ -28,7 +28,7 @@ public class AddChunk implements CommandExecutor {
         RedPlayer redPlayer = RedData.createPlayer(playerSender);
         redPlayer.readFile();
 
-        String Realm = redPlayer.getRealm();
+        String Realm = redPlayer.getPlayerRealmName();
         RedTown town = RedData.createTown(Realm);
         town.readFile();
 
@@ -39,7 +39,7 @@ public class AddChunk implements CommandExecutor {
             commandSender.sendMessage("Это территория города " + region.getOwner());
             return true;
         }
-        region.setOwner(redPlayer.getRealm());
+        region.setOwner(redPlayer.getPlayerRealmName());
         region.updateFile();
         town.addChunk(chunk);
 

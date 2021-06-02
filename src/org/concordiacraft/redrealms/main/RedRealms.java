@@ -4,8 +4,10 @@ import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.gui.Menu;
 import org.concordiacraft.redrealms.commands.gui.Profile;
 import org.concordiacraft.redrealms.commands.gui.Realm;
-import org.concordiacraft.redrealms.commands.gui.Town;
-import org.concordiacraft.redrealms.config.RedConfigManager;
+import org.concordiacraft.redrealms.commands.redcommands.town.Town;
+import org.concordiacraft.redrealms.config.ConfigDefault;
+import org.concordiacraft.redrealms.config.ConfigLoader;
+import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.*;
 import org.concordiacraft.redrealms.listeners.GUIListener;
 import org.concordiacraft.redrealms.listeners.PlayerInteractListener;
@@ -15,21 +17,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.concordiacraft.redrealms.listeners.TownListener;
 import org.concordiacraft.redrealms.listeners.chunkguard.ChunkGuardListener;
 import org.concordiacraft.redutils.main.RedPlugin;
-import org.concordiacraft.redutils.main.utils.RedLog;
+import org.concordiacraft.redutils.utils.RedLog;
 
 public class RedRealms extends JavaPlugin implements RedPlugin {
+
     private static RedLog redlog;
+
+    private static ConfigDefault config;
+    private static ConfigLocalization localization;
 
     @Override
     public void onEnable() {
         redlog = new RedLog(this);
         redlog.showPluginTitle();
         // Loading addon-manager
-        AddonManager.initialization();
+        AddonManager.init();
 
         // Settings init
-        RedConfigManager.initialization(this);
-        DataManager.initialization(this);
+        ConfigLoader.init(this);
+        DataManager.init(this);
 
         // Listeners (without addons)
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
@@ -40,9 +46,9 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
 
         // Commands
         getCommand("menu").setExecutor(new Menu());
-        getCommand("profile").setExecutor(new Profile());
         getCommand("town").setExecutor(new Town());
-        getCommand("realm").setExecutor(new Realm());
+        //getCommand("profile").setExecutor(new Profile());
+        //getCommand("realm").setExecutor(new Realm());
 
         // Data
         PromptData.loadPromptData(this);
@@ -63,5 +69,21 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
     @Override
     public RedLog getRedLogger() {
         return redlog;
+    }
+
+    public void setConfig(ConfigDefault config) {
+        RedRealms.config = config;
+    }
+
+    public void setLocalization(ConfigLocalization localization) {
+        RedRealms.localization = localization;
+    }
+
+    public static ConfigDefault getDefaultConfig() {
+        return config;
+    }
+
+    public static ConfigLocalization getLocalization() {
+        return localization;
     }
 }

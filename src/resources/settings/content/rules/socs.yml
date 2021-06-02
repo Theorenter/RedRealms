@@ -1,0 +1,146 @@
+socs:
+  - ID: "state"
+    displayName: "Государство"
+    rules:
+      canBecomeState: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 16.0
+      exp: 0.0
+
+  - ID: "monetary_system"
+    displayName: "Денежная система"
+    rules:
+      monetarySystem: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 32.0
+      exp: 0.0
+      required-rules:
+        primitiveMetallurgy: 'true'
+        canBecomeState: 'true'
+
+  - ID: "farm_regulation"
+    displayName: "Регламентация хозяйства"
+    rules:
+      farmRegulation: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 16.0
+      exp: 0.0
+      required-rules:
+        agriculture: 'true'
+        animalHusbandry: 'true'
+
+  - ID: "early_legislation"
+    displayName: "Денежная система"
+    rules:
+      earlyLegislation: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 64.0
+      exp: 0.0
+      required-rules:
+        canBecomeState: 'true'
+        monetarySystem: 'true'
+
+  - ID: "cultural_plowing"
+    displayName: "Культурная вспашка"
+    rules:
+      culturalPlowing: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 32.0
+      price-modifiers:
+        temperate: 16.0
+      exp: 0.0
+      required-rules:
+        advancedAgriculture: 'true'
+
+  - ID: "centralized_legislation"
+    displayName: "Централизованное законодательство"
+    rules:
+      centralizedLegislation: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 128.0
+      exp: 0.0
+      required-rules:
+        culturalPlowing: 'true'
+
+  - ID: "tax_system"
+    displayName: "Налогообложение"
+    rules:
+      taxSystem: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 32.0
+      price-modifiers:
+        temperate: 16.0
+      exp: 0.0
+      required-rules:
+        advancedAgriculture: 'true'
+
+  - ID: "commerce"
+    displayName: "Коммерция"
+    rules:
+      commerce: 'true'
+    description:
+      - "<#FFFFFF>Снижение содержания рыночных и"
+      - "<#FFFFFF>банковских чанков на 50%"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 32.0
+      exp: 0.0
+      required-rules:
+        taxSystem: 'true'
+
+  - ID: "republican_tradition"
+    displayName: "Республиканская традиция"
+    rules:
+      republicanTradition: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 128.0
+      exp: 0.0
+      required-rules:
+        centralizedLegislation: 'true'
+
+  - ID: "expansion_of_executive_power"
+    displayName: "Республиканская традиция"
+    rules:
+      expansionOfExecutivePower: 'true'
+    description:
+      - "<#FFFFFF>!TODO описание!"
+    material: "FLINT_AND_STEEL"
+    custom-model-data: 0
+    requirements:
+      price: 32.0
+      exp: 0.0
+      required-rules:
+        centralizedLegislation: 'true'

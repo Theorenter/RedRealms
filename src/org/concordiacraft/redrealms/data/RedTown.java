@@ -8,22 +8,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.rules.RuleManaged;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class RedTown extends RedData {
+public class RedTown extends RedData implements RuleManaged {
     private String townName;
     private String mayorID;
 
-    private ArrayList<String> residentsIDList = new ArrayList<>();
-    ArrayList<Integer> capitalChunk = new ArrayList<>();
+    private List<String> residentsIDList;
+    private List<Integer> capitalChunk;
 
-    private HashMap<String, List<Pattern>> townBanner = new HashMap<>();
-    ArrayList<ArrayList<Integer>> chunks = new ArrayList<>();
+    private Map<String, List<Pattern>> townBanner;
+    private List<ArrayList<Integer>> chunks = new ArrayList<>();
+
+    private Map<String, Boolean> rules;
 
     /**
      * THIS CONSTRUCTOR IS NOT USED TO CREATE TOWNS.
@@ -44,15 +48,15 @@ public class RedTown extends RedData {
      * @param townBanner - town flag.
      * @param capitalChunk - the chunk that the town will be based on.
      */
-    public RedTown(String townName, Player townFounder, ItemStack townBanner, Chunk capitalChunk) {
-        if(!readFile())
+    public RedTown(String townName, Player townFounder, ItemStack townBanner, Chunk capitalChunk, Map<String, Boolean> ruleSet) {
         this.townName = townName;
         this.mayorID = townFounder.getUniqueId().toString();
-        this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
-        this.residentsIDList.add(townFounder.getUniqueId().toString());
+        this.townBanner = new HashMap<>(); this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
+        this.residentsIDList = new ArrayList<>(); this.residentsIDList.add(townFounder.getUniqueId().toString());
+        this.rules = new HashMap<>(); this.rules = ruleSet;
 
         RedPlayer redPlayer = RedData.createPlayer(townFounder);
-        redPlayer.setPlayerTown(townName);
+        redPlayer.setPlayerTownName(townName);
         redPlayer.updateFile();
 
         addChunk(capitalChunk);
@@ -61,19 +65,25 @@ public class RedTown extends RedData {
         updateFile();
     }
 
-    //region Getters,setters,implemented functions
+    @Override
+    public void changeRule(String ruleID, boolean value) {
+        this.rules.put(ruleID, value);
+    }
+
+    // Getters, setters, implemented functions
     public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "towns" + File.separator + townName + ".yml");
     }
 
-    public ArrayList<Integer> getCapitalChunk() {
+    public List<Integer> getCapitalChunk() {
         return capitalChunk;
     }
 
     public void setCapitalChunk(ArrayList<Integer> capitalChunk) {
         this.capitalChunk = capitalChunk;
     }
+
     public void setChunkCoords(int ChunkX,int ChunkZ) {
         capitalChunk.add(ChunkX);
         capitalChunk.add(ChunkZ);
@@ -86,7 +96,7 @@ public class RedTown extends RedData {
         this.townName = townName;
     }
 
-    public void addChunk(int ChunkX,int ChunkZ){
+    public void addChunk(int ChunkX, int ChunkZ){
 
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(ChunkX,ChunkZ);
         chunks.add(ChunkCoords);
@@ -95,7 +105,7 @@ public class RedTown extends RedData {
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(chunk);
         chunks.add(ChunkCoords);
     }
-    public ArrayList<ArrayList<Integer>> getChunks (){
+    public List<ArrayList<Integer>> getChunks (){
         return chunks;
     }
 
@@ -103,12 +113,14 @@ public class RedTown extends RedData {
         this.mayorID = playerID;
     }
 
-    public ArrayList<String> getResidentNames() {
+    public List<String> getResidentNames() {
         return residentsIDList;
     }
+
     public void addResident(String playerID){
         this.residentsIDList.add(playerID);
     }
+
     public void setResidentID(ArrayList<String> residentNames) {
         this.residentsIDList = residentNames;
     }

@@ -11,7 +11,7 @@ public class Realm implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         if (!(sender instanceof Player)) {
-            RedRealms.getPlugin().getRedLogger().info(ConfigLocalization.getRawString("messages.errors.only-for-players"));
+            RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
             return true;
         }
         sender.sendMessage("Не реализовано!");

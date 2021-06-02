@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RegionManagament implements CommandExecutor {
+public class RegionManagement implements CommandExecutor {
     RedRealms plugin;
-    public RegionManagament(RedRealms plugin) {
+    public RegionManagement(RedRealms plugin) {
         this.plugin = plugin;
     }
     private final List<String> chunkProfs = new ArrayList<>(Arrays.asList("bank","farm","market","jail"));
@@ -32,7 +32,7 @@ public class RegionManagament implements CommandExecutor {
         if (strings[0].equalsIgnoreCase("create")){
             if (strings.length!=2) {player.sendMessage("Введите название региона"); return true;}
             RedPlayer redPlayer = RedData.createPlayer(player);
-            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
+            RedRegion region = new RedRegion(strings[1], redPlayer.getPlayerRealmName());
             if (region.getFile().exists()) {player.sendMessage("Регион с таким названием уже существует"); return true;}
             Chunk gameChunk = player.getLocation().getChunk();
             RedChunk chunk = RedData.createChunk(gameChunk);
@@ -48,12 +48,12 @@ public class RegionManagament implements CommandExecutor {
         if (strings[0].equalsIgnoreCase("add")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
             RedPlayer redPlayer = RedData.createPlayer(player);
-            if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
-            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
+            if (redPlayer.getPlayerRealmName()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
+            RedRegion region = new RedRegion(strings[1], redPlayer.getPlayerRealmName());
             if (!region.readFile()) {commandSender.sendMessage("Данного региона не существует"); return true;}
             RedChunk chunk = RedData.createChunk(player.getLocation().getChunk());
             if (chunk.getTownRegion()!=null) {commandSender.sendMessage("Данный чанк принадлежит другому региону!"); return true;}
-            if (!chunk.getOwner().equalsIgnoreCase(redPlayer.getRealm())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
+            if (!chunk.getOwner().equalsIgnoreCase(redPlayer.getPlayerRealmName())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
             chunk.setTownRegion(strings[1]);
             region.addChunk(player.getLocation().getChunk());
             chunk.updateFile();
@@ -62,8 +62,8 @@ public class RegionManagament implements CommandExecutor {
         if (strings[0].equalsIgnoreCase("remove")) {
             if (strings.length!=2) {commandSender.sendMessage("Введите название региона"); return true;}
             RedPlayer redPlayer = RedData.createPlayer(player);
-            if (redPlayer.getRealm()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
-            RedRegion region = new RedRegion(strings[1], redPlayer.getRealm());
+            if (redPlayer.getPlayerRealmName()==null) {commandSender.sendMessage("Вы даже не гражданин"); return true;}
+            RedRegion region = new RedRegion(strings[1], redPlayer.getPlayerRealmName());
             if (!region.readFile()) {commandSender.sendMessage("Данный чанк не занят регионом"); return true;}
             if (region.getChunks().contains(ChunkWork.chunkCreate(((Player) commandSender).getLocation().getChunk()))) {
                region.removeChunk(((Player) commandSender).getLocation().getChunk());
@@ -74,7 +74,7 @@ public class RegionManagament implements CommandExecutor {
         if (strings[0].equalsIgnoreCase("set")) {
             if (strings.length>3) {return false;}
             RedPlayer playerSender = RedData.createPlayer(player);
-            RedRegion region = new RedRegion(strings[1],playerSender.getRealm());
+            RedRegion region = new RedRegion(strings[1],playerSender.getPlayerRealmName());
             if (!region.readFile()) {
                 commandSender.sendMessage("Region does not exists");
                 return true;

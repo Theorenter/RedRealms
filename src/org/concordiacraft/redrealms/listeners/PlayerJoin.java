@@ -2,7 +2,6 @@ package org.concordiacraft.redrealms.listeners;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.bukkit.entity.Player;
@@ -12,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redutils.main.utils.RedFormatter;
+import org.concordiacraft.redutils.utils.RedFormatter;
 
 import java.util.UUID;
 
@@ -37,12 +36,12 @@ public class PlayerJoin implements Listener {
 
         if (pi.firstEmpty() == -1) {
             p.getWorld().dropItem(p.getLocation(), i);
-            s = String.format(RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back"))
-                    + RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back-inventory-full")), i.getItemMeta().getDisplayName());
+            s = String.format(RedFormatter.format(RedRealms.getLocalization().getRawString("messages.notifications.prompt-data-item-back"))
+                    + RedFormatter.format(RedRealms.getLocalization().getRawString("messages.notifications.prompt-data-item-back-inventory-full")), i.getItemMeta().getDisplayName());
             logS = "Игроку " + e.getPlayer().getName() + " [" + uuid+ "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName() + " (Заспаунился рядом с игроком)";
         } else {
             pi.addItem(i);
-            s = String.format(RedFormatter.format(ConfigLocalization.getRawString("messages.notifications.prompt-data-item-back")), i.getItemMeta().getDisplayName());
+            s = String.format(RedFormatter.format(RedRealms.getLocalization().getRawString("messages.notifications.prompt-data-item-back")), i.getItemMeta().getDisplayName());
             logS = "Игроку " + e.getPlayer().getName() + " [" + uuid+ "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName();
         }
         p.sendMessage(s);

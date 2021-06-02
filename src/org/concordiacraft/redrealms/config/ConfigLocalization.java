@@ -2,14 +2,16 @@ package org.concordiacraft.redrealms.config;
 
 
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redutils.main.config.ConfigAbstractSetup;
-import org.concordiacraft.redutils.main.utils.RedFormatter;
+import org.concordiacraft.redutils.config.ExtendedRedConfig;
+import org.concordiacraft.redutils.utils.RedFormatter;
+
+import java.util.List;
 
 /**
  * @author Theorenter
  * Global localization config for the plugin
  */
-public class ConfigLocalization extends ConfigAbstractSetup {
+public final class ConfigLocalization extends ExtendedRedConfig {
     ConfigLocalization(RedRealms plugin, String YMLFileName) {
         super(plugin, YMLFileName);
     }
@@ -19,8 +21,8 @@ public class ConfigLocalization extends ConfigAbstractSetup {
      * @param path yml-path to the localization string
      * @return the raw string from the localization file
      */
-    public static String getRawString(String path) {
-        String str = (String) getCustomConfig().get(path);
+    public String getRawString(String path) {
+        String str = this.customConfig.getString(path);
         if (str != null) { return str; }
         else {
             RedRealms.getPlugin().getRedLogger().warning("The line under ID \"" + path + "\" was not found.");
@@ -33,15 +35,7 @@ public class ConfigLocalization extends ConfigAbstractSetup {
      * @param path yml-path to the localization string
      * @return the formatted string from the localization file
      */
-    public static String getString(String path) {
+    public String getString(String path) {
         return RedFormatter.format(getRawString(path));
-    }
-    /**
-     * This method returns formatted strings from the localization file
-     * @param path yml-path to the localization string
-     * @return the formatted strings from the localization file
-     */
-    public static String[] getStrings(String... path) {
-        return RedFormatter.format(path);
     }
 }

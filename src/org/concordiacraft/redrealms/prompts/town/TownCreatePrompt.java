@@ -12,58 +12,45 @@ import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.concordiacraft.redrealms.config.ConfigDefault;
-import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.data.PromptData;
-import org.concordiacraft.redutils.main.utils.RedFormatter;
+import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redutils.utils.RedDataConverter;
+import org.concordiacraft.redutils.utils.RedFormatter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class TownCreatePrompt extends ValidatingPrompt {
 
-    private String biomeLocale = null;
-    private String hoverText = null;
+    private String biomeLocale;
+    private String biomeType;
+    private String hoverText;
     private boolean hasInvalidInput = false;
     private Chunk newTownChunk;
     private ItemStack townBanner;
 
     public TownCreatePrompt(String biomeType, Chunk newTownChunk, ItemStack townBanner) {
 
+        this.biomeType = biomeType;
         this.newTownChunk = newTownChunk;
         this.townBanner = townBanner;
 
-        switch (biomeType) {
-            case "snowy": {
-                biomeLocale = ConfigLocalization.getRawString("biomes.snowy-biome");
-                hoverText = ConfigLocalization.getString("conversations.prompts.consul.town-create-start.hover-snowy");
-                break;
-            }
-            case "cold": {
-                biomeLocale = ConfigLocalization.getRawString("biomes.cold-biome");
-                hoverText = ConfigLocalization.getString("conversations.prompts.consul.town-create-start.hover-cold");
-                break;
-            }
-            case "temperate": {
-                biomeLocale = ConfigLocalization.getRawString("biomes.temperate-biome");
-                hoverText = ConfigLocalization.getString("conversations.prompts.consul.town-create-start.hover-temperate");
-                break;
-            }
-            case "warm": {
-                biomeLocale = ConfigLocalization.getRawString("biomes.warm-biome");
-                hoverText = ConfigLocalization.getString("conversations.prompts.consul.town-create-start.hover-warm");
-                break;
-            }
-        }
+        biomeLocale = RedRealms.getLocalization().getRawString("biomes." + biomeType + "-biome");
+        hoverText = RedRealms.getLocalization().getString("conversations.prompts.consul.town-create-start.hover-" + biomeType);
+
     }
     @Override
     public String getPromptText(ConversationContext context) {
 
-        String stringSpace = ConfigLocalization.getRawString("conversations.space");
+        String stringSpace = RedRealms.getLocalization().getRawString("conversations.space");
 
-        String charPortrait = ConfigLocalization.getString("conversations.characters.consul.portrait");
-        String charName = stringSpace + ConfigLocalization.getString("conversations.name-preformat") +
-                ConfigLocalization.getString("conversations.characters.consul.name");
+        String charPortrait = RedRealms.getLocalization().getString("conversations.characters.consul.portrait");
+        String charName = stringSpace + RedRealms.getLocalization().getString("conversations.name-preformat") +
+                RedRealms.getLocalization().getString("conversations.characters.consul.name");
         String s1 = stringSpace;
         String s2 = stringSpace;
         String s3 = stringSpace;
@@ -72,9 +59,9 @@ public class TownCreatePrompt extends ValidatingPrompt {
 
         if (biomeLocale == null) {
 
-            s1 += ConfigLocalization.getString("conversations.prompts.consul.cannot-create-town-there.1");
-            s2 += ConfigLocalization.getString("conversations.prompts.consul.cannot-create-town-there.2");
-            s3 += ConfigLocalization.getString("conversations.prompts.consul.cannot-create-town-there.3");
+            s1 += RedRealms.getLocalization().getString("conversations.prompts.consul.cannot-create-town-there.1");
+            s2 += RedRealms.getLocalization().getString("conversations.prompts.consul.cannot-create-town-there.2");
+            s3 += RedRealms.getLocalization().getString("conversations.prompts.consul.cannot-create-town-there.3");
 
             p.sendRawMessage(charPortrait);
             p.sendRawMessage(RedFormatter.format(charName));
@@ -87,15 +74,15 @@ public class TownCreatePrompt extends ValidatingPrompt {
         }
 
         if (!hasInvalidInput) {
-            String helpColor = ConfigLocalization.getRawString("components-color.help");
-            String convTextColor = ConfigLocalization.getRawString("components-color.conversation-text");
+            String helpColor = RedRealms.getLocalization().getRawString("components-color.help");
+            String convTextColor = RedRealms.getLocalization().getRawString("components-color.conversation-text");
 
             p.sendRawMessage(charPortrait);
             p.sendRawMessage(RedFormatter.format(charName));
 
-            s1 = ConfigLocalization.getString("conversations.prompts.consul.town-create-start.1");
-            s2 += ConfigLocalization.getString("conversations.prompts.consul.town-create-start.2");
-            s3 += ConfigLocalization.getString("conversations.prompts.consul.town-create-start.3");
+            s1 = RedRealms.getLocalization().getString("conversations.prompts.consul.town-create-start.1");
+            s2 += RedRealms.getLocalization().getString("conversations.prompts.consul.town-create-start.2");
+            s3 += RedRealms.getLocalization().getString("conversations.prompts.consul.town-create-start.3");
 
             TextComponent tc = new TextComponent(stringSpace);
 
@@ -116,37 +103,53 @@ public class TownCreatePrompt extends ValidatingPrompt {
 
             return "";
         }
-        return ConfigLocalization.getString("messages.notifications.town-creation-after-invalid");
+        return RedRealms.getLocalization().getString("messages.notifications.town-creation-after-invalid");
     }
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext context, String s) {
         Player mayor = (Player) context.getForWhom();
         PromptData.removeFromPromptMap(((Player) context.getForWhom()).getUniqueId());
-        RedTown newTown = new RedTown(s, (Player) context.getForWhom(), townBanner, newTownChunk);
 
-        Bukkit.getServer().broadcastMessage(String.format(ConfigLocalization.getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
+        Map<String, Boolean> ruleSet = null;
+        switch(biomeType) {
+            case ("snowy") : {
+                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getSnowyTownPresets()); break;
+            }
+            case ("cold") : {
+                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getColdTownPresets()); break;
+            }
+            case ("temperate") : {
+                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getTemperateTownPresets()); break;
+            }
+            case ("warm") : {
+                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getWarmTownPresets()); break;
+            }
+        }
+
+        RedTown newTown = new RedTown(s, (Player) context.getForWhom(), townBanner, newTownChunk, ruleSet);
+        Bukkit.getServer().broadcastMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
         return null;
     }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
         // Max-min length check
-        if (input.length() < ConfigDefault.getNameMinLength()) {
-            context.getForWhom().sendRawMessage(String.format(ConfigLocalization.getString("messages.errors.this-name-too-short"), ConfigDefault.getNameMinLength()));
+        if (input.length() < RedRealms.getDefaultConfig().getNameMinLength()) {
+            context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-name-too-short"), RedRealms.getDefaultConfig().getNameMinLength()));
             hasInvalidInput = true;
             return false;
         }
-        if (input.length() > ConfigDefault.getNameMaxLength()) {
-            context.getForWhom().sendRawMessage(String.format(ConfigLocalization.getString("messages.errors.this-name-too-long"), ConfigDefault.getNameMaxLength()));
+        if (input.length() > RedRealms.getDefaultConfig().getNameMaxLength()) {
+            context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-name-too-long"), RedRealms.getDefaultConfig().getNameMaxLength()));
             hasInvalidInput = true;
             return false;
         }
 
         // Regex check
-        Pattern pattern = Pattern.compile(ConfigDefault.getNameRegex());
+        Pattern pattern = Pattern.compile(Objects.requireNonNull(RedRealms.getDefaultConfig().getNameRegex()));
         if (!pattern.matcher(input).matches()) {
-            context.getForWhom().sendRawMessage(String.format(ConfigLocalization.getString("messages.errors.this-name-out-of-regex"), ConfigDefault.getNameMinLength()));
+            context.getForWhom().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.this-name-out-of-regex"));
             hasInvalidInput = true;
             return false;
         }
@@ -154,7 +157,7 @@ public class TownCreatePrompt extends ValidatingPrompt {
         // Name check
         RedTown town = RedData.createTown(input);
         if (town.readFile()) {
-            context.getForWhom().sendRawMessage(String.format(ConfigLocalization.getString("messages.errors.this-town-name-already-taken"), ConfigDefault.getNameMinLength()));
+            context.getForWhom().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.this-town-name-already-taken"));
             hasInvalidInput = true;
             return false;
         }

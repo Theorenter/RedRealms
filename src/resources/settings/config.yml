@@ -6,10 +6,22 @@
 
 main:
   # Track all plugin actions that will be displayed in the console
-  debug: true
+  debug: 'true'
 
   # The language file you wish to use
-  localization: default.yml
+  localization: "default.yml"
+
+############################################################
+# +------------------------------------------------------+ #
+# |                  World configuration                 | #
+# +------------------------------------------------------+ #
+############################################################
+
+world:
+  # Here you can specify the name of the worlds in which you can create towns and realms.
+  available-worlds:
+    - "world"
+    - "NovaConcordia"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -135,3 +147,22 @@ effects-sounds:
     name: "block.note_block.didgeridoo"
     pitch: 1
     volume: 1
+
+towns:
+  towns-presets:
+    snowy:
+      canMayorInvitePlayers: 'true'
+      canMayorKickPlayers: 'true'
+      canCitizensBuyWildChunks: 'false'
+    cold:
+      canMayorInvitePlayers: 'true'
+      canMayorKickPlayers: 'true'
+      canCitizensBuyWildChunks: 'false'
+    temperate:
+      canMayorInvitePlayers: 'true'
+      canMayorKickPlayers: 'true'
+      canCitizensBuyWildChunks: 'false'
+    warm:
+      canMayorInvitePlayers: 'true'
+      canMayorKickPlayers: 'true'
+      canCitizensBuyChunks: 'false'

@@ -14,7 +14,7 @@ commands:
     description: "Октрыть меню личного профиля"
     usage: /profile
   town:
-    description: "Открыть меню взаимодействия с Вашим городом"
+    description: "Открыть информацию связанную с городами"
     usage: /town
   realm:
     description: "Открыть меню взаимодействия с Вашей державой"

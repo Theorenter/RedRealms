@@ -6,7 +6,7 @@ import java.io.File;
 
 public class DataManager {
 
-    public static void initialization(RedRealms plugin)
+    public static void init(RedRealms plugin)
     {
         String dataPath = plugin.getDataFolder() + File.separator + "data";
 
