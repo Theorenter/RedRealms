@@ -147,22 +147,3 @@ effects-sounds:
     name: "block.note_block.didgeridoo"
     pitch: 1
     volume: 1
-
-towns:
-  towns-presets:
-    snowy:
-      canMayorInvitePlayers: 'true'
-      canMayorKickPlayers: 'true'
-      canCitizensBuyWildChunks: 'false'
-    cold:
-      canMayorInvitePlayers: 'true'
-      canMayorKickPlayers: 'true'
-      canCitizensBuyWildChunks: 'false'
-    temperate:
-      canMayorInvitePlayers: 'true'
-      canMayorKickPlayers: 'true'
-      canCitizensBuyWildChunks: 'false'
-    warm:
-      canMayorInvitePlayers: 'true'
-      canMayorKickPlayers: 'true'
-      canCitizensBuyChunks: 'false'

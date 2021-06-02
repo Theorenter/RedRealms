@@ -36,13 +36,6 @@ public final class ConfigDefault extends ExtendedRedConfig {
     private final int errorSoundPitch;
     private final int errorSoundVolume;
 
-    // fields towns
-        // towns-presets
-    private final Map<String, Boolean> snowyTownPresets;
-    private final Map<String, Boolean> coldTownPresets;
-    private final Map<String, Boolean> temperateTownPresets;
-    private final Map<String, Boolean> warmTownPresets;
-
     ConfigDefault(RedRealms plugin, String YMLFileName) {
         super(plugin, YMLFileName);
 
@@ -65,13 +58,6 @@ public final class ConfigDefault extends ExtendedRedConfig {
         this.errorSoundName = customConfig.getString("effects-sounds.error-sound.name");
         this.errorSoundPitch = customConfig.getInt("effects-sounds.error-sound.pitch");
         this.errorSoundVolume = customConfig.getInt("effects-sounds.error-sound.volume");
-
-        // towns
-            // towns-presets
-        this.snowyTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
-        this.coldTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
-        this.temperateTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
-        this.warmTownPresets = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("towns.towns-presets.snowy")));
 
 
 
@@ -101,8 +87,4 @@ public final class ConfigDefault extends ExtendedRedConfig {
 
     public int getErrorSoundVolume() { return errorSoundVolume; }
 
-    public Map<String, Boolean> getSnowyTownPresets() { return snowyTownPresets; }
-    public Map<String, Boolean> getColdTownPresets() { return snowyTownPresets; }
-    public Map<String, Boolean> getTemperateTownPresets() { return snowyTownPresets; }
-    public Map<String, Boolean> getWarmTownPresets() { return snowyTownPresets; }
 }

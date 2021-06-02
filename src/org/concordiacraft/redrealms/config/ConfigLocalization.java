@@ -5,8 +5,6 @@ import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redutils.config.ExtendedRedConfig;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
-import java.util.List;
-
 /**
  * @author Theorenter
  * Global localization config for the plugin

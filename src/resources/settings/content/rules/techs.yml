@@ -2,7 +2,7 @@ techs:
   - ID: "primitive_metallurgy"
     displayName: "Примитивная обработка металла"
     rules:
-      primitiveMtallurgy: 'true'
+      primitiveMetallurgy: 'true'
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -145,4 +145,3 @@ techs:
       exp: 0.0
       required-rules:
         commerce: 'true'
-

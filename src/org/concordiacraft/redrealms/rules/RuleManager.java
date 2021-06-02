@@ -93,7 +93,7 @@ public final class RuleManager {
             RuleReform ruleReform = new RuleReform(ID, rules, displayName, description, requiredRules, material, customModelData);
             allReforms.add(ruleReform);
 
-            ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, hasRequiredRules);
+            //ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, hasRequiredRules);
         }
     }
     private static void initSocs(FileConfiguration socsConfig) {
@@ -126,7 +126,7 @@ public final class RuleManager {
             RuleSoc ruleSoc = new RuleSoc(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers);
             allSocs.add(ruleSoc);
 
-            ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers, hasRequiredRules, hasPriceModifiers);
+            //ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers, hasRequiredRules, hasPriceModifiers);
         }
     }
     private static void initTechs(FileConfiguration techsConfig) {
@@ -159,7 +159,7 @@ public final class RuleManager {
             RuleTech ruleTech = new RuleTech(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers);
             allTechs.add(ruleTech);
 
-            ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers, hasRequiredRules, hasPriceModifiers);
+            //ruleLoadingDebugLog(ID, rules, displayName, description, requiredRules, material, customModelData, price, exp, priceModifiers, hasRequiredRules, hasPriceModifiers);
         }
     }
 

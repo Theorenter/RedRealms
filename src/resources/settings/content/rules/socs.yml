@@ -5,8 +5,8 @@ socs:
       canBecomeState: 'true'
     description:
       - "<#FFFFFF>!TODO описание!"
+        custom-model-data: 0
     material: "FLINT_AND_STEEL"
-    custom-model-data: 0
     requirements:
       price: 16.0
       exp: 0.0

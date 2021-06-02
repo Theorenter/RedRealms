@@ -15,14 +15,14 @@ public class Town extends RedCommand {
 
     @Override
     public void showHelp() {
+        sender.sendMessage("Анекдот");
+    }
+
+    public void leaveCMD() {
 
     }
 
-    private void leaveCMD() {
-
-    }
-
-    private void menuCMD() {
+    public void menuCMD() {
         if (!(sender instanceof Player)) {
             RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
         }
