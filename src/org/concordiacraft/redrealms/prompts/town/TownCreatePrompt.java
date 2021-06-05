@@ -11,12 +11,10 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redutils.utils.RedDataConverter;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
 import java.util.HashMap;
@@ -111,23 +109,7 @@ public class TownCreatePrompt extends ValidatingPrompt {
         Player mayor = (Player) context.getForWhom();
         PromptData.removeFromPromptMap(((Player) context.getForWhom()).getUniqueId());
 
-        Map<String, Boolean> ruleSet = null;
-        switch(biomeType) {
-            case ("snowy") : {
-                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getSnowyTownPresets()); break;
-            }
-            case ("cold") : {
-                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getColdTownPresets()); break;
-            }
-            case ("temperate") : {
-                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getTemperateTownPresets()); break;
-            }
-            case ("warm") : {
-                ruleSet = new HashMap<>(RedRealms.getDefaultConfig().getWarmTownPresets()); break;
-            }
-        }
-
-        RedTown newTown = new RedTown(s, (Player) context.getForWhom(), townBanner, newTownChunk, ruleSet);
+        RedTown newTown = new RedTown(s, (Player) context.getForWhom(), townBanner, newTownChunk);
         Bukkit.getServer().broadcastMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
         return null;
     }
@@ -155,7 +137,7 @@ public class TownCreatePrompt extends ValidatingPrompt {
         }
 
         // Name check
-        RedTown town = RedData.createTown(input);
+        RedTown town = RedData.loadTown(input);
         if (town.readFile()) {
             context.getForWhom().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.this-town-name-already-taken"));
             hasInvalidInput = true;

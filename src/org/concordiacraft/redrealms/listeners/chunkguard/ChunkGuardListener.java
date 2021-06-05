@@ -22,7 +22,7 @@ public class ChunkGuardListener implements Listener {
     public void playerInteractTownBlock(PlayerInteractEvent e) {
         if (!e.hasBlock()) return;
         Block block = e.getClickedBlock();
-        RedData.createChunk(block.getChunk());;
+        RedData.loadChunk(block.getChunk());;
 
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
@@ -33,7 +33,7 @@ public class ChunkGuardListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void playerBreakTownBlock(BlockBreakEvent e) {
         Block block = e.getBlock();
-        RedData.createChunk(block.getChunk());
+        RedData.loadChunk(block.getChunk());
 
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {
@@ -43,24 +43,24 @@ public class ChunkGuardListener implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void townExplode(EntityExplodeEvent e) {
-        RedChunk chunk = RedData.createChunk(e.getLocation().getChunk());
+        RedChunk chunk = RedData.loadChunk(e.getLocation().getChunk());
         if (chunk.getOwner()!=null) {
             e.setCancelled(true);
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
     public void inTownFluidFlow(BlockFromToEvent e){
-        RedChunk chunkFrom = RedData.createChunk(e.getBlock().getChunk());
-        RedChunk chunkTo = RedData.createChunk(e.getToBlock().getChunk());
+        RedChunk chunkFrom = RedData.loadChunk(e.getBlock().getChunk());
+        RedChunk chunkTo = RedData.loadChunk(e.getToBlock().getChunk());
         //if (!chunkFrom.getOwner().equals(chunkTo.getOwner()) && chunkTo.getOwner() != null) { e.setCancelled(true); }
     }
     @EventHandler(priority = EventPriority.HIGH)
     public void closeToTownExplode(EntityExplodeEvent e) {
-        RedChunk chunk = RedData.createChunk(e.getLocation().getChunk());
+        RedChunk chunk = RedData.loadChunk(e.getLocation().getChunk());
         List<Block> blockList = new ArrayList<>();
         if (chunk.getOwner()==null) {
             for (Block b:e.blockList()) {
-                chunk = RedData.createChunk(b.getChunk());
+                chunk = RedData.loadChunk(b.getChunk());
                 if (chunk.getOwner()!=null) {
                     e.blockList().remove(b);
                 }

@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redutils.utils.RedDataConverter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,11 +23,13 @@ public final class RuleManager {
     private static ArrayList<RuleReform> allReforms = new ArrayList<>();
     private static ArrayList<RuleSoc> allSocs = new ArrayList<>();
     private static ArrayList<RuleTech> allTechs = new ArrayList<>();
+    private static Map<String, Boolean> defaultPattern = new HashMap<>();
 
 
     private static File reformsFile;
     private static File socsFile;
     private static File techsFile;
+    private static File patternFile;
 
     public static void init(RedRealms plugin) {
 
@@ -36,22 +39,34 @@ public final class RuleManager {
         String inPluginPath = "settings" + File.separator + "content" + File.separator + "rules" + File.separator;
 
         // If the "rules" folder is missing, it is automatically created with all the contents
-        File extendedRuleFiles = new File(inDataFolderPath);
-
-        if (!(extendedRuleFiles.isDirectory())) {
-            plugin.saveResource(inPluginPath + "reforms.yml", false);
-            plugin.saveResource(inPluginPath + "socs.yml", false);
-            plugin.saveResource(inPluginPath + "techs.yml", false);
-            plugin.getRedLogger().warning("reforms.yml, socs.yml and techs.yml was created in " + inDataFolderPath + "\\");
-        }
 
         reformsFile = new File(inDataFolderPath, "reforms.yml");
         socsFile = new File(inDataFolderPath, "socs.yml");
         techsFile = new File(inDataFolderPath, "techs.yml");
+        patternFile = new File(inDataFolderPath, "pattern.yml");
+
+            if (!reformsFile.isFile()) {
+                plugin.saveResource(inPluginPath + "reforms.yml", false);
+                plugin.getRedLogger().warning("reforms.yml was created in " + inDataFolderPath + "\\");
+            }
+            if (!socsFile.isFile()) {
+                plugin.saveResource(inPluginPath + "socs.yml", false);
+                plugin.getRedLogger().warning("socs.yml was created in " + inDataFolderPath + "\\");
+            }
+            if (!techsFile.isFile()) {
+                plugin.saveResource(inPluginPath + "techs.yml", false);
+                plugin.getRedLogger().warning("techs.yml was created in " + inDataFolderPath + "\\");
+            }
+            if (!patternFile.isFile()) {
+                plugin.saveResource(inPluginPath + "pattern.yml", false);
+                plugin.getRedLogger().warning("pattern.yml was created in " + inDataFolderPath + "\\");
+            }
+
 
         FileConfiguration reformsConfig = YamlConfiguration.loadConfiguration(reformsFile);
         FileConfiguration socsConfig = YamlConfiguration.loadConfiguration(socsFile);
         FileConfiguration techsConfig = YamlConfiguration.loadConfiguration(techsFile);
+        FileConfiguration patternsConfig = YamlConfiguration.loadConfiguration(patternFile);
 
         // Mark: although the initSocs() and initTechs()
         // methods are similar and may have
@@ -67,6 +82,9 @@ public final class RuleManager {
 
         plugin.getRedLogger().info("Loading Techs...");
         initTechs(techsConfig);
+
+        plugin.getRedLogger().info("Loading Rules pattern...");
+        initPattern(patternsConfig);
     }
 
     private static void initReforms(FileConfiguration reformsConfig) {
@@ -253,6 +271,10 @@ public final class RuleManager {
             plugin.getRedLogger().debugStyled("    requiredRules: null");
         }
         plugin.getRedLogger().debugStyled("];");
+    }
+
+    private static void initPattern(FileConfiguration patternsConfig) {
+        RuleManager.defaultPattern = (Map<String, Boolean>) RedDataConverter.getMapFromSection(patternsConfig.getConfigurationSection("rules"));
     }
 
     /*public static ExtendedRule getExtendedRuleByRule(String rule) {

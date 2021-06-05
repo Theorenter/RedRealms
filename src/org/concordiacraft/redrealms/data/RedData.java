@@ -87,7 +87,7 @@ public abstract class RedData {
     }
 
     // chunks
-    public static RedChunk createChunk(Chunk chunk) {
+    public static RedChunk loadChunk(Chunk chunk) {
 
         if (allChunks.containsKey(chunk)){
             return allChunks.get(chunk);
@@ -99,7 +99,7 @@ public abstract class RedData {
     }
 
     // towns
-    public static RedTown createTown(String name) {
+    public static RedTown loadTown(String name) {
         if (allTowns.containsKey(name)) {
             return allTowns.get(name);
         } else {
@@ -110,7 +110,7 @@ public abstract class RedData {
     }
 
     // players
-    public static RedPlayer createPlayer(Player player) {
+    public static RedPlayer loadPlayer(Player player) {
         String playerID=player.getUniqueId().toString();
         if (allPlayers.containsKey(playerID)){
 

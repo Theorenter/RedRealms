@@ -39,7 +39,7 @@ public class TownBannerPlaceListener implements Listener {
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
-        RedPlayer RedP = RedData.createPlayer(e.getPlayer());
+        RedPlayer RedP = RedData.loadPlayer(e.getPlayer());
 
         // check world
         if (!RedRealms.getDefaultConfig().getAvailableWorlds().contains(e.getPlayer().getWorld().getName())) {
@@ -51,7 +51,7 @@ public class TownBannerPlaceListener implements Listener {
         // check if player already in town
         if (RedP.hasTown()) {
             e.setCancelled(true);
-            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.player-already-in-town"), RedP.getPlayerTownName()));
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.player-already-in-town"), RedP.getTownName()));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }

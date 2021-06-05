@@ -27,7 +27,7 @@ public class RedTown extends RedData implements RuleManaged {
     private Map<String, List<Pattern>> townBanner;
     private List<ArrayList<Integer>> chunks = new ArrayList<>();
 
-    private Map<String, Boolean> rules;
+    private Map<String, Boolean> rules = new HashMap();
 
     /**
      * THIS CONSTRUCTOR IS NOT USED TO CREATE TOWNS.
@@ -48,26 +48,30 @@ public class RedTown extends RedData implements RuleManaged {
      * @param townBanner - town flag.
      * @param capitalChunk - the chunk that the town will be based on.
      */
-    public RedTown(String townName, Player townFounder, ItemStack townBanner, Chunk capitalChunk, Map<String, Boolean> ruleSet) {
+    public RedTown(String townName, Player townFounder, ItemStack townBanner, Chunk capitalChunk) {
         this.townName = townName;
         this.mayorID = townFounder.getUniqueId().toString();
         this.townBanner = new HashMap<>(); this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
         this.residentsIDList = new ArrayList<>(); this.residentsIDList.add(townFounder.getUniqueId().toString());
-        this.rules = new HashMap<>(); this.rules = ruleSet;
 
-        RedPlayer redPlayer = RedData.createPlayer(townFounder);
-        redPlayer.setPlayerTownName(townName);
+        RedPlayer redPlayer = RedData.loadPlayer(townFounder);
+        redPlayer.setTownName(townName);
         redPlayer.updateFile();
 
         addChunk(capitalChunk);
         Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, townFounder, townBanner, capitalChunk));
-        RedData.createChunk(capitalChunk);
+        RedData.loadChunk(capitalChunk);
         updateFile();
     }
 
     @Override
     public void changeRule(String ruleID, boolean value) {
         this.rules.put(ruleID, value);
+    }
+
+    @Override
+    public boolean getRuleValue(String ruleID) {
+        return rules.get(ruleID);
     }
 
     // Getters, setters, implemented functions
@@ -113,7 +117,7 @@ public class RedTown extends RedData implements RuleManaged {
         this.mayorID = playerID;
     }
 
-    public List<String> getResidentNames() {
+    public List<String> getCitizenNames() {
         return residentsIDList;
     }
 

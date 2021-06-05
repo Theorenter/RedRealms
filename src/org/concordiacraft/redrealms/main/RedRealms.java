@@ -2,8 +2,6 @@ package org.concordiacraft.redrealms.main;
 
 import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.gui.Menu;
-import org.concordiacraft.redrealms.commands.gui.Profile;
-import org.concordiacraft.redrealms.commands.gui.Realm;
 import org.concordiacraft.redrealms.commands.redcommands.town.Town;
 import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.config.ConfigLoader;

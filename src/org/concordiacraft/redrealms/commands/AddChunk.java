@@ -25,21 +25,21 @@ public class AddChunk implements CommandExecutor {
         }
         Player playerSender = (Player) commandSender;
         Chunk chunk = playerSender.getLocation().getChunk();
-        RedPlayer redPlayer = RedData.createPlayer(playerSender);
+        RedPlayer redPlayer = RedData.loadPlayer(playerSender);
         redPlayer.readFile();
 
-        String Realm = redPlayer.getPlayerRealmName();
-        RedTown town = RedData.createTown(Realm);
+        String Realm = redPlayer.getRealmName();
+        RedTown town = RedData.loadTown(Realm);
         town.readFile();
 
          // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file
-        RedChunk region = RedData.createChunk(chunk);
+        RedChunk region = RedData.loadChunk(chunk);
         region.readFile();
         if (region.getOwner() != null){
             commandSender.sendMessage("Это территория города " + region.getOwner());
             return true;
         }
-        region.setOwner(redPlayer.getPlayerRealmName());
+        region.setOwner(redPlayer.getRealmName());
         region.updateFile();
         town.addChunk(chunk);
 

@@ -1,7 +1,6 @@
 package org.concordiacraft.redrealms.rules;
 
 import org.bukkit.Material;
-import org.concordiacraft.redutils.main.RedUtils;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Map;
  * @author Theorenter
  * Rule (or flag) - a control element for towns and realms.
  * The rule itself is a text key and a Boolean value.
- * Extended Rule-An abstract class that is implemented in
+ * Extended Rule - An abstract class that is implemented in
  * more advanced controls, such as reform,
  * social research, and technology
  */

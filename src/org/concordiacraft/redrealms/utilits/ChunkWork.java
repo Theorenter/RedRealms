@@ -26,13 +26,13 @@ public final class ChunkWork {
     }
 
     public static boolean canInteract(Chunk chunk, Player player){
-        RedPlayer redPlayer = RedData.createPlayer(player);
-        RedChunk redChunk = RedData.createChunk(chunk);
+        RedPlayer redPlayer = RedData.loadPlayer(player);
+        RedChunk redChunk = RedData.loadChunk(chunk);
         if (redChunk.getOwner()==null) return true;
 
-        RedTown town = RedData.createTown(redChunk.getOwner());
+        RedTown town = RedData.loadTown(redChunk.getOwner());
 
-        return town.getResidentNames().contains(redPlayer.getId());
+        return town.getCitizenNames().contains(redPlayer.getId());
     }
     /*
     @param chunk Chunk we want to convert

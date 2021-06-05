@@ -20,7 +20,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void firstPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        RedPlayer redPlayer = RedData.createPlayer(p);
+        RedPlayer redPlayer = RedData.loadPlayer(p);
     }
     @EventHandler(priority = EventPriority.LOWEST)
     public void interruptedConversationCheck(PlayerJoinEvent e) {

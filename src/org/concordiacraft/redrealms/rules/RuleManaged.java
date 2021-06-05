@@ -7,5 +7,6 @@ package org.concordiacraft.redrealms.rules;
  */
 
 public interface RuleManaged {
+    boolean getRuleValue(String ruleID);
     void changeRule(String ruleID, boolean value);
 }
