@@ -5,10 +5,10 @@
 ############################################################
 
 main:
-  # Track all plugin actions that will be displayed in the console
-  debug: 'true'
+  # Track all plugin actions that will be displayed in the console.
+  debug: true
 
-  # The language file you wish to use
+  # The language file you wish to use.
   localization: "default.yml"
 
 ############################################################
@@ -30,7 +30,7 @@ world:
 ############################################################
 
 biomes:
-  # List of the biomes types
+  # List of the biomes types.
   biomes-list:
     snowy:
       - "SNOWY_TUNDRA"
@@ -126,13 +126,13 @@ biomes:
 ############################################################
 
 string-format:
-  # Character max-limit for naming cities, regions, and states
+  # Character max-limit for naming towns, regions, and realms.
   name-max-length: 24
 
-  # Character min-limit for naming cities, regions, and states
+  # Character min-limit for naming towns, regions, and realms.
   name-min-length: 2
 
-  # Acceptable characters in the names of cities, states, regions, etc.
+  # Acceptable characters in the names of towns, realms, regions, etc.
   name-regex: '^[а-яА-Я0-9._\[\]-]*$'
 
 ############################################################
@@ -142,7 +142,7 @@ string-format:
 ############################################################
 
 effects-sounds:
-  # Sound when an error occurs
+  # Sound when an error occurs.
   error-sound:
     name: "block.note_block.didgeridoo"
     pitch: 1

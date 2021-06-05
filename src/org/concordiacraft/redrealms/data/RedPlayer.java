@@ -77,8 +77,8 @@ public class RedPlayer extends RedData {
         String ruleKey;
         if (ItemManager.isCustomItem(recipeResult)) {
             NamespacedKey nsk = new NamespacedKey(RedItems.getPlugin(), "reditems-id");
-            ruleKey = recipeResult.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING);
-        } else { ruleKey = recipeResult.getType().getKey().getKey(); }
+            ruleKey = recipeResult.getItemMeta().getPersistentDataContainer().get(nsk, PersistentDataType.STRING).toUpperCase();
+        } else { ruleKey = recipeResult.getType().getKey().getKey().toUpperCase(); }
 
         // Determine whether the player is in the town and whether he has the corresponding rule
         if (this.hasTown()) {

@@ -7,12 +7,9 @@ import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.config.ConfigLoader;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
 import org.concordiacraft.redrealms.data.*;
-import org.concordiacraft.redrealms.listeners.GUIListener;
-import org.concordiacraft.redrealms.listeners.PlayerInteractListener;
-import org.concordiacraft.redrealms.listeners.PlayerJoin;
+import org.concordiacraft.redrealms.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.concordiacraft.redrealms.listeners.TownListener;
 import org.concordiacraft.redrealms.listeners.chunkguard.ChunkGuardListener;
 import org.concordiacraft.redutils.main.RedPlugin;
 import org.concordiacraft.redutils.utils.RedLog;
@@ -33,10 +30,11 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
 
         // Settings init
         ConfigLoader.init(this);
-        DataManager.init(this);
+        DataLoader.init(this);
 
         // Listeners (without addons)
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
+        Bukkit.getPluginManager().registerEvents(new RuleListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChunkGuardListener(), this);
         Bukkit.getPluginManager().registerEvents(new TownListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);

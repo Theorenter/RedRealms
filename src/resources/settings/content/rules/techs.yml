@@ -2,7 +2,7 @@ techs:
   - ID: "primitive_metallurgy"
     displayName: "Примитивная обработка металла"
     rules:
-      primitiveMetallurgy: 'true'
+      primitiveMetallurgy: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -14,7 +14,7 @@ techs:
   - ID: "agriculture"
     displayName: "Сельское хозяйство"
     rules:
-      agriculture: 'true'
+      agriculture: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -26,7 +26,7 @@ techs:
   - ID: "animal_husbandry"
     displayName: "Животноводство"
     rules:
-      animalHusbandry: 'true'
+      animalHusbandry: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -40,7 +40,7 @@ techs:
   - ID: "fundamentals_breeding"
     displayName: "Основы селекции"
     rules:
-      fundamentalsBreeding: 'true'
+      fundamentalsBreeding: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -49,12 +49,12 @@ techs:
       price: 32.0
       exp: 0.0
       required-rules:
-        farmRegulation: 'true'
+        farmRegulation: true
 
   - ID: "leather_tanning"
     displayName: "Дубление кожи"
     rules:
-      leatherTanning: 'true'
+      leatherTanning: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -63,12 +63,12 @@ techs:
       price: 8.0
       exp: 0.0
       required-rules:
-        farmRegulation: 'true'
+        farmRegulation: true
 
   - ID: "horse_riding"
     displayName: "Верховая езда"
     rules:
-      horseRiding: 'true'
+      horseRiding: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -79,12 +79,12 @@ techs:
         snowy: 8.0
       exp: 0.0
       required-rules:
-        leatherTanning: 'true'
+        leatherTanning: true
 
   - ID: "advanced_agriculture"
     displayName: "Продвинутое c/х"
     rules:
-      advancedAgriculture: 'true'
+      advancedAgriculture: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -95,13 +95,13 @@ techs:
         temperate: 8.0
       exp: 0.0
       required-rules:
-        horseRiding: 'true'
-        fundamentalsBreeding: 'true'
+        horseRiding: true
+        fundamentalsBreeding: true
 
   - ID: "bow_and_arrows"
     displayName: "Лук и стрелы"
     rules:
-      bowAndArrows: 'true'
+      bowAndArrows: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -112,12 +112,12 @@ techs:
         snowy: 8.0
       exp: 0.0
       required-rules:
-        leatherTanning: 'true'
+        leatherTanning: true
 
   - ID: "forging_armor"
     displayName: "Ковка брони"
     rules:
-      ForgingArmor: 'true'
+      ForgingArmor: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -128,12 +128,12 @@ techs:
         snowy: 8.0
       exp: 0.0
       required-rules:
-        leatherTanning: 'true'
+        leatherTanning: true
 
   - ID: "shipping"
     displayName: "Мореходство"
     rules:
-      shipping: 'true'
+      shipping: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -144,4 +144,4 @@ techs:
         snowy: 8.0
       exp: 0.0
       required-rules:
-        commerce: 'true'
+        commerce: true

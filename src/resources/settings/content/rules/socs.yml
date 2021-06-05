@@ -2,10 +2,10 @@ socs:
   - ID: "state"
     displayName: "Государство"
     rules:
-      canBecomeState: 'true'
+      canBecomeState: true
     description:
       - "<#FFFFFF>!TODO описание!"
-        custom-model-data: 0
+    custom-model-data: 0
     material: "FLINT_AND_STEEL"
     requirements:
       price: 16.0
@@ -14,7 +14,7 @@ socs:
   - ID: "monetary_system"
     displayName: "Денежная система"
     rules:
-      monetarySystem: 'true'
+      monetarySystem: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -23,13 +23,13 @@ socs:
       price: 32.0
       exp: 0.0
       required-rules:
-        primitiveMetallurgy: 'true'
-        canBecomeState: 'true'
+        primitiveMetallurgy: true
+        canBecomeState: true
 
   - ID: "farm_regulation"
     displayName: "Регламентация хозяйства"
     rules:
-      farmRegulation: 'true'
+      farmRegulation: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -38,13 +38,13 @@ socs:
       price: 16.0
       exp: 0.0
       required-rules:
-        agriculture: 'true'
-        animalHusbandry: 'true'
+        agriculture: true
+        animalHusbandry: true
 
   - ID: "early_legislation"
     displayName: "Денежная система"
     rules:
-      earlyLegislation: 'true'
+      earlyLegislation: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -53,13 +53,13 @@ socs:
       price: 64.0
       exp: 0.0
       required-rules:
-        canBecomeState: 'true'
-        monetarySystem: 'true'
+        canBecomeState: true
+        monetarySystem: true
 
   - ID: "cultural_plowing"
     displayName: "Культурная вспашка"
     rules:
-      culturalPlowing: 'true'
+      culturalPlowing: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -70,12 +70,12 @@ socs:
         temperate: 16.0
       exp: 0.0
       required-rules:
-        advancedAgriculture: 'true'
+        advancedAgriculture: true
 
   - ID: "centralized_legislation"
     displayName: "Централизованное законодательство"
     rules:
-      centralizedLegislation: 'true'
+      centralizedLegislation: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -84,12 +84,12 @@ socs:
       price: 128.0
       exp: 0.0
       required-rules:
-        culturalPlowing: 'true'
+        culturalPlowing: true
 
   - ID: "tax_system"
     displayName: "Налогообложение"
     rules:
-      taxSystem: 'true'
+      taxSystem: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -100,12 +100,12 @@ socs:
         temperate: 16.0
       exp: 0.0
       required-rules:
-        advancedAgriculture: 'true'
+        advancedAgriculture: true
 
   - ID: "commerce"
     displayName: "Коммерция"
     rules:
-      commerce: 'true'
+      commerce: true
     description:
       - "<#FFFFFF>Снижение содержания рыночных и"
       - "<#FFFFFF>банковских чанков на 50%"
@@ -115,12 +115,12 @@ socs:
       price: 32.0
       exp: 0.0
       required-rules:
-        taxSystem: 'true'
+        taxSystem: true
 
   - ID: "republican_tradition"
     displayName: "Республиканская традиция"
     rules:
-      republicanTradition: 'true'
+      republicanTradition: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -129,12 +129,12 @@ socs:
       price: 128.0
       exp: 0.0
       required-rules:
-        centralizedLegislation: 'true'
+        centralizedLegislation: true
 
   - ID: "expansion_of_executive_power"
     displayName: "Республиканская традиция"
     rules:
-      expansionOfExecutivePower: 'true'
+      expansionOfExecutivePower: true
     description:
       - "<#FFFFFF>!TODO описание!"
     material: "FLINT_AND_STEEL"
@@ -143,4 +143,4 @@ socs:
       price: 32.0
       exp: 0.0
       required-rules:
-        centralizedLegislation: 'true'
+        centralizedLegislation: true
