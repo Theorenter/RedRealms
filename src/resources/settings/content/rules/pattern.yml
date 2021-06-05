@@ -76,4 +76,6 @@ rules:
     IRON_BLOCK: 'false'
     IRON_DOOR: 'false'
     IRON_TRAPDOOR: 'false'
+
   to-use:
+    BOW: 'false'

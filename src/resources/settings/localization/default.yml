@@ -48,6 +48,9 @@ messages:
     player-not-in-town: "΃ Вы не состоите ни в одном городе!"
     player-already-in-town: "΃ Вы уже состоите городе \"%s\", сначала покиньте его, чтобы основать новое поселение!"
 
+    dont't-have-tech-to-craft: "΃ Вы не имеете нужной технологии, чтобы создать %s!"
+    dont't-have-tech-to-use: "΃ Вы не имеете нужной технологии, чтобы использовать %s!"
+
   notifications:
     prompt-data-item-back: "΁ Вам был возвращён следующий предмет: %s<reset>."
     prompt-data-item-back-inventory-full: " т.к. Ваш инвентарь полон, предмет появился возле Вас."

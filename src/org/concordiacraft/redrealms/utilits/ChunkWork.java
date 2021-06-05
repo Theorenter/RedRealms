@@ -32,7 +32,7 @@ public final class ChunkWork {
 
         RedTown town = RedData.loadTown(redChunk.getOwner());
 
-        return town.getCitizenNames().contains(redPlayer.getId());
+        return town.getCitizenIDs().contains(redPlayer.getId());
     }
     /*
     @param chunk Chunk we want to convert

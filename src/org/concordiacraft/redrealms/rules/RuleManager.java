@@ -20,10 +20,13 @@ public final class RuleManager {
 
     private static RedRealms plugin;
 
-    private static ArrayList<RuleReform> allReforms = new ArrayList<>();
-    private static ArrayList<RuleSoc> allSocs = new ArrayList<>();
-    private static ArrayList<RuleTech> allTechs = new ArrayList<>();
-    private static Map<String, Boolean> defaultPattern = new HashMap<>();
+    private static List<RuleReform> allReforms = new ArrayList<>();
+    private static List<RuleSoc> allSocs = new ArrayList<>();
+    private static List<RuleTech> allTechs = new ArrayList<>();
+
+    // Patterns
+    private static Map<String, Boolean> craftPattern = new HashMap<>();
+    private static Map<String, Boolean> usePattern = new HashMap<>();
 
 
     private static File reformsFile;
@@ -274,7 +277,7 @@ public final class RuleManager {
     }
 
     private static void initPattern(FileConfiguration patternsConfig) {
-        RuleManager.defaultPattern = (Map<String, Boolean>) RedDataConverter.getMapFromSection(patternsConfig.getConfigurationSection("rules"));
+        RuleManager.craftPattern = (Map<String, Boolean>) RedDataConverter.getMapFromSection(patternsConfig.getConfigurationSection("rules.to-craft"));
     }
 
     /*public static ExtendedRule getExtendedRuleByRule(String rule) {
@@ -315,7 +318,11 @@ public final class RuleManager {
     public static void hasRule(String rule, RedTown town) {
     }*/
 
-    public static ArrayList<RuleReform> getAllReforms() { return allReforms; }
-    public static ArrayList<RuleSoc> getAllSocialResearches() { return allSocs; }
-    public static ArrayList<RuleTech> getAllTechs() { return allTechs; }
+    public static List<RuleReform> getAllReforms() { return allReforms; }
+    public static List<RuleSoc> getAllSocialResearches() { return allSocs; }
+    public static List<RuleTech> getAllTechs() { return allTechs; }
+
+    // Patterns
+    public static Map<String, Boolean> getCraftPattern() { return craftPattern; }
+    public static Map<String, Boolean> getUsePattern() { return usePattern; }
 }

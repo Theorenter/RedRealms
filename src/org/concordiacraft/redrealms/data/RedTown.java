@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redrealms.rules.RuleManaged;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RedTown extends RedData implements RuleManaged {
+public class RedTown extends RedData {
     private String townName;
     private String mayorID;
 
@@ -27,7 +26,9 @@ public class RedTown extends RedData implements RuleManaged {
     private Map<String, List<Pattern>> townBanner;
     private List<ArrayList<Integer>> chunks = new ArrayList<>();
 
-    private Map<String, Boolean> rules = new HashMap();
+    // Rules
+    private Map<String, Boolean> craftRules = new HashMap<>();
+    private Map<String, Boolean> useRules = new HashMap<>();
 
     /**
      * THIS CONSTRUCTOR IS NOT USED TO CREATE TOWNS.
@@ -64,70 +65,108 @@ public class RedTown extends RedData implements RuleManaged {
         updateFile();
     }
 
-    @Override
-    public void changeRule(String ruleID, boolean value) {
-        this.rules.put(ruleID, value);
-    }
-
-    @Override
-    public boolean getRuleValue(String ruleID) {
-        return rules.get(ruleID);
-    }
-
     // Getters, setters, implemented functions
+
+    /**
+     * @return file of the town.
+     */
     public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "towns" + File.separator + townName + ".yml");
     }
 
+    /**
+     * @return capital chunk.
+     */
     public List<Integer> getCapitalChunk() {
         return capitalChunk;
     }
 
+    /**
+     * @param capitalChunk - main town Chunk.
+     */
     public void setCapitalChunk(ArrayList<Integer> capitalChunk) {
         this.capitalChunk = capitalChunk;
     }
 
-    public void setChunkCoords(int ChunkX,int ChunkZ) {
-        capitalChunk.add(ChunkX);
-        capitalChunk.add(ChunkZ);
-    }
+    /**
+     * @return town name;
+     */
     public String getTownName() {
         return townName;
     }
 
+    /**
+     * @param townName - name of the town.
+     */
     public void setTownName(String townName) {
         this.townName = townName;
     }
 
-    public void addChunk(int ChunkX, int ChunkZ){
-
+    /**
+     * Add a chunk to the town.
+     * @param ChunkX - Z coordinate of the chunk.
+     * @param ChunkZ - X coordinate of the chunk.
+     */
+    public void addChunk(int ChunkX, int ChunkZ) {
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(ChunkX,ChunkZ);
         chunks.add(ChunkCoords);
     }
-    public void addChunk(Chunk chunk){
+
+    /**
+     * Add a chunk to the town.
+     * @param chunk - chunk to add to the town.
+     */
+    public void addChunk(Chunk chunk) {
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(chunk);
         chunks.add(ChunkCoords);
     }
-    public List<ArrayList<Integer>> getChunks (){
+
+    /**
+     * @return all chunks within the town.
+     */
+    public List<ArrayList<Integer>> getChunks() {
         return chunks;
     }
 
+    /**
+     * @param playerID - UUID of the player to be appointed as the head of the town.
+     */
     public void setMayorID(String playerID) {
         this.mayorID = playerID;
     }
 
-    public List<String> getCitizenNames() {
+    /**
+     * @return UUID of all citizens of the town.
+     */
+    public List<String> getCitizenIDs() {
         return residentsIDList;
     }
 
-    public void addResident(String playerID){
+
+    /**
+     * Add a player to the town.
+     * @param playerID - UUID of the citizen.
+     */
+    public void addCitizen(String playerID){
         this.residentsIDList.add(playerID);
     }
 
-    public void setResidentID(ArrayList<String> residentNames) {
+    // rules
+
+    /**
+     * @return craft rules.
+     */
+    public Map<String, Boolean> getCraftRules() { return craftRules; }
+
+    /**
+     * @return use rules.
+     */
+    public Map<String, Boolean> getUseRules() { return useRules; }
+
+
+    /*public void setResidentID(ArrayList<String> residentNames) {
         this.residentsIDList = residentNames;
-    }
-    //endregion
+    }*/
 }
 
