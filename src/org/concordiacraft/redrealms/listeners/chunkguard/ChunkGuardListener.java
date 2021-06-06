@@ -44,7 +44,7 @@ public class ChunkGuardListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void townExplode(EntityExplodeEvent e) {
         RedChunk chunk = RedData.loadChunk(e.getLocation().getChunk());
-        if (chunk.getOwner()!=null) {
+        if (chunk.getTownOwner()!=null) {
             e.setCancelled(true);
         }
     }
@@ -58,10 +58,10 @@ public class ChunkGuardListener implements Listener {
     public void closeToTownExplode(EntityExplodeEvent e) {
         RedChunk chunk = RedData.loadChunk(e.getLocation().getChunk());
         List<Block> blockList = new ArrayList<>();
-        if (chunk.getOwner()==null) {
+        if (chunk.getTownOwner()==null) {
             for (Block b:e.blockList()) {
                 chunk = RedData.loadChunk(b.getChunk());
-                if (chunk.getOwner()!=null) {
+                if (chunk.getTownOwner()!=null) {
                     e.blockList().remove(b);
                 }
             }

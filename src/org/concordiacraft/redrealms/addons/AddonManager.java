@@ -6,13 +6,16 @@ import org.concordiacraft.redrealms.main.RedRealms;
 
 /**
  * @author Theorenter
- * Class manager for accounting for other RedPlagins
+ * Class manager for accounting for other plugins.
  */
 public class AddonManager {
 
     private static Boolean redItemsStatus = null;
     private static Boolean redUtilsStatus = null;
 
+    /**
+     * Initializing the manager.
+     */
     public static void init() {
         redItemsStatus = initPlugin("RedItems");
         redUtilsStatus = initPlugin("RedUtils");

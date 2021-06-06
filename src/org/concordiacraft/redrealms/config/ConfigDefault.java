@@ -18,6 +18,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
     // fields main
     private final boolean debug;
     private final String localizationFileName;
+    private final boolean hasCustomAdvancements;
 
     // fields world
     private final List<String> availableWorlds;
@@ -42,6 +43,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
         // main
         this.debug = customConfig.getBoolean("main.debug");
         this.localizationFileName = customConfig.getString("main.localization");
+        this.hasCustomAdvancements = customConfig.getBoolean("main.custom-advancements");
 
         // world
         this.availableWorlds = new ArrayList<>(customConfig.getStringList("world.available-worlds"));
@@ -70,6 +72,8 @@ public final class ConfigDefault extends ExtendedRedConfig {
     public boolean isDebug() { return debug; }
 
     public String getLocalizationFileName() { return localizationFileName; }
+
+    public boolean hasCustomAdvancements() { return hasCustomAdvancements; }
 
     public List<String> getAvailableWorlds() { return availableWorlds; }
 

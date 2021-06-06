@@ -18,7 +18,7 @@ public final class ChunkWork {
     //@param X chunk X
     //@param Z chunk Z
     //@return arraylist for other methods
-    public static ArrayList<Integer> chunkCreate (int X, int Z){
+    public static ArrayList<Integer> chunkCreate(int X, int Z) {
         ArrayList<Integer> chunkCoords = new ArrayList<>();
         chunkCoords.add(X);
         chunkCoords.add(Z);
@@ -28,9 +28,9 @@ public final class ChunkWork {
     public static boolean canInteract(Chunk chunk, Player player){
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
-        if (redChunk.getOwner()==null) return true;
+        if (redChunk.getTownOwner() == null) return true;
 
-        RedTown town = RedData.loadTown(redChunk.getOwner());
+        RedTown town = RedData.loadTown(redChunk.getTownOwner());
 
         return town.getCitizenIDs().contains(redPlayer.getId());
     }

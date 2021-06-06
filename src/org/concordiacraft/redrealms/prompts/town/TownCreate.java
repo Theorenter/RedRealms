@@ -11,37 +11,36 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedTown;
-import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class TownCreatePrompt extends ValidatingPrompt {
+public class TownCreate extends ValidatingPrompt {
 
-    private String biomeLocale;
-    private String biomeType;
-    private String hoverText;
+    private final String biomeLocale;
+    private final String biomeType;
+    private final String hoverText;
     private boolean hasInvalidInput = false;
-    private Chunk newTownChunk;
-    private ItemStack townBanner;
+    private final Chunk newTownChunk;
+    private final ItemStack townBanner;
 
-    public TownCreatePrompt(String biomeType, Chunk newTownChunk, ItemStack townBanner) {
+    public TownCreate(String biomeType, Chunk newTownChunk, ItemStack townBanner) {
 
         this.biomeType = biomeType;
         this.newTownChunk = newTownChunk;
         this.townBanner = townBanner;
 
         biomeLocale = RedRealms.getLocalization().getRawString("biomes." + biomeType + "-biome");
-        hoverText = RedRealms.getLocalization().getString("conversations.prompts.consul.town-create-start.hover-" + biomeType);
+        hoverText = RedRealms.getLocalization().getString("conversations.prompts.town-create-start.hover-" + biomeType);
 
     }
-    @Override
+/*    @Override
     public String getPromptText(ConversationContext context) {
 
         String stringSpace = RedRealms.getLocalization().getRawString("conversations.space");
@@ -112,6 +111,56 @@ public class TownCreatePrompt extends ValidatingPrompt {
         RedTown newTown = new RedTown(s, (Player) context.getForWhom(), townBanner, newTownChunk);
         Bukkit.getServer().broadcastMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
         return null;
+    }*/
+
+    @Override
+    public String getPromptText(ConversationContext context) {
+
+        Player p = (Player) context.getForWhom();
+
+        if (biomeLocale == null) {
+            return RedFormatter.format("messages.errors.cannot-create-town-here");
+        }
+
+        if (!hasInvalidInput) {
+            String helpColor = RedRealms.getLocalization().getRawString("components-color.help");
+            String convTextColor = RedRealms.getLocalization().getRawString("components-color.conversation-text");
+
+            TextComponent tc = new TextComponent();
+
+            TextComponent hoverComponent = new TextComponent(biomeLocale);
+            hoverComponent.setColor(ChatColor.of(helpColor));
+            hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
+            hoverComponent.setBold(true);
+
+            TextComponent tcText = new TextComponent(RedRealms.getLocalization().getString("conversations.prompts.town-create-start." + biomeType));
+            tcText.setColor(ChatColor.of(convTextColor));
+
+            tc.addExtra(hoverComponent);
+            tc.addExtra(tcText);
+
+            p.spigot().sendMessage(tc);
+            return RedRealms.getLocalization().getString("conversations.prompts.town-create-start.prompt");
+        }
+        return RedRealms.getLocalization().getString("messages.notifications.town-creation-after-invalid");
+    }
+
+    @Override
+    protected Prompt acceptValidatedInput(ConversationContext context, String s) {
+        Player mayor = (Player) context.getForWhom();
+
+        new RedTown(s, mayor, townBanner, newTownChunk);
+
+        PromptData.removeFromPromptMap(mayor.getUniqueId());
+
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            if (!p.equals(mayor)) {
+                p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
+            }
+        }
+
+        mayor.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created-by-you"), s));
+        return null;
     }
 
     @Override
@@ -145,4 +194,5 @@ public class TownCreatePrompt extends ValidatingPrompt {
         }
         return true;
     }
+
 }

@@ -1,10 +1,12 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.Chunk;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redutils.utils.RedDataConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +18,9 @@ public abstract class RedData {
     abstract File getFile();
 
 
-    private static HashMap<Chunk, RedChunk> allChunks = new HashMap<>();
-    private static HashMap<String, RedPlayer> allPlayers = new HashMap<>();
-    private static HashMap<String, RedTown> allTowns = new HashMap<>();
+    private static Map<Chunk, RedChunk> allChunks = new HashMap<>();
+    private static Map<String, RedPlayer> allPlayers = new HashMap<>();
+    private static Map<String, RedTown> allTowns = new HashMap<>();
 
     protected boolean setCustomFile(){
         return false;
@@ -57,33 +59,36 @@ public abstract class RedData {
             }
         }.runTaskAsynchronously(RedRealms.getPlugin());
     }
+
     public boolean readFile() {
+        RedRealms.getPlugin().getRedLogger().debug("Чтение...");
         Field[] fields = getClass().getDeclaredFields();
 
         if (!getFile().exists()) {
             return false;
         }
-        YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
-        for (Field field : fields){
+        YamlConfiguration yamlConfig = YamlConfiguration.loadConfiguration(getFile());
+
+        for (Field field : fields) {
             field.setAccessible(true);
             try {
-                if (field.get(this) instanceof Map) {
-                    HashMap<Object, Object> h = (HashMap<Object, Object>) field.get(this);
+                if (field.getType().isAssignableFrom(HashMap.class)) {
+                    Map<Object, Object> h = (Map<Object, Object>) RedDataConverter.getMapFromSection((ConfigurationSection) yamlConfig.get(field.getName()));
                     field.set(this, h);
                 } else {
-                    field.set(this, yamlFile.get(field.getName()));
+                    field.set(this, yamlConfig.get(field.getName()));
                 }
             }
-            catch (IllegalAccessException e1){
-                e1.printStackTrace();
+            catch (IllegalAccessException | IllegalArgumentException e1){
+                RedRealms.getPlugin().getRedLogger().error(field.getType().toString(), e1);
             }
         }
         return true;
     }
 
     protected void deleteFile(){
-        if (!getFile().exists())
-        getFile().delete();
+        if (getFile().exists())
+            getFile().delete();
     }
 
     // chunks
@@ -111,7 +116,7 @@ public abstract class RedData {
 
     // players
     public static RedPlayer loadPlayer(Player player) {
-        String playerID=player.getUniqueId().toString();
+        String playerID = player.getUniqueId().toString();
         if (allPlayers.containsKey(playerID)){
 
             return allPlayers.get(playerID);
@@ -124,16 +129,15 @@ public abstract class RedData {
         }
     }
 
-
-    public static HashMap<Chunk, RedChunk> getAllChunks() {
+    public static Map<Chunk, RedChunk> getAllChunks() {
         return allChunks;
     }
 
-    public static HashMap<String, RedPlayer> getAllPlayers() {
+    public static Map<String, RedPlayer> getAllPlayers() {
         return allPlayers;
     }
 
-    public static HashMap<String, RedTown> getAllTowns() {
+    public static Map<String, RedTown> getAllTowns() {
         return allTowns;
     }
 

@@ -15,7 +15,7 @@ import org.concordiacraft.redrealms.data.PromptData;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redrealms.prompts.town.TownCreatePrompt;
+import org.concordiacraft.redrealms.prompts.town.TownCreate;
 import org.concordiacraft.redrealms.utilits.BiomeManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
@@ -77,7 +77,7 @@ public class TownBannerPlaceListener implements Listener {
         String biomeType = BiomeManager.getBiomeType(thisBiomeName);
 
         // Conversation
-        TownCreatePrompt prompt = new TownCreatePrompt(biomeType, p.getWorld().getChunkAt(p.getLocation()), townBanner);
+        TownCreate prompt = new TownCreate(biomeType, p.getWorld().getChunkAt(p.getLocation()), townBanner);
         ConversationFactory cf = new ConversationFactory(RedRealms.getPlugin()).withFirstPrompt(prompt);
         cf.buildConversation(p).begin();
     }

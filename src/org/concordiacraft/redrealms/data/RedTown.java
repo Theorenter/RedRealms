@@ -8,23 +8,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.rules.RuleManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RedTown extends RedData {
-    private String townName;
+    private String name;
     private String mayorID;
 
-    private List<String> residentsIDList;
-    private List<Integer> capitalChunk;
+    private List<String> citizensIDs = new ArrayList<>();
+    private List<Integer> capitalChunk = new ArrayList<>();
 
-    private Map<String, List<Pattern>> townBanner;
-    private List<ArrayList<Integer>> chunks = new ArrayList<>();
+    private HashMap<String, List<Pattern>> townBanner;
+    private List<List<Integer>> chunks = new ArrayList<>();
 
     // Rules
     private Map<String, Boolean> craftRules = new HashMap<>();
@@ -37,31 +35,39 @@ public class RedTown extends RedData {
      * @param townName
      */
     protected RedTown(String townName) {
-        this.townName = townName;
+        this.name = townName;
         readFile();
     }
 
     /**
      * Valid town constructor.
      *
-     * @param townName - name of the town
-     * @param townFounder - founder of the town.
-     * @param townBanner - town flag.
-     * @param capitalChunk - the chunk that the town will be based on.
+     * @param townName name of the town
+     * @param townFounder founder of the town.
+     * @param townBanner town flag.
+     * @param capitalChunk the chunk that the town will be based on.
      */
     public RedTown(String townName, Player townFounder, ItemStack townBanner, Chunk capitalChunk) {
-        this.townName = townName;
+        this.name = townName;
         this.mayorID = townFounder.getUniqueId().toString();
         this.townBanner = new HashMap<>(); this.townBanner.put(townBanner.getType().getKey().getKey(), ((BannerMeta) townBanner.getItemMeta()).getPatterns());
-        this.residentsIDList = new ArrayList<>(); this.residentsIDList.add(townFounder.getUniqueId().toString());
+        this.citizensIDs = new ArrayList<>(); this.citizensIDs.add(townFounder.getUniqueId().toString());
 
         RedPlayer redPlayer = RedData.loadPlayer(townFounder);
         redPlayer.setTownName(townName);
         redPlayer.updateFile();
 
+        // rules
+        this.craftRules = RuleManager.getCraftPattern();
+        this.useRules = RuleManager.getUsePattern();
+
+        setCapitalChunk(capitalChunk);
         addChunk(capitalChunk);
+
         Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, townFounder, townBanner, capitalChunk));
-        RedData.loadChunk(capitalChunk);
+        RedChunk rc = RedData.loadChunk(capitalChunk);
+        rc.setTownOwner(name);
+        rc.updateFile();
         updateFile();
     }
 
@@ -72,7 +78,7 @@ public class RedTown extends RedData {
      */
     public File getFile() {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
-                "towns" + File.separator + townName + ".yml");
+                "towns" + File.separator + name + ".yml");
     }
 
     /**
@@ -83,39 +89,45 @@ public class RedTown extends RedData {
     }
 
     /**
-     * @param capitalChunk - main town Chunk.
+     * @param capitalChunk main town Chunk.
      */
-    public void setCapitalChunk(ArrayList<Integer> capitalChunk) {
+    public void setCapitalChunk(List<Integer> capitalChunk) {
         this.capitalChunk = capitalChunk;
+
+    }
+
+    /**
+     * @param capitalChunk main town Chunk.
+     */
+    public void setCapitalChunk(Chunk capitalChunk) {
+        this.setCapitalChunk(ChunkWork.chunkCreate(capitalChunk));
     }
 
     /**
      * @return town name;
      */
-    public String getTownName() {
-        return townName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param townName - name of the town.
+     * @param name name of the town.
      */
-    public void setTownName(String townName) {
-        this.townName = townName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      * Add a chunk to the town.
-     * @param ChunkX - Z coordinate of the chunk.
-     * @param ChunkZ - X coordinate of the chunk.
+     * @param chunk
      */
-    public void addChunk(int ChunkX, int ChunkZ) {
-        ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(ChunkX,ChunkZ);
-        chunks.add(ChunkCoords);
+    public void addChunk(List<Integer> chunk) {
+        chunks.add(chunk);
     }
 
     /**
      * Add a chunk to the town.
-     * @param chunk - chunk to add to the town.
+     * @param chunk chunk to add to the town.
      */
     public void addChunk(Chunk chunk) {
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(chunk);
@@ -125,12 +137,12 @@ public class RedTown extends RedData {
     /**
      * @return all chunks within the town.
      */
-    public List<ArrayList<Integer>> getChunks() {
+    public List<List<Integer>> getChunks() {
         return chunks;
     }
 
     /**
-     * @param playerID - UUID of the player to be appointed as the head of the town.
+     * @param playerID UUID of the player to be appointed as the head of the town.
      */
     public void setMayorID(String playerID) {
         this.mayorID = playerID;
@@ -140,19 +152,17 @@ public class RedTown extends RedData {
      * @return UUID of all citizens of the town.
      */
     public List<String> getCitizenIDs() {
-        return residentsIDList;
+        return citizensIDs;
     }
 
 
     /**
      * Add a player to the town.
-     * @param playerID - UUID of the citizen.
+     * @param playerID UUID of the citizen.
      */
     public void addCitizen(String playerID){
-        this.residentsIDList.add(playerID);
+        this.citizensIDs.add(playerID);
     }
-
-    // rules
 
     /**
      * @return craft rules.
@@ -163,6 +173,38 @@ public class RedTown extends RedData {
      * @return use rules.
      */
     public Map<String, Boolean> getUseRules() { return useRules; }
+
+    public void kickPlayer(Player player) {
+
+        RedPlayer rp = RedData.loadPlayer(player);
+        citizensIDs.remove(player.getUniqueId().toString());
+        rp.setTownName(null);
+        rp.updateFile();
+        if (citizensIDs.isEmpty()) {
+            delete();
+            for (Player p : Bukkit.getServer().getOnlinePlayers())
+                p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-was-deserted"), name));
+            return;
+        }
+
+        if (this.mayorID.equals(rp.getId())) {
+            for (String citizenID : citizensIDs) {
+                if (!citizenID.equals(this.mayorID)) {
+                    this.setMayorID(citizenID);
+                    updateFile();
+                    return;
+                }
+            }
+        }
+
+        updateFile();
+    }
+
+    public void delete() {
+        getAllTowns().remove(this.name);
+        deleteFile();
+    }
+
 
 
     /*public void setResidentID(ArrayList<String> residentNames) {

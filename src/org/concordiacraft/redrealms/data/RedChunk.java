@@ -65,12 +65,12 @@ public class RedChunk extends RedData {
         Z = z;
     }
 
-    public String getOwner() {
+    public String getTownOwner() {
         return this.ownerTown;
     }
 
-    public void setOwner(String owner) {
-        this.ownerTown = owner;
+    public void setTownOwner(String townOwner) {
+        this.ownerTown = townOwner;
     }
 
     public File getFile() {

@@ -36,7 +36,7 @@ public class RedPlayer extends RedData {
 
     /**
      * Set the name of the player in his RedPlayer data.
-     * @param name - name of the player.
+     * @param name name of the player.
      */
     public void setName(String name) {
         this.name = name;
@@ -49,7 +49,7 @@ public class RedPlayer extends RedData {
      * Sets the realm in which the player is a member.
      * WARNING: If a player moves from one town to another,
      * they must also be removed from the list of town and realm!
-     * @param realmName - name of the realm.
+     * @param realmName name of the realm.
      */
     public void setRealmName(String realmName) { this.realmName = realmName; }
 
@@ -69,7 +69,7 @@ public class RedPlayer extends RedData {
     public boolean hasTown() { return townName != null; }
 
     /**
-     * @param recipeResult - the item that should be placed on the workbench/in the stove, etc.
+     * @param recipeResult the item that should be placed on the workbench/in the stove, etc.
      * @return whether the player has the ability to create an item.
      */
     public boolean hasRuleToCraft(ItemStack recipeResult) {
@@ -114,9 +114,11 @@ public class RedPlayer extends RedData {
      * Sets the town in which the player is a member.
      * WARNING: If a player moves from one town to another,
      * they must also be removed from the list of town and realm!
-     * @param townName - name of the town.
+     * @param townName name of the town.
      */
-    public void setTownName(String townName) { this.townName = townName; }
+    public void setTownName(String townName) {
+        this.townName = townName;
+    }
 
     /**
      * @return file of the player.
@@ -125,6 +127,10 @@ public class RedPlayer extends RedData {
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "players" + File.separator + id + ".yml");
     }
+
+    /*public boolean isMayor() {
+        // Потом...
+    }*/
 
     // Constructor
     protected RedPlayer(Player p) {

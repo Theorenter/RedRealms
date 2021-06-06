@@ -11,6 +11,10 @@ main:
   # The language file you wish to use.
   localization: "default.yml"
 
+  # Does the plugin use a custom achievement system?
+  # WARNING: the server must have the CrazyAdvancementsAPI plugin!
+  custom-advancements: true
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                  World configuration                 | #

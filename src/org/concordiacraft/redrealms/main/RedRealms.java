@@ -32,6 +32,8 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         ConfigLoader.init(this);
         DataLoader.init(this);
 
+        //RedAdvancementManager.init();
+
         // Listeners (without addons)
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
         Bukkit.getPluginManager().registerEvents(new RuleListener(), this);
@@ -39,6 +41,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         Bukkit.getPluginManager().registerEvents(new TownListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
         Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
+        //Bukkit.getPluginManager().registerEvents(new RecipeDiscoverListener(), this);
 
         // Commands
         getCommand("menu").setExecutor(new Menu());

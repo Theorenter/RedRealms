@@ -12,5 +12,6 @@
     <orderEntry type="library" name="spigot-1.16.5" level="project" />
     <orderEntry type="library" name="RedUtil" level="project" />
     <orderEntry type="library" name="RedItems" level="project" />
+    <orderEntry type="library" name="CrazyAdvancementsAPI" level="project" />
   </component>
 </module>

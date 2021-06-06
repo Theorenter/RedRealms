@@ -37,7 +37,7 @@ public class RegionManagement implements CommandExecutor {
             Chunk gameChunk = player.getLocation().getChunk();
             RedChunk chunk = RedData.loadChunk(gameChunk);
 
-            if (chunk.getTownRegion()!=null||chunk.getOwner()!=null) {player.sendMessage("Этот чанк уже занят другим регионом или не находится в городе"); return true;}
+            if (chunk.getTownRegion()!=null||chunk.getTownOwner()!=null) {player.sendMessage("Этот чанк уже занят другим регионом или не находится в городе"); return true;}
             chunk.setTownRegion(strings[1]);
             region.addChunk(gameChunk);
             chunk.updateFile();
@@ -53,7 +53,7 @@ public class RegionManagement implements CommandExecutor {
             if (!region.readFile()) {commandSender.sendMessage("Данного региона не существует"); return true;}
             RedChunk chunk = RedData.loadChunk(player.getLocation().getChunk());
             if (chunk.getTownRegion()!=null) {commandSender.sendMessage("Данный чанк принадлежит другому региону!"); return true;}
-            if (!chunk.getOwner().equalsIgnoreCase(redPlayer.getRealmName())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
+            if (!chunk.getTownOwner().equalsIgnoreCase(redPlayer.getRealmName())){commandSender.sendMessage("Данный регион не принадлежит вашему городу"); return true;}
             chunk.setTownRegion(strings[1]);
             region.addChunk(player.getLocation().getChunk());
             chunk.updateFile();
