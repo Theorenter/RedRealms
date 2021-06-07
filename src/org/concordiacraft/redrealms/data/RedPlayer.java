@@ -138,7 +138,13 @@ public class RedPlayer extends RedData {
 
         if (!readFile()) {
             this.name = p.getName();
-            RedRealms.getPlugin().getRedLogger().error("SuKA");
+
+            updateFile();
+        }
+    }
+    protected RedPlayer(String playerID) {
+        this.id = playerID;
+        if (!readFile()) {
             updateFile();
         }
     }

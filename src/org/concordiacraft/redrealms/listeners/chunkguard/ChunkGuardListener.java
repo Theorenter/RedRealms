@@ -22,7 +22,7 @@ public class ChunkGuardListener implements Listener {
     public void playerInteractTownBlock(PlayerInteractEvent e) {
         if (!e.hasBlock()) return;
         Block block = e.getClickedBlock();
-        RedData.loadChunk(block.getChunk());;
+        RedData.loadChunk(block.getChunk());
 
         if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
         {

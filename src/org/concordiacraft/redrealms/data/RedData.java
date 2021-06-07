@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,36 +32,11 @@ public abstract class RedData {
         return false;
     };
     public void updateFile() {
-        /*   URL url = new URL("http://localhost/api/player");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            connection.setRequestProperty("charset", "utf-8");
-            connection.setRequestProperty("Accept", "application/json");
-            connection.connect();
-            String jsonInputString = "{\"UUID\": \"SuckMyDick\", \"Nickname\": \"nikkiika\"}";
-            try(OutputStream os = connection.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-                RedRealms.getPlugin().getRedLogger().error(response.toString());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        boolean isUpdate=false;
+        if(getFile().exists()) isUpdate=true;
 
         Field[] fields = getClass().getDeclaredFields();
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
-
         try {
             for (Field field : fields) {
                 // checks all fields of class which implemented RedData, allowing to automatically read/update all fields
@@ -89,9 +65,11 @@ public abstract class RedData {
                 }
             }
         }.runTaskAsynchronously(RedRealms.getPlugin());
+
         if (this instanceof RedTown){
             RedTown rt = (RedTown) this;
             RedData.allTowns.replace(rt.getName(),rt);
+            rt.updateTown(isUpdate);
         }
         if (this instanceof RedChunk){
             RedChunk rt = (RedChunk) this;
@@ -99,11 +77,14 @@ public abstract class RedData {
             chunkcoords.add(rt.getX());
             chunkcoords.add(rt.getZ());
             RedData.allChunks.replace(chunkcoords,rt);
+
         }
         if (this instanceof RedPlayer){
             RedPlayer rp = (RedPlayer) this;
-            RedData.allPlayers.replace(rp.getId(),rp);
+            if(RedData.allPlayers.replace(rp.getId(),rp)==null)
+                RedData.allPlayers.put(rp.getId(),rp);
         }
+
     }
 
     public boolean readFile() {
@@ -141,7 +122,7 @@ public abstract class RedData {
     public static RedChunk loadChunk(Chunk chunk) {
 
         if (allChunks.containsKey(ChunkWork.chunkCreate(chunk))){
-            return allChunks.get(chunk);
+            return allChunks.get(ChunkWork.chunkCreate(chunk));
         } else {
             RedChunk newChunk = new RedChunk(chunk);
             allChunks.put(ChunkWork.chunkCreate(chunk),newChunk);
@@ -184,7 +165,18 @@ public abstract class RedData {
             return newPlayer;
         }
     }
+    public static RedPlayer loadPlayer(String playerID) {
+        if (allPlayers.containsKey(playerID)){
 
+            return allPlayers.get(playerID);
+
+        } else {
+
+            RedPlayer newPlayer = new RedPlayer(playerID);
+            allPlayers.put(playerID, newPlayer);
+            return newPlayer;
+        }
+    }
     public static Map<ArrayList<Integer>, RedChunk> getAllChunks() {
         return allChunks;
     }

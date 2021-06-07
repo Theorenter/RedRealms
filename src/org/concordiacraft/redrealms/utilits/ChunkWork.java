@@ -8,6 +8,7 @@ import org.concordiacraft.redrealms.data.RedChunk;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedTown;
+import org.concordiacraft.redrealms.main.RedRealms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ public final class ChunkWork {
     public static boolean canInteract(Chunk chunk, Player player){
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
+        RedRealms.getPlugin().getRedLogger().debug(redChunk.getBiomeKey());
+        RedRealms.getPlugin().getRedLogger().debug(redChunk.getTownOwner());
         if (redChunk.getTownOwner() == null) return true;
 
         RedTown town = RedData.loadTown(redChunk.getTownOwner());

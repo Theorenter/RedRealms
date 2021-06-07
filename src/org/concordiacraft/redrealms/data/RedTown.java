@@ -6,12 +6,17 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.concordiacraft.redrealms.events.TownCreationConversationEvent;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.rules.RuleManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
-import java.io.File;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class RedTown extends RedData {
@@ -73,6 +78,51 @@ public class RedTown extends RedData {
 
     // Getters, setters, implemented functions
 
+    public void updateTown(boolean isUpdate){
+        RedPlayer mayor= RedData.loadPlayer(this.mayorID);
+        String jsonInputString = "{\"Name\": \""+this.name+"\"," +
+                " \"Owner\": \""+mayor.getName()+"\"" +
+                "}";
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                try{
+
+                    URL url = new URL("http://localhost/api/town");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoOutput(true);
+                    connection.setInstanceFollowRedirects(false);
+                    if(isUpdate){
+                        connection.setRequestMethod("PUT");
+                    } else connection.setRequestMethod("POST");
+                    connection.setRequestProperty("apiKey","");
+                    connection.setRequestProperty("Content-Type", "application/json; utf-8");
+                    connection.setRequestProperty("charset", "utf-8");
+                    connection.setRequestProperty("Accept", "application/json");
+                    connection.connect();
+
+
+                    try(OutputStream os = connection.getOutputStream()) {
+                        byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+                        os.write(input, 0, input.length);
+                    }
+                    try(BufferedReader br = new BufferedReader(
+                            new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                        StringBuilder response = new StringBuilder();
+                        String responseLine = null;
+                        while ((responseLine = br.readLine()) != null) {
+                            response.append(responseLine.trim());
+                        }
+                        RedRealms.getPlugin().getRedLogger().debug(response.toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(RedRealms.getPlugin());
+
+
+    }
     /**
      * @return file of the town.
      */
@@ -184,6 +234,11 @@ public class RedTown extends RedData {
             delete();
             for (Player p : Bukkit.getServer().getOnlinePlayers())
                 p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-was-deserted"), name));
+            for (List<Integer> chunk : chunks){
+                RedChunk newChunk = RedData.loadChunk((ArrayList<Integer>) chunk);
+                newChunk.setTownOwner(null);
+                newChunk.updateFile();
+            }
             return;
         }
 
