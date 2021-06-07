@@ -138,6 +138,7 @@ public class RedPlayer extends RedData {
 
         if (!readFile()) {
             this.name = p.getName();
+            RedRealms.getPlugin().getRedLogger().error("SuKA");
             updateFile();
         }
     }
