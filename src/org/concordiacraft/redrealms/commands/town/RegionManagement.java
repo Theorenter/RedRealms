@@ -80,7 +80,9 @@ public class RegionManagement implements CommandExecutor {
                 return true;
             }
             //todo set chunkProfs/free
-            if(!chunkProfs.contains(strings[2])){commandSender.sendMessage("Данной специализации региона не существует");return true;}
+            if (!chunkProfs.contains(strings[2])) {
+                commandSender.sendMessage("Данной специализации региона не существует");
+                return true; }
             region.getChunks().forEach(chunk -> {
                 RedChunk mChunk = new RedChunk(chunk);
                 mChunk.setChunkProf(strings[2]);

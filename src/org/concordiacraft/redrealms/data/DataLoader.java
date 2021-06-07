@@ -4,7 +4,11 @@ import org.concordiacraft.redrealms.main.RedRealms;
 
 import java.io.File;
 
-public class DataLoader {
+/**
+ * @author Theorenter
+ * Class for generating plugin data storage.
+ */
+public final class DataLoader {
 
     public static void init(RedRealms plugin)
     {

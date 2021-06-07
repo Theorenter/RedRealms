@@ -29,8 +29,6 @@ public final class ChunkWork {
     public static boolean canInteract(Chunk chunk, Player player){
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
-        RedRealms.getPlugin().getRedLogger().debug(redChunk.getBiomeKey());
-        RedRealms.getPlugin().getRedLogger().debug(redChunk.getTownOwner());
         if (redChunk.getTownOwner() == null) return true;
 
         RedTown town = RedData.loadTown(redChunk.getTownOwner());

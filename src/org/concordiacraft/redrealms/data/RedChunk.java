@@ -3,6 +3,7 @@ package org.concordiacraft.redrealms.data;
 import org.bukkit.World;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.Chunk;
+import org.concordiacraft.redrealms.utilits.BiomeManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.File;
@@ -21,82 +22,121 @@ public class RedChunk extends RedData {
     private Boolean municipality;
     private String townRegion;
     private String chunkProf;
-    private String biomeKey;
+    private String biomeType;
 
+    /**
+     * RedChunk constructor.
+     * WARNING: All valid RedChunks must be created via RedData.loadChunk()!
+     * @param chunk default minecraft chunk.
+     */
     public RedChunk(Chunk chunk) {
         this.setChunk(chunk);
         if (!readFile()){
             this.setWorld(chunk.getWorld());
-            this.biomeKey = ChunkWork.getBiome(chunk).name();
+            this.biomeType = BiomeManager.getBiomeType(ChunkWork.getBiome(chunk).name());
             updateFile();
         }
     }
 
-    public RedChunk(ArrayList<Integer> chunk){
+    /**
+     * RedChunk constructor.
+     * WARNING: All valid RedChunks must be created via RedData.loadChunk()!
+     * @param chunkLocation X (first value) and Z (second value) location values of the chunk.
+     */
+    public RedChunk(ArrayList<Integer> chunkLocation){
         RedRealms.getPlugin().getRedLogger().debug("Создание нового чанка...");
-        this.X = chunk.get(0);
-        this.Z = chunk.get(1);
+        this.X = chunkLocation.get(0);
+        this.Z = chunkLocation.get(1);
         if (!readFile()){
             updateFile();
         }
     }
 
+    /**
+     * @return world name of the chunk.
+     */
     public String getWorldName() {
         return worldName;
     }
 
+    /**
+     * @param worldName name of the chunk's world.
+     */
     public void setWorldName(String worldName) {
         this.worldName = worldName;
     }
 
-    public Integer getX() {
-        return X;
-    }
+    /**
+     * @return the X coordinate of the RedChunk.
+     */
+    public Integer getX() { return X; }
 
-    public void setX(Integer x) {
-        X = x;
-    }
+    /**
+     * @param x the X coordinate of the RedChunk.
+     */
+    public void setX(Integer x) { X = x; }
 
-    public Integer getZ() {
-        return Z;
-    }
+    /**
+     * @return the Z coordinate of the RedChunk.
+     */
+    public Integer getZ() { return Z; }
 
-    public void setZ(Integer z) {
-        Z = z;
-    }
+    /**
+     * @param z the Z coordinate of the RedChunk.
+     */
+    public void setZ(Integer z) { Z = z; }
 
+    /**
+     * @return which town is the owner of the RedChunk.
+     */
     public String getTownOwner() {
         return this.ownerTown;
     }
 
+    /**
+     * @param townOwner the town that will own the chunk.
+     */
     public void setTownOwner(String townOwner) {
         this.ownerTown = townOwner;
     }
 
+    /**
+     * @return RedChunk's file.
+     */
     public File getFile() {
-        String fileName = worldName +"_"+ X.toString()+"_"+Z.toString();
+        String fileName = worldName + "_" + X.toString() + "_" + Z.toString();
         return new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator +
                 "chunks" + File.separator + fileName +  ".yml");
     }
-    public void setWorld(World world){
+
+    /**
+     * @param world default minecraft object of the world.
+     */
+    public void setWorld(World world) {
         this.worldName = world.getName();
     }
-    public void setChunk(Chunk chunk){
+
+    /**
+     * @param chunk default minecraft chunk.
+     */
+    public void setChunk(Chunk chunk) {
         X = chunk.getX();
         Z = chunk.getZ();
-
     }
 
-
-
-    public Boolean getMunicipality() {
+    /**
+     * @return true if the RedChunk is directly owned by the town and false if the RedChunk belongs to a citizen of the town.
+     */
+    public Boolean isMunicipality() {
         return municipality;
     }
 
+    /**
+     * @param municipality true if the RedChunk is directly owned by the town and false if the RedChunk belongs to a citizen of the town.
+     */
     public void setMunicipality(Boolean municipality) {
         this.municipality = municipality;
     }
-
 
     public String getTownRegion() {
         return townRegion;
@@ -106,15 +146,21 @@ public class RedChunk extends RedData {
         this.townRegion = townRegion;
     }
 
+    /**
+     * @return the name of the professional purpose of the chunk.
+     */
     public String getChunkProf() {
         return chunkProf;
     }
 
+    /**
+     * @param chunkProf the name of the professional purpose of the chunk.
+     */
     public void setChunkProf(String chunkProf) {
         this.chunkProf = chunkProf;
     }
 
-    public String getBiomeKey() {
-        return biomeKey;
+    public String getBiomeType() {
+        return biomeType;
     }
 }

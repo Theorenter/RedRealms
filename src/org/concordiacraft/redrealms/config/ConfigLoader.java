@@ -2,7 +2,6 @@ package org.concordiacraft.redrealms.config;
 
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.rules.RuleManager;
-import org.concordiacraft.redrealms.utilits.BiomeManager;
 
 import java.io.File;
 

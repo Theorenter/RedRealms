@@ -32,7 +32,7 @@ public class AddChunk implements CommandExecutor {
         RedTown town = RedData.loadTown(Realm);
         town.readFile();
 
-         // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file
+        // using abstract utility class, we convert Chunk to ArrayList, and look for him in camp file
         RedChunk region = RedData.loadChunk(chunk);
         region.readFile();
         if (region.getTownOwner() != null){

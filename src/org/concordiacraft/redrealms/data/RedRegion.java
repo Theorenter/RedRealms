@@ -1,7 +1,6 @@
 package org.concordiacraft.redrealms.data;
 
 import org.bukkit.Chunk;
-import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 

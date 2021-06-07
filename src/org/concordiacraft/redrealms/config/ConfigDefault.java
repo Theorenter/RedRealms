@@ -20,6 +20,11 @@ public final class ConfigDefault extends ExtendedRedConfig {
     private final String localizationFileName;
     private final boolean hasCustomAdvancements;
 
+    // network
+    private final boolean isNetworkEnabled;
+    private final String hostname;
+    private final String apiKey;
+
     // fields world
     private final List<String> availableWorlds;
 
@@ -44,6 +49,11 @@ public final class ConfigDefault extends ExtendedRedConfig {
         this.debug = customConfig.getBoolean("main.debug");
         this.localizationFileName = customConfig.getString("main.localization");
         this.hasCustomAdvancements = customConfig.getBoolean("main.custom-advancements");
+
+        // network
+        this.isNetworkEnabled = customConfig.getBoolean("network.enable");
+        this.hostname = customConfig.getString("network.host");
+        this.apiKey = customConfig.getString("network.api-key");
 
         // world
         this.availableWorlds = new ArrayList<>(customConfig.getStringList("world.available-worlds"));
@@ -74,6 +84,12 @@ public final class ConfigDefault extends ExtendedRedConfig {
     public String getLocalizationFileName() { return localizationFileName; }
 
     public boolean hasCustomAdvancements() { return hasCustomAdvancements; }
+
+    public boolean isNetworkEnabled() { return isNetworkEnabled; }
+
+    public String getHostname() { return hostname; }
+
+    public String getApiKey() { return apiKey; }
 
     public List<String> getAvailableWorlds() { return availableWorlds; }
 

@@ -13,14 +13,23 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @author Theorenter
+ * Сlass that implements a system for storing player's
+ * belongings that they may have lost in the event of
+ * an incomplete request.
+ */
 public class PromptData {
-
     private static HashMap<UUID, Object> promptMap = new HashMap<>();
 
     private final static String fileName = "prompt-data.yml";
     private final static File promptDataFile = new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator + fileName);
     private final static YamlConfiguration yamlConf = new YamlConfiguration();
 
+    /**
+     * Loading data about lost items.
+     * @param plugin RedRealms.
+     */
     public static void loadPromptData(RedRealms plugin) {
         if (promptDataFile.exists()) {
             try {
@@ -43,6 +52,9 @@ public class PromptData {
         }
     }
 
+    /**
+     * Saving data about lost items.
+     */
     private static void savePromptData() {
         new BukkitRunnable() {
             @Override
@@ -59,14 +71,26 @@ public class PromptData {
         }.runTaskAsynchronously(RedRealms.getPlugin());
     }
 
+    /**
+     *
+     * @return HashMap where key is player's UUID and value is lost ItemStack.
+     */
     public static HashMap getPromptMap() {
         return promptMap;
     }
 
+    /**
+     * @param pID player's UUID.
+     * @param o ItemStack.
+     */
     public static void addToPromptMap(UUID pID, Object o) {
         promptMap.put(pID, o);
         savePromptData();
     }
+
+    /**
+     * @param pID player's UUID.
+     */
     public static void removeFromPromptMap(UUID pID) {
         promptMap.remove(pID);
         savePromptData();

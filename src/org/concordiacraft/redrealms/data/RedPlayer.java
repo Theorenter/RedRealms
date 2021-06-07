@@ -128,9 +128,14 @@ public class RedPlayer extends RedData {
                 "players" + File.separator + id + ".yml");
     }
 
-    /*public boolean isMayor() {
-        // Потом...
-    }*/
+    /**
+     * @return true if the player is the mayor and false if not.
+     */
+    public boolean isMayor() {
+        if (!this.hasTown()) return false;
+        RedTown rt = RedData.loadTown(this.getTownName());
+        return rt.getMayorID().equals(this.getId());
+    }
 
     // Constructor
     protected RedPlayer(Player p) {

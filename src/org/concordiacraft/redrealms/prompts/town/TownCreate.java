@@ -17,7 +17,6 @@ import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
-import java.util.Collection;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -149,10 +148,9 @@ public class TownCreate extends ValidatingPrompt {
     protected Prompt acceptValidatedInput(ConversationContext context, String s) {
         Player mayor = (Player) context.getForWhom();
 
-        new RedTown(s, mayor, townBanner, newTownChunk);
+        new RedTown(s, mayor, townBanner, newTownChunk, biomeType);
 
         PromptData.removeFromPromptMap(mayor.getUniqueId());
-
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             if (!p.equals(mayor)) {
                 p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
