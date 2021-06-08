@@ -10,10 +10,9 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.ValidatingPrompt;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.concordiacraft.redrealms.data.PromptData;
-import org.concordiacraft.redrealms.data.RedData;
-import org.concordiacraft.redrealms.data.RedTown;
+import org.concordiacraft.redrealms.data.*;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.concordiacraft.redutils.utils.RedFormatter;
 
@@ -25,9 +24,9 @@ public class TownCreate extends ValidatingPrompt {
     private final String biomeLocale;
     private final String biomeType;
     private final String hoverText;
-    private boolean hasInvalidInput = false;
     private final Chunk newTownChunk;
     private final ItemStack townBanner;
+    private boolean isError = false;
 
     public TownCreate(String biomeType, Chunk newTownChunk, ItemStack townBanner) {
 
@@ -121,75 +120,109 @@ public class TownCreate extends ValidatingPrompt {
             return RedFormatter.format("messages.errors.cannot-create-town-here");
         }
 
-        if (!hasInvalidInput) {
-            String helpColor = RedRealms.getLocalization().getRawString("components-color.help");
-            String convTextColor = RedRealms.getLocalization().getRawString("components-color.conversation-text");
+        String helpColor = RedRealms.getLocalization().getRawString("components-color.help");
+        String convTextColor = RedRealms.getLocalization().getRawString("components-color.conversation-text");
 
-            TextComponent tc = new TextComponent();
+        TextComponent tc = new TextComponent();
 
-            TextComponent hoverComponent = new TextComponent(biomeLocale);
-            hoverComponent.setColor(ChatColor.of(helpColor));
-            hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
-            hoverComponent.setBold(true);
+        TextComponent hoverComponent = new TextComponent(biomeLocale);
+        hoverComponent.setColor(ChatColor.of(helpColor));
+        hoverComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(hoverText)));
+        hoverComponent.setBold(true);
 
-            TextComponent tcText = new TextComponent(RedRealms.getLocalization().getString("conversations.prompts.town-create-start." + biomeType));
-            tcText.setColor(ChatColor.of(convTextColor));
+        TextComponent tcText = new TextComponent(RedRealms.getLocalization().getString("conversations.prompts.town-create-start." + biomeType));
+        tcText.setColor(ChatColor.of(convTextColor));
 
-            tc.addExtra(hoverComponent);
-            tc.addExtra(tcText);
+        tc.addExtra(hoverComponent);
+        tc.addExtra(tcText);
 
-            p.spigot().sendMessage(tc);
-            return RedRealms.getLocalization().getString("conversations.prompts.town-create-start.prompt");
-        }
-        return RedRealms.getLocalization().getString("messages.notifications.town-creation-after-invalid");
+        p.spigot().sendMessage(tc);
+        return RedRealms.getLocalization().getString("conversations.prompts.town-create-start.prompt");
     }
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext context, String s) {
-        Player mayor = (Player) context.getForWhom();
 
-        new RedTown(s, mayor, townBanner, newTownChunk, biomeType);
+        Player p = (Player) context.getForWhom();
 
-        PromptData.removeFromPromptMap(mayor.getUniqueId());
-        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-            if (!p.equals(mayor)) {
-                p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), mayor.getName(), s));
+        if (isError) {
+            ItemStack i = (ItemStack) PromptData.getPromptMap().get(((Player) context.getForWhom()).getUniqueId());
+            Inventory pi = p.getInventory();
+
+            if (pi.firstEmpty() == -1) {
+                p.getWorld().dropItem(p.getLocation(), i);
+               RedRealms.getPlugin().getRedLogger().info("Игроку " + p.getName() + " [" + p.getUniqueId().toString() + "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName() + " (Заспаунился рядом с игроком)");
+            } else {
+                pi.addItem(i);
+                RedRealms.getPlugin().getRedLogger().info("Игроку " + p.getName() + " [" + p.getUniqueId().toString() + "]" + " был возврашён следующий предмет: " + i.getItemMeta().getDisplayName() + "");
             }
+            PromptData.removeFromPromptMap(p.getUniqueId());
+            return END_OF_CONVERSATION;
         }
 
-        mayor.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created-by-you"), s));
-        return null;
+        new RedTown(s, p, townBanner, newTownChunk, biomeType);
+        PromptData.removeFromPromptMap(p.getUniqueId());
+        for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
+            if (!pl.equals(p))
+                pl.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created"), p.getName(), s));
+        }
+
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.new-town-was-created-by-you"), s));
+        return END_OF_CONVERSATION;
     }
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        // Max-min length check
+
+        RedPlayer rp = RedData.loadPlayer((Player) context.getForWhom());
+
+        // max-min length check
         if (input.length() < RedRealms.getDefaultConfig().getNameMinLength()) {
             context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-name-too-short"), RedRealms.getDefaultConfig().getNameMinLength()));
-            hasInvalidInput = true;
-            return false;
+            isError = true;
+            return true;
         }
         if (input.length() > RedRealms.getDefaultConfig().getNameMaxLength()) {
             context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-name-too-long"), RedRealms.getDefaultConfig().getNameMaxLength()));
-            hasInvalidInput = true;
-            return false;
+            isError = true;
+            return true;
         }
 
-        // Regex check
+        // regex check
         Pattern pattern = Pattern.compile(Objects.requireNonNull(RedRealms.getDefaultConfig().getNameRegex()));
         if (!pattern.matcher(input).matches()) {
             context.getForWhom().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.this-name-out-of-regex"));
-            hasInvalidInput = true;
-            return false;
+            isError = true;
+            return true;
         }
 
-        // Name check
+        // name check
         RedTown town = RedData.loadTown(input);
         if (town.readFile()) {
             context.getForWhom().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.this-town-name-already-taken"));
-            hasInvalidInput = true;
-            return false;
+            isError = true;
+            return true;
         }
+
+        // check if player already in town
+        if (rp.hasTown()) {
+            context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.player-already-in-town"), rp.getTownName()));
+            ((Player) context.getForWhom()).playSound(((Player) context.getForWhom()).getLocation(),
+                    RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            isError = true;
+            return true;
+        }
+
+        // check if this chunk already owned
+        RedChunk rc = RedData.loadChunk(newTownChunk);
+        if (rc.hasTownOwner()) {
+            context.getForWhom().sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-territory-already-taken"), rc.getTownOwner()));
+            ((Player) context.getForWhom()).playSound(((Player) context.getForWhom()).getLocation(),
+                    RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            isError = true;
+            return true;
+        }
+
         return true;
     }
 

@@ -11,11 +11,6 @@ import org.concordiacraft.redutils.utils.RedDataConverter;
 
 import java.io.*;
 import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-
-import java.net.ProtocolException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

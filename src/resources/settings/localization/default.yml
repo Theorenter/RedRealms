@@ -40,7 +40,7 @@ messages:
     this-name-too-long: "΃ Название слишком длинное. Макс.длина — <#FDAEE0><bold>%s"
     this-name-out-of-regex: "΃ Название города некорректно: можно использовать только цифры, буквы русского алфавита, тире и нижнее подчёркивание вместо пробела!"
     this-town-name-already-taken: "΃ К сожалению, город с таким названием уже существует, выберите другое!"
-    this-territory-already-taken: "΃ На данном участке уже существует другое поселение!"
+    this-territory-already-taken: "΃ Этот участок уже принадлежит городу <#FDAEE0><bold>%s<#FFFFFF>!"
     create-town-in-unavailable-world: "΃ Вы не можете создать новый город в этом мире!"
     private-territory-break: "΃ Вы не можете разрушать блоки на этой территории!"
     player-in-prompt: "΃ Вы не можете произвести какие-либо дейтсвия, т.к. сервер ожидает от Вас запрос в чате!"
@@ -48,7 +48,9 @@ messages:
     invalid-length-arguments: "΃ Команда введена неверно: вы указали некорректное количество аргументов!"
     player-not-in-town: "΃ Вы не состоите ни в одном городе!"
     player-is-not-mayor: "΃ Вы должны являться мэром города, чтобы сделать это!"
-    player-already-in-town: "΃ Вы уже состоите городе \"<#FDAEE0><bold>%s<#FFFFFF>\", сначала покиньте его, чтобы основать новое поселение!"
+    player-not-on-the-server: "΃ Игрока <#FDAEE0><bold>%s<#FFFFFF> нет на сервере!"
+    player-already-in-town: "΃ Вы уже состоите в городе \"<#FDAEE0><bold>%s<#FFFFFF>\", сначала покиньте его, чтобы основать новое поселение!"
+    another-player-already-in-town: "΃ Игрок <#FDAEE0><bold>%s<#FFFFFF> уже состоит в городе \"<#FDAEE0><bold>%s<#FFFFFF>\"!"
 
     dont't-have-tech-to-craft: "΃ Вы не имеете нужной технологии, чтобы создать <#FDAEE0><bold>%s<#FFFFFF>!"
     dont't-have-tech-to-use: "΃ Вы не имеете нужной технологии, чтобы использовать <#FDAEE0><bold>%s<#FFFFFF>!"
@@ -62,6 +64,7 @@ messages:
     new-town-was-created: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> основал новый город — <#FDAEE0><bold>%s"
     new-town-was-created-by-you: "΁ Вы основали новый город, который будет носить название \"<#FDAEE0><bold>%s<#FFFFFF>\"."
     town-was-deserted: "΁ Город \"<#FDAEE0><bold>%s<#FFFFFF>\" был распущен, т.к. в нём не осталось граждан."
+    you-were-invited-town: "΁ Игрок \<#FDAEE0><bold>%s<#FFFFFF>\ пригласил Вас в город \"<#FDAEE0><bold>%s<#FFFFFF>\" Хотите ли Вы присоединиться?"
 
   help:
     town:
@@ -70,6 +73,9 @@ messages:
       3: "<#FDAEE0><bold>/town leave <#AAAAAA>— <#ffffff>Покинуть свой текущий город."
       4: "<#FDAEE0><bold>/town invite [Имя игрока] <#AAAAAA>— <#ffffff>Пригласить игрока в город (только для мэра)."
 
+  active-text:
+    yes: "Да"
+    no: "Нет"
 ############################################################
 # +------------------------------------------------------+ #
 # |   Персонажи и сообщения переписки                    | #

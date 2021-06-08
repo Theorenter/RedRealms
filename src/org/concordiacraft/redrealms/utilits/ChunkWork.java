@@ -26,7 +26,7 @@ public final class ChunkWork {
         return chunkCoords;
     }
 
-    public static boolean canInteract(Chunk chunk, Player player){
+    public static boolean canInteract(Chunk chunk, Player player) {
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
         if (redChunk.getTownOwner() == null) return true;
@@ -39,7 +39,7 @@ public final class ChunkWork {
     @param chunk Chunk we want to convert
     @return array list that represents coordinates of converted chunk
      */
-    public static ArrayList<Integer> chunkCreate (Chunk chunk){
+    public static ArrayList<Integer> chunkCreate (Chunk chunk)  {
         ArrayList<Integer> chunkCoords = new ArrayList<>();
         chunkCoords.add(chunk.getX());
         chunkCoords.add(chunk.getZ());

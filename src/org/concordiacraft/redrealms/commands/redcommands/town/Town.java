@@ -1,11 +1,14 @@
 package org.concordiacraft.redrealms.commands.redcommands.town;
 
+import org.bukkit.Bukkit;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.gui.GUITown;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.prompts.town.TownInvite;
 import org.concordiacraft.redutils.commands.RedCommand;
 
 public class Town extends RedCommand {
@@ -87,37 +90,59 @@ public class Town extends RedCommand {
             return;
         }
 
-        Player p = (Player) sender;
+        Player pSender = (Player) sender;
 
         if (!sender.hasPermission("redrealms.town.mayor.invite")) {
             sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.don't-have-permissions-command"));
-            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
 
-        RedPlayer rp = RedData.loadPlayer(p);
+        RedPlayer rpSender = RedData.loadPlayer(pSender);
 
-        if (!rp.hasTown()) {
-            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-not-in-town"));
-            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+        if (!rpSender.hasTown()) {
+            pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-not-in-town"));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
 
-        if (!rp.isMayor()) {
-            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-is-not-mayor"));
-            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+        if (!rpSender.isMayor()) {
+            pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-is-not-mayor"));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
 
         if (args.length != 2) {
-            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.invalid-length-arguments"));
-            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+            pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.invalid-length-arguments"));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
-        p.sendRawMessage(args[1]);
+
+        if (Bukkit.getPlayer(args[1]) == null) {
+            pSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.player-not-on-the-server"), args[1]));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        Player pReceiver = Bukkit.getPlayer(args[1]);
+        RedPlayer rpReceiver = RedData.loadPlayer(pReceiver);
+
+        if (rpReceiver.hasTown()) {
+            pSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.another-player-already-in-town"), args[1], rpReceiver.getTownName()));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        // Conversation
+        TownInvite prompt = new TownInvite(RedTown.loadTown(rpSender.getTownName()), pSender);
+        ConversationFactory cf = new ConversationFactory(RedRealms.getPlugin()).withFirstPrompt(prompt);
+        cf.buildConversation(pReceiver).begin();
+
     }
 }

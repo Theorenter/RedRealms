@@ -87,6 +87,13 @@ public class RedChunk extends RedData {
     public void setZ(Integer z) { Z = z; }
 
     /**
+     * @return true if this chunk belongs to the city, false if it doesn't
+     */
+    public boolean hasTownOwner() {
+        return (ownerTown != null);
+    }
+
+    /**
      * @return which town is the owner of the RedChunk.
      */
     public String getTownOwner() {

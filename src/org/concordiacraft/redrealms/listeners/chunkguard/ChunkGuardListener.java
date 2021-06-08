@@ -52,7 +52,10 @@ public class ChunkGuardListener implements Listener {
     public void inTownFluidFlow(BlockFromToEvent e){
         RedChunk chunkFrom = RedData.loadChunk(e.getBlock().getChunk());
         RedChunk chunkTo = RedData.loadChunk(e.getToBlock().getChunk());
-        //if (!chunkFrom.getOwner().equals(chunkTo.getOwner()) && chunkTo.getOwner() != null) { e.setCancelled(true); }
+        /*if ((chunkTo.getTownOwner() != null) && (chunkFrom.getTownOwner() == null)) {
+            e.setCancelled(true);
+        }
+        if (!chunkFrom.getTownOwner().equals(chunkTo.getTownOwner()) && chunkTo.getTownOwner() != null) { e.setCancelled(true); }*/
     }
     @EventHandler(priority = EventPriority.HIGH)
     public void closeToTownExplode(EntityExplodeEvent e) {

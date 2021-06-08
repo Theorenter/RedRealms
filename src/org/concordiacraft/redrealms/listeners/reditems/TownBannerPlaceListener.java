@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.concordiacraft.reditems.main.RedItems;
 import org.concordiacraft.redrealms.data.PromptData;
+import org.concordiacraft.redrealms.data.RedChunk;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.main.RedRealms;
@@ -19,7 +20,7 @@ import org.concordiacraft.redrealms.prompts.town.TownCreate;
 import org.concordiacraft.redrealms.utilits.BiomeManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
-/***
+/**
  * @author Theorenter
  * This class is responsible for the behavior of the
  * plugin when placing the banner for creating a town,
@@ -75,6 +76,15 @@ public class TownBannerPlaceListener implements Listener {
         // Get biome type
         String thisBiomeName = ChunkWork.getBiome(p.getWorld().getChunkAt(p.getLocation())).name();
         String biomeType = BiomeManager.getBiomeType(thisBiomeName);
+
+        // check chunk
+        RedChunk rc = RedData.loadChunk(e.getBlock().getChunk());
+        if (rc.hasTownOwner()) {
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-territory-already-taken"), rc.getTownOwner()));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            e.setCancelled(true);
+        }
 
         // Conversation
         TownCreate prompt = new TownCreate(biomeType, p.getWorld().getChunkAt(p.getLocation()), townBanner);
