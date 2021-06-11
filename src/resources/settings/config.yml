@@ -140,6 +140,13 @@ biomes:
       - "END_BARRENS"
       - "THE_VOID"
 
+  # Here you can specify the name of the biome-types in which you can create towns and realms.
+  available-types:
+    - "snowy"
+    - "cold"
+    - "temperate"
+    - "warm"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |                   Managing strings                   | #

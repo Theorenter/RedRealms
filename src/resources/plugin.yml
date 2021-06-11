@@ -19,3 +19,6 @@ commands:
   realm:
     description: "Открыть меню взаимодействия с Вашей державой"
     usage: /realm
+  invite:
+    description: "Управление приглашениями"
+    usage: /invite

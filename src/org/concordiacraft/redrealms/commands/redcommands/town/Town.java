@@ -1,14 +1,12 @@
 package org.concordiacraft.redrealms.commands.redcommands.town;
 
 import org.bukkit.Bukkit;
-import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.gui.GUITown;
 import org.concordiacraft.redrealms.main.RedRealms;
-import org.concordiacraft.redrealms.prompts.town.TownInvite;
 import org.concordiacraft.redutils.commands.RedCommand;
 
 public class Town extends RedCommand {
@@ -18,6 +16,7 @@ public class Town extends RedCommand {
         commands.put("invite", "Пригласить игрока в город");
         commands.put("leave", "Покинуть город");
         commands.put("menu", "Открыть меню города");
+        commands.put("invite accept", "Принять приглашение в город");
     }
 
     @Override
@@ -139,10 +138,6 @@ public class Town extends RedCommand {
             return;
         }
 
-        // Conversation
-        TownInvite prompt = new TownInvite(RedTown.loadTown(rpSender.getTownName()), pSender);
-        ConversationFactory cf = new ConversationFactory(RedRealms.getPlugin()).withFirstPrompt(prompt);
-        cf.buildConversation(pReceiver).begin();
 
     }
 }

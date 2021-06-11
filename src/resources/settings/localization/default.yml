@@ -41,6 +41,7 @@ messages:
     this-name-out-of-regex: "΃ Название города некорректно: можно использовать только цифры, буквы русского алфавита, тире и нижнее подчёркивание вместо пробела!"
     this-town-name-already-taken: "΃ К сожалению, город с таким названием уже существует, выберите другое!"
     this-territory-already-taken: "΃ Этот участок уже принадлежит городу <#FDAEE0><bold>%s<#FFFFFF>!"
+    this-biome-type-unavailable: "΃ Вы не можете основать поселение на данном типе биома, выберите другой чанк."
     create-town-in-unavailable-world: "΃ Вы не можете создать новый город в этом мире!"
     private-territory-break: "΃ Вы не можете разрушать блоки на этой территории!"
     player-in-prompt: "΃ Вы не можете произвести какие-либо дейтсвия, т.к. сервер ожидает от Вас запрос в чате!"
@@ -51,6 +52,7 @@ messages:
     player-not-on-the-server: "΃ Игрока <#FDAEE0><bold>%s<#FFFFFF> нет на сервере!"
     player-already-in-town: "΃ Вы уже состоите в городе \"<#FDAEE0><bold>%s<#FFFFFF>\", сначала покиньте его, чтобы основать новое поселение!"
     another-player-already-in-town: "΃ Игрок <#FDAEE0><bold>%s<#FFFFFF> уже состоит в городе \"<#FDAEE0><bold>%s<#FFFFFF>\"!"
+    has-not-invited: "΃ У Вас нет ни одного приглашения!"
 
     dont't-have-tech-to-craft: "΃ Вы не имеете нужной технологии, чтобы создать <#FDAEE0><bold>%s<#FFFFFF>!"
     dont't-have-tech-to-use: "΃ Вы не имеете нужной технологии, чтобы использовать <#FDAEE0><bold>%s<#FFFFFF>!"
@@ -64,7 +66,7 @@ messages:
     new-town-was-created: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> основал новый город — <#FDAEE0><bold>%s"
     new-town-was-created-by-you: "΁ Вы основали новый город, который будет носить название \"<#FDAEE0><bold>%s<#FFFFFF>\"."
     town-was-deserted: "΁ Город \"<#FDAEE0><bold>%s<#FFFFFF>\" был распущен, т.к. в нём не осталось граждан."
-    you-were-invited-town: "΁ Игрок \<#FDAEE0><bold>%s<#FFFFFF>\ пригласил Вас в город \"<#FDAEE0><bold>%s<#FFFFFF>\" Хотите ли Вы присоединиться?"
+    you-were-invited-town: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> пригласил Вас в город \"<#FDAEE0><bold>%s<#FFFFFF>\" Хотите ли Вы присоединиться?"
 
   help:
     town:
@@ -74,8 +76,9 @@ messages:
       4: "<#FDAEE0><bold>/town invite [Имя игрока] <#AAAAAA>— <#ffffff>Пригласить игрока в город (только для мэра)."
 
   active-text:
-    yes: "Да"
-    no: "Нет"
+    accept: "<#55FF55><bold>Принять<reset>"
+    deny: "<#D42625><bold>Отказать<reset>"
+
 ############################################################
 # +------------------------------------------------------+ #
 # |   Персонажи и сообщения переписки                    | #

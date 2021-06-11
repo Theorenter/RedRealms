@@ -1,5 +1,6 @@
 package org.concordiacraft.redrealms.main;
 
+import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.gui.Menu;
 import org.concordiacraft.redrealms.commands.redcommands.town.Town;
@@ -16,6 +17,7 @@ import org.concordiacraft.redutils.utils.RedLog;
 
 public class RedRealms extends JavaPlugin implements RedPlugin {
 
+    private static boolean debug = false;
     private static RedLog redlog;
 
     private static ConfigDefault config;
@@ -51,19 +53,24 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
 
         // Data
         PromptData.loadPromptData(this);
+
+        // Read data about RedPlayers if players stay on the server after reload
+        for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+            RedPlayer.loadPlayer(p);
+        }
     }
 
     @Override
     public void onDisable() {
     }
+
     public static RedRealms getPlugin() {
         return RedRealms.getPlugin(RedRealms.class);
     }
-
     @Override
-    public boolean isDebug() {
-        return true;
-    }
+    public boolean isDebug() { return debug; }
+    @Override
+    public void setDebug(boolean debugStatus) { debug = debugStatus; }
 
     @Override
     public RedLog getRedLogger() {

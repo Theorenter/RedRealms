@@ -30,6 +30,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
 
     // fields biomes
     private final Map<String, List<String>> biomeTypes;
+    private final List<String> availableBiomeTypes;
 
     // fields string-format
     private final int nameMaxLength;
@@ -47,6 +48,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
 
         // main
         this.debug = customConfig.getBoolean("main.debug");
+        RedRealms.getPlugin().setDebug(debug);
         this.localizationFileName = customConfig.getString("main.localization");
         this.hasCustomAdvancements = customConfig.getBoolean("main.custom-advancements");
 
@@ -60,6 +62,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
 
         // biomes
         this.biomeTypes = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("biomes.biomes-list")));
+        this.availableBiomeTypes = new ArrayList<>(customConfig.getStringList("biomes.available-types"));
 
         // string-format
         this.nameMaxLength = customConfig.getInt("string-format.name-max-length");
@@ -94,6 +97,8 @@ public final class ConfigDefault extends ExtendedRedConfig {
     public List<String> getAvailableWorlds() { return availableWorlds; }
 
     public Map<String, List<String>> getBiomeTypes() { return biomeTypes; }
+
+    public List<String> getAvailableBiomeTypes() { return availableBiomeTypes; }
 
     public int getNameMaxLength() { return nameMaxLength; }
 

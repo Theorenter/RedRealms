@@ -23,6 +23,8 @@ public class RedTown extends RedData {
     private String mayorID;
 
     private String homeBiomeType;
+    private String title;
+    private double budget;
 
     private List<String> citizensIDs = new ArrayList<>();
     private List<Integer> capitalChunk = new ArrayList<>();

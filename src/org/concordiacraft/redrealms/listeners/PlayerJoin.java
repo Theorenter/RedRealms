@@ -27,7 +27,7 @@ public class PlayerJoin implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onFirstJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        RedPlayer redPlayer = RedData.loadPlayer(p);
+        RedData.loadPlayer(p);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

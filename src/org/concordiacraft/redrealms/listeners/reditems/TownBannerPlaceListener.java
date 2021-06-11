@@ -56,6 +56,29 @@ public class TownBannerPlaceListener implements Listener {
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
+        //Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(p, townBanner, p.getLocation().getChunk()));
+
+        // Get biome type
+        String thisBiomeName = ChunkWork.getBiome(p.getWorld().getChunkAt(p.getLocation())).name();
+        String biomeType = BiomeManager.getBiomeType(thisBiomeName);
+
+        // check chunk
+        RedChunk rc = RedData.loadChunk(e.getBlock().getChunk());
+        if (rc.hasTownOwner()) {
+            e.setCancelled(true);
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-territory-already-taken"), rc.getTownOwner()));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        if (!RedRealms.getDefaultConfig().getAvailableBiomeTypes().contains(rc.getBiomeType())) {
+            e.setCancelled(true);
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-biome-type-unavailable"), rc.getTownOwner()));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
 
         // Item banner
         ItemStack townBanner = new ItemStack(e.getItemInHand());
@@ -69,21 +92,6 @@ public class TownBannerPlaceListener implements Listener {
             p.getInventory().setItemInMainHand(inventoryStack);
         } else {
             p.getInventory().setItemInOffHand(inventoryStack);
-        }
-
-        //Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(p, townBanner, p.getLocation().getChunk()));
-
-        // Get biome type
-        String thisBiomeName = ChunkWork.getBiome(p.getWorld().getChunkAt(p.getLocation())).name();
-        String biomeType = BiomeManager.getBiomeType(thisBiomeName);
-
-        // check chunk
-        RedChunk rc = RedData.loadChunk(e.getBlock().getChunk());
-        if (rc.hasTownOwner()) {
-            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-territory-already-taken"), rc.getTownOwner()));
-            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
-                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
-            e.setCancelled(true);
         }
 
         // Conversation
