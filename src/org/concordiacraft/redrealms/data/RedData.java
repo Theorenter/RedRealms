@@ -65,6 +65,7 @@ public abstract class RedData {
             RedTown rt = (RedTown) this;
             RedData.allTowns.replace(rt.getName(),rt);
             rt.updateTown(isUpdate);
+            RedRealms.getPlugin().getRedLogger().debug("Обновил "+ rt.getName());
         }
         if (this instanceof RedChunk){
             RedChunk rt = (RedChunk) this;
@@ -72,18 +73,18 @@ public abstract class RedData {
             chunkcoords.add(rt.getX());
             chunkcoords.add(rt.getZ());
             RedData.allChunks.replace(chunkcoords,rt);
-
+            RedRealms.getPlugin().getRedLogger().debug("Обновил "+ rt.getTownOwner());
         }
         if (this instanceof RedPlayer){
             RedPlayer rp = (RedPlayer) this;
             if(RedData.allPlayers.replace(rp.getId(),rp)==null)
                 RedData.allPlayers.put(rp.getId(),rp);
+            rp.updatePlayer(isUpdate);
         }
 
     }
 
     public boolean readFile() {
-        RedRealms.getPlugin().getRedLogger().debug("Чтение...");
         Field[] fields = getClass().getDeclaredFields();
 
         if (!getFile().exists()) {
