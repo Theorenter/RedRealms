@@ -90,6 +90,7 @@ public class RedTown extends RedData {
         String jsonInputString = "{\"Name\": \"" + this.name + "\"," +
                 " \"Owner\": \"" + mayor.getName() + "\"" +
                 "}";
+
         new BukkitRunnable() {
             @Override
             public void run() {
