@@ -50,9 +50,11 @@ messages:
     player-not-in-town: "΃ Вы не состоите ни в одном городе!"
     player-is-not-mayor: "΃ Вы должны являться мэром города, чтобы сделать это!"
     player-not-on-the-server: "΃ Игрока <#FDAEE0><bold>%s<#FFFFFF> нет на сервере!"
-    player-already-in-town: "΃ Вы уже состоите в городе \"<#FDAEE0><bold>%s<#FFFFFF>\", сначала покиньте его, чтобы основать новое поселение!"
+    player-already-in-town: "΃ Вы уже состоите в городе \"<#FDAEE0><bold>%s<#FFFFFF>\"!"
+    already-has-town-invite: "΃ Игрок <#FDAEE0><bold>%s<#FFFFFF> уже имеет активное приглашение в город!"
+    town-does-not-exist: "΃ Данного города не существует!"
     another-player-already-in-town: "΃ Игрок <#FDAEE0><bold>%s<#FFFFFF> уже состоит в городе \"<#FDAEE0><bold>%s<#FFFFFF>\"!"
-    has-not-invited: "΃ У Вас нет ни одного приглашения!"
+    has-not-invited-town: "΃ У вас нет приглашения в город!"
 
     dont't-have-tech-to-craft: "΃ Вы не имеете нужной технологии, чтобы создать <#FDAEE0><bold>%s<#FFFFFF>!"
     dont't-have-tech-to-use: "΃ Вы не имеете нужной технологии, чтобы использовать <#FDAEE0><bold>%s<#FFFFFF>!"
@@ -60,6 +62,8 @@ messages:
     cannot-create-town-here: "΃ Вы не можете основать свой город здесь: города нельзя основывать на морских территориях!"
 
   notifications:
+    player-accept-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> присоединился к Вашему городу!"
+    player-decline-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> отклонил Ваше приглашение в город."
     prompt-data-item-back: "΁ Вам был возвращён следующий предмет: %s<reset>."
     prompt-data-item-back-inventory-full: " т.к. Ваш инвентарь полон, предмет появился возле Вас."
     town-creation-after-invalid: "Теперь укажите в чате корректное название города ΢"
@@ -70,14 +74,20 @@ messages:
 
   help:
     town:
-      1: "<#ffffff>Команды взаимодействия с <#FDAEE0><bold>городом:"
-      2: "<#FDAEE0><bold>/town menu <#AAAAAA>— <#ffffff>Открыть меню города."
-      3: "<#FDAEE0><bold>/town leave <#AAAAAA>— <#ffffff>Покинуть свой текущий город."
-      4: "<#FDAEE0><bold>/town invite [Имя игрока] <#AAAAAA>— <#ffffff>Пригласить игрока в город (только для мэра)."
+      header: "<#ffffff>Команды взаимодействия с <#FDAEE0><bold>городом:"
+      menu: "<#FDAEE0><bold>/town menu <#AAAAAA>— <#ffffff>Открыть меню города."
+      invite: "<#FDAEE0><bold>/town invite [Имя игрока] <#AAAAAA>— <#ffffff>Пригласить игрока в город (только для мэра)."
+      leave: "<#FDAEE0><bold>/town leave <#AAAAAA>— <#ffffff>Покинуть свой текущий город."
+      join: "<#FDAEE0><bold>/town join <#AAAAAA>— <#ffffff>Принять запрос на приглашение в город."
+      decline: "<#FDAEE0><bold>/town decline <#AAAAAA>— <#ffffff>Отклонить запрос на приглашение в город."
 
   active-text:
     accept: "<#55FF55><bold>Принять<reset>"
-    deny: "<#D42625><bold>Отказать<reset>"
+    decline: "<#D42625><bold>Отказать<reset>"
+
+  hovers:
+    accept-town-invite: "<#0092FC>[Клик] <#A5ACB8>— Вступить в город  \"<#FDAEE0><bold>%s<#FFFFFF>\""
+    decline-town-invite: "<#0092FC>[Клик] <#A5ACB8>— Не вступать в город \"<#FDAEE0><bold>%s<#FFFFFF>\""
 
 ############################################################
 # +------------------------------------------------------+ #

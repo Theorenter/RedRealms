@@ -9,12 +9,16 @@ import org.concordiacraft.reditems.main.RedItems;
 import org.concordiacraft.redrealms.main.RedRealms;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.rules.RuleManager;
+import org.concordiacraft.redutils.requests.Request;
 import org.concordiacraft.redutils.requests.RequestManager;
+import org.concordiacraft.redutils.requests.RequestType;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RedPlayer extends RedData {
 
@@ -24,6 +28,10 @@ public class RedPlayer extends RedData {
     private String title;
     private String realmName;
     private String townName;
+
+    // Fields that should not be written to disk
+    private Map<RequestType, Request> _requests = new HashMap<>();
+
 
     // Getters and Setters
 
@@ -114,12 +122,14 @@ public class RedPlayer extends RedData {
             return RuleManager.getUsePattern().get(ruleKey);
         }
     }
-    public void updatePlayer(boolean isUpdate){
+    public void updatePlayer (boolean isUpdate) {
+        if (!RedRealms.getDefaultConfig().isNetworkEnabled())
+            return;
         String jsonInputString = "{\"UUID\": \""+this.id+"\"," +
                 " \"Nickname\": \""+this.name+"\"";
                 //" \"Cash\": \""+this.townName+"\""; //TODO after economy integration
-        if (this.townName!=null) jsonInputString+=" \"Town\": \""+this.townName+"\"";
-        jsonInputString+="}";
+        if (this.townName!=null) jsonInputString +=" \"Town\": \""+this.townName+"\"";
+        jsonInputString +="}";
         String finalJsonInputString = jsonInputString;
         new BukkitRunnable() {
             @Override
@@ -130,7 +140,7 @@ public class RedPlayer extends RedData {
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setInstanceFollowRedirects(false);
-                    if(isUpdate){
+                    if (isUpdate) {
                         connection.setRequestMethod("PUT");
                     } else connection.setRequestMethod("POST");
                     connection.setRequestProperty("apiKey",RedRealms.getDefaultConfig().getApiKey());
@@ -208,4 +218,27 @@ public class RedPlayer extends RedData {
     public static String getDataPath() {
         return (RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator + "players");
     }
+
+
+    //    @Override
+    public boolean hasRequests() {
+        return _requests.isEmpty();
+    }
+
+    public boolean hasRequest(RequestType type) { return _requests.containsKey(type); }
+
+    //    @Override
+    public Map<RequestType, Request> getRequests() { return _requests; }
+
+    //    @Override
+    public void clearRequests() {
+        this._requests = null;
+    }
+
+    //    @Override
+    public void addRequest(Request request) {
+        this._requests.put(request.getRequestType(), request);
+    }
+    //    @Override
+    public void removeRequest(RequestType type) {this._requests.remove(type); }
 }

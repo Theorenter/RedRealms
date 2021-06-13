@@ -7,7 +7,10 @@ import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.data.RedTown;
 import org.concordiacraft.redrealms.gui.GUITown;
 import org.concordiacraft.redrealms.main.RedRealms;
+import org.concordiacraft.redrealms.requests.RequestTypes;
+import org.concordiacraft.redrealms.requests.TownInvite;
 import org.concordiacraft.redutils.commands.RedCommand;
+import org.concordiacraft.redutils.requests.Request;
 
 public class Town extends RedCommand {
     @Override
@@ -16,15 +19,18 @@ public class Town extends RedCommand {
         commands.put("invite", "Пригласить игрока в город");
         commands.put("leave", "Покинуть город");
         commands.put("menu", "Открыть меню города");
-        commands.put("invite accept", "Принять приглашение в город");
+        commands.put("join", "Принять приглашение в город");
+        commands.put("decline", "Принять приглашение в город");
     }
 
     @Override
     public void showHelp() {
-        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.1"));
-        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.2"));
-        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.3"));
-        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.4"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.header"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.menu"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.invite"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.leave"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.join"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.decline"));
     }
 
     public void leaveCMD() {
@@ -104,6 +110,7 @@ public class Town extends RedCommand {
             pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-not-in-town"));
             pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send an town invitation but it didn't work out.");
             return;
         }
 
@@ -111,6 +118,7 @@ public class Town extends RedCommand {
             pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-is-not-mayor"));
             pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send an town invitation but it didn't work out.");
             return;
         }
 
@@ -118,6 +126,7 @@ public class Town extends RedCommand {
             pSender.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.invalid-length-arguments"));
             pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send an town invitation but it didn't work out.");
             return;
         }
 
@@ -125,6 +134,7 @@ public class Town extends RedCommand {
             pSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.player-not-on-the-server"), args[1]));
             pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send an town invitation but it didn't work out.");
             return;
         }
 
@@ -135,9 +145,80 @@ public class Town extends RedCommand {
             pSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.another-player-already-in-town"), args[1], rpReceiver.getTownName()));
             pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send a town invitation to the player " + pReceiver.getName() + ", but it didn't work out.");
             return;
         }
 
+        if (rpReceiver.getRequests().containsKey(RequestTypes.TOWN_INVITE)) {
+            pSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.already-has-town-invite"), pReceiver.getName()));
+            pSender.playSound(pSender.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " tried to send a town invitation to the player " + pReceiver.getName() + ", but it didn't work out.");
+            return;
+        }
+        RedRealms.getPlugin().getRedLogger().info("Player " + pSender.getName() + " sent an invitation to the town to the player " + pReceiver.getName() + ".");
+        Request townInvite = new TownInvite(pSender, pReceiver, RequestTypes.TOWN_INVITE);
+    }
 
+    public void joinCMD() {
+
+        Player p = (Player) sender;
+
+        if (!sender.hasPermission("redrealms.town.join")) {
+            sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.don't-have-permissions-command"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        RedPlayer rp = RedData.loadPlayer(p);
+
+        if (!rp.hasRequest(RequestTypes.TOWN_INVITE)) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.has-not-invited-town"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        if (rp.hasTown()) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-already-in-town"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        TownInvite br = (TownInvite) rp.getRequests().get(RequestTypes.TOWN_INVITE);
+        br.onAccept();
+    }
+
+    public void declineCMD() {
+
+        Player p = (Player) sender;
+
+        if (!sender.hasPermission("redrealms.town.join")) {
+            sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.don't-have-permissions-command"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        RedPlayer rp = RedData.loadPlayer(p);
+
+        if (!rp.hasRequest(RequestTypes.TOWN_INVITE)) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.has-not-invited-town"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        if (rp.hasTown()) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-already-in-town"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        TownInvite br = (TownInvite) rp.getRequests().get(RequestTypes.TOWN_INVITE);
+        br.onDecline();
     }
 }

@@ -228,11 +228,19 @@ public class RedTown extends RedData {
 
     /**
      * Add a player to the town.
-     *
-     * @param playerID UUID of the citizen.
+     * @param playerID UUID of the new citizen.
      */
-    public void addCitizen(String playerID) {
-        this.citizensIDs.add(playerID);
+    public void addCitizen(String playerID) { this.citizensIDs.add(playerID); }
+
+    /**
+     * Add a player to the town.
+     * @param redPlayer new citizen.
+     */
+    public void addCitizen(RedPlayer redPlayer) {
+        this.citizensIDs.add(redPlayer.getId());
+        redPlayer.setTownName(this.getName());
+        redPlayer.updateFile();
+        updateFile();
     }
 
     /**

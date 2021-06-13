@@ -27,13 +27,18 @@ public abstract class RedData {
         return false;
     };
     public void updateFile() {
-        boolean isUpdate=false;
-        if(getFile().exists()) isUpdate=true;
+        boolean isUpdate = false;
+        if (getFile().exists()) isUpdate = true;
 
         Field[] fields = getClass().getDeclaredFields();
         YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(getFile());
         try {
             for (Field field : fields) {
+
+                // fields starting with an underscore should not be written.
+                if (field.getName().lastIndexOf('_') == 0)
+                    continue;
+
                 // checks all fields of class which implemented RedData, allowing to automatically read/update all fields
                 // lets you get value of field
                 field.setAccessible(true);
@@ -95,6 +100,9 @@ public abstract class RedData {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
+                if (field.getName().lastIndexOf('_') == 0) {
+                    continue;
+                }
                 if (field.getType().isAssignableFrom(HashMap.class)) {
                     Map<Object, Object> h = (Map<Object, Object>) RedDataConverter.getMapFromSection((ConfigurationSection) yamlConfig.get(field.getName()));
                     field.set(this, h);
