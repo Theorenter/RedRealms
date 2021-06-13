@@ -5,7 +5,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.concordiacraft.redrealms.data.RedData;
 import org.concordiacraft.redrealms.data.RedPlayer;
 import org.concordiacraft.redrealms.main.RedRealms;
@@ -25,6 +24,7 @@ public class RuleListener implements Listener {
 
 
         if (!rp.hasRuleToCraft(e.getInventory().getResult())) {
+            RedRealms.getPlugin().getRedLogger().debug("У игрока нет нужного craftRule для " + e.getInventory().getResult().getType().toString());
             e.getInventory().setResult(null);
             //p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.dont't-have-tech-to-craft"));
             //p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(), RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());

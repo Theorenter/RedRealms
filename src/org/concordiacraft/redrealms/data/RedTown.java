@@ -13,6 +13,7 @@ import org.concordiacraft.redrealms.rules.RuleManager;
 import org.concordiacraft.redrealms.utilits.ChunkWork;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +25,6 @@ public class RedTown extends RedData {
 
     private String homeBiomeType;
     private String title;
-    private double budget;
 
     private List<String> citizensIDs = new ArrayList<>();
     private List<Integer> capitalChunk = new ArrayList<>();
@@ -33,8 +33,11 @@ public class RedTown extends RedData {
     private List<List<Integer>> chunks = new ArrayList<>();
 
     // Rules
-    private Map<String, Boolean> craftRules = new HashMap<>();
-    private Map<String, Boolean> useRules = new HashMap<>();
+    private Map<String, Boolean> craftRules;
+    private Map<String, Boolean> useRules;
+
+    // Economy
+    private BigDecimal balance;
 
     /**
      * WARNING: THIS CONSTRUCTOR IS NOT USED TO CREATE TOWNS.
@@ -70,8 +73,8 @@ public class RedTown extends RedData {
         redPlayer.updateFile();
 
         // rules
-        this.craftRules = RuleManager.getCraftPattern();
-        this.useRules = RuleManager.getUsePattern();
+        this.craftRules = new HashMap<>(RuleManager.getCraftPattern());
+        this.useRules = new HashMap<>(RuleManager.getUsePattern());
 
         setCapitalChunk(capitalChunk);
         addChunk(capitalChunk);
@@ -83,7 +86,8 @@ public class RedTown extends RedData {
         updateFile();
 
         RedRealms.getPlugin().getRedLogger().info("Player " + mayorID + " created a new town - " + "\"" + name + "\"");
-
+        // create economy account
+        this.balance = new BigDecimal(0);
     }
 
     public void updateTown(boolean isUpdate) {
@@ -243,11 +247,15 @@ public class RedTown extends RedData {
         updateFile();
     }
 
+    public BigDecimal getBalance() {
+        return this.balance;
+    }
+
     /**
      * @return craft rules.
      */
     public Map<String, Boolean> getCraftRules() {
-        return craftRules;
+        return this.craftRules;
     }
 
     /**

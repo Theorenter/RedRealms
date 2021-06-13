@@ -52,12 +52,14 @@ public class TownInvite extends BinaryRequest {
     @Override
     public void showRequest() {
         requestReceiver.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.you-were-invited-town"), rSender.getName(), rSender.getTownName()));
-        TextComponent acceptC = new TextComponent(RedRealms.getLocalization().getString("messages.active-text.accept"));
-        acceptC.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format(RedRealms.getLocalization().getString("messages.hovers.accept-town-invite"), rSender.getTownName()))));
+        TextComponent acceptC = new TextComponent();
+        acceptC.setText("[" + RedRealms.getLocalization().getString("messages.active-text.accept") + "]");
+        acceptC.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(RedRealms.getLocalization().getString("messages.hovers.accept-town-invite"))));
         acceptC.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/town join"));
 
-        TextComponent declineC = new TextComponent(RedRealms.getLocalization().getString("messages.active-text.decline"));
-        declineC.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(String.format(RedRealms.getLocalization().getString("messages.hovers.decline-town-invite"), rSender.getTownName()))));
+        TextComponent declineC = new TextComponent();
+        declineC.setText("[" + RedRealms.getLocalization().getString("messages.active-text.decline") + "]");
+        declineC.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(RedRealms.getLocalization().getString("messages.hovers.decline-town-invite"))));
         declineC.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/town decline"));
 
         TextComponent universalComponent = new TextComponent();

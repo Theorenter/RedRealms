@@ -12,5 +12,6 @@
     <orderEntry type="library" name="RedUtils" level="project" />
     <orderEntry type="library" name="RedItems" level="project" />
     <orderEntry type="library" name="CrazyAdvancementsAPI" level="project" />
+    <orderEntry type="library" name="TNE" level="project" />
   </component>
 </module>

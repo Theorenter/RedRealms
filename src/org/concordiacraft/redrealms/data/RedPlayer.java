@@ -14,6 +14,7 @@ import org.concordiacraft.redutils.requests.RequestManager;
 import org.concordiacraft.redutils.requests.RequestType;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -95,11 +96,13 @@ public class RedPlayer extends RedData {
 
         // Determine whether the player is in the town and whether he has the corresponding rule
         if (this.hasTown()) {
-            RedTown rt = RedData.loadTown(this.realmName);
-            if (!rt.getCraftRules().containsKey(ruleKey)) { return true; }
+            RedTown rt = RedData.loadTown(this.townName);
+            if (!rt.getCraftRules().containsKey(ruleKey))
+                return true;
             return rt.getCraftRules().get(ruleKey);
         } else {
-            if (!RuleManager.getCraftPattern().containsKey(ruleKey)) { return true; }
+            if (!RuleManager.getCraftPattern().containsKey(ruleKey))
+                return true;
             return RuleManager.getCraftPattern().get(ruleKey);
         }
     }

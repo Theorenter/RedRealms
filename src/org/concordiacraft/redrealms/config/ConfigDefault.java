@@ -48,7 +48,6 @@ public final class ConfigDefault extends ExtendedRedConfig {
 
         // main
         this.debug = customConfig.getBoolean("main.debug");
-        RedRealms.getPlugin().setDebug(debug);
         this.localizationFileName = customConfig.getString("main.localization");
         this.hasCustomAdvancements = customConfig.getBoolean("main.custom-advancements");
 
