@@ -11,6 +11,7 @@ import org.concordiacraft.redutils.utils.RedDataConverter;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +102,10 @@ public abstract class RedData {
             field.setAccessible(true);
             try {
                 if (field.getName().lastIndexOf('_') == 0) {
+                    continue;
+                }
+                if (field.get(this) instanceof BigDecimal) {
+                    field.set(this, new BigDecimal(yamlConfig.getDouble(field.getName())));
                     continue;
                 }
                 if (field.getType().isAssignableFrom(HashMap.class)) {

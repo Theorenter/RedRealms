@@ -60,6 +60,7 @@ messages:
     dont't-have-tech-to-use: "΃ Вы не имеете нужной технологии, чтобы использовать <#FDAEE0><bold>%s<#FFFFFF>!"
 
     cannot-create-town-here: "΃ Вы не можете основать свой город здесь: города нельзя основывать на морских территориях!"
+    not-enough-money: "΃ У Вас недостаточно средств!"
 
   notifications:
     player-accept-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> присоединился к Вашему городу!"
@@ -74,6 +75,7 @@ messages:
     town-was-deserted: "΁ Город \"<#FDAEE0><bold>%s<#FFFFFF>\" был распущен, т.к. в нём не осталось граждан."
     you-were-invited-town: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> пригласил Вас в город \"<#FDAEE0><bold>%s<#FFFFFF>\" Хотите ли Вы присоединиться?"
     town-balance: "΁ Баланс города <#FDAEE0><bold>%s<#FFFFFF>: <#FDAEE0><bold>%sG"
+    successful-deposit: "΁ Вы пополнили баланс города <#FDAEE0><bold>%s<#FFFFFF> на <#FDAEE0><bold>%sG"
 
   help:
     town:

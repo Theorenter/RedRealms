@@ -71,9 +71,12 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         File[] towns = townFolder.listFiles();
         if (towns == null)
             return;
-        for (File townFile :townFolder.listFiles()) {
-            RedTown.loadTown(townFile.getName());
-            redlog.debug(townFile.getName() + " was read");
+        for (File townFile : townFolder.listFiles()) {
+            String tName = townFile.getName();
+            int index = tName.indexOf('.');
+            tName = tName.substring(0, index);
+            RedTown.loadTown(tName);
+            redlog.debug(tName + " was read");
         }
     }
 

@@ -37,7 +37,7 @@ public class RedTown extends RedData {
     private Map<String, Boolean> useRules;
 
     // Economy
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal(0);
 
     /**
      * WARNING: THIS CONSTRUCTOR IS NOT USED TO CREATE TOWNS.
@@ -249,6 +249,16 @@ public class RedTown extends RedData {
 
     public BigDecimal getBalance() {
         return this.balance;
+    }
+
+    public void addBalance(BigDecimal s) {
+        balance = balance.add(s);
+        updateFile();
+    }
+
+    public void decBalance(BigDecimal s) {
+        balance = balance.add(s.negate());
+        updateFile();
     }
 
     /**
