@@ -2,9 +2,7 @@ package org.concordiacraft.redrealms.listeners;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.concordiacraft.redrealms.advancements.RedAdvancementManager;
 import org.concordiacraft.redrealms.data.RedData;
-import org.concordiacraft.redrealms.data.RedPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

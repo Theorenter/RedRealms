@@ -1,4 +1,4 @@
-package org.concordiacraft.redrealms.commands.redcommands.town;
+package org.concordiacraft.redrealms.commands.redcommands;
 
 import net.tnemc.core.economy.Account;
 import org.bukkit.Bukkit;
@@ -24,7 +24,8 @@ public class Town extends RedCommand {
         commands.put("join", "Принять приглашение в город");
         commands.put("decline", "Принять приглашение в город");
         commands.put("balance", "Посмотреть баланс города");
-        commands.put("deposit", "Положить золота на содержание города");
+        commands.put("deposit", "Положить золото в казну города");
+        commands.put("withdraw", "Изъять золото из казны города");
     }
 
     @Override
@@ -35,6 +36,9 @@ public class Town extends RedCommand {
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.leave"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.join"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.decline"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.balance"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.deposit"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.withdraw"));
     }
 
     public void leaveCMD() {
@@ -298,5 +302,52 @@ public class Town extends RedCommand {
         rt.addBalance(s);
 
         p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-deposit"), rp.getTownName(), s));
+    }
+    public void withdrawCMD() {
+        if (!(sender instanceof Player)) {
+            RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
+            return;
+        }
+
+        Player p = (Player) sender;
+
+        if (!sender.hasPermission("redrealms.town.balance")) {
+            sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.don't-have-permissions-command"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        RedPlayer rp = RedData.loadPlayer(p);
+
+        if (!rp.isMayor()) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.player-is-not-mayor"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+
+        }
+
+        if (args.length != 2) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.invalid-length-arguments"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        BigDecimal s = new BigDecimal(args[1]);
+        RedTown rt = RedData.loadTown(rp.getTownName());
+
+        if (rt.getBalance().compareTo(s) < 0) {
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.errors.not-enough-money-town")), rp.getTownName(), s));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        rt.decBalance(s);
+        RedRealms.getTNEAPI().getAccount(p.getUniqueId()).addHoldings(s);
+
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-withdraw"), s, rp.getTownName()));
     }
 }

@@ -61,6 +61,7 @@ messages:
 
     cannot-create-town-here: "΃ Вы не можете основать свой город здесь: города нельзя основывать на морских территориях!"
     not-enough-money: "΃ У Вас недостаточно средств!"
+    not-enough-money-town: "΃ У города <#FDAEE0><bold>%s<#FFFFFF> нет столько средств (всего в городской кзане: <#FDAEE0><bold>%s<#FFFFFF>)"
 
   notifications:
     player-accept-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> присоединился к Вашему городу!"
@@ -76,6 +77,7 @@ messages:
     you-were-invited-town: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> пригласил Вас в город \"<#FDAEE0><bold>%s<#FFFFFF>\" Хотите ли Вы присоединиться?"
     town-balance: "΁ Баланс города <#FDAEE0><bold>%s<#FFFFFF>: <#FDAEE0><bold>%sG"
     successful-deposit: "΁ Вы пополнили баланс города <#FDAEE0><bold>%s<#FFFFFF> на <#FDAEE0><bold>%sG"
+    successful-withdraw: "΁ Вы успешно сняли <#FDAEE0><bold>%sG<#FFFFFF> со счёта города <#FDAEE0><bold>%s"
 
   help:
     town:
@@ -85,6 +87,9 @@ messages:
       leave: "<#FDAEE0><bold>/town leave <#AAAAAA>— <#ffffff>Покинуть свой текущий город."
       join: "<#FDAEE0><bold>/town join <#AAAAAA>— <#ffffff>Принять запрос на приглашение в город."
       decline: "<#FDAEE0><bold>/town decline <#AAAAAA>— <#ffffff>Отклонить запрос на приглашение в город."
+      balance: "<#FDAEE0><bold>/town balance <#AAAAAA>— <#ffffff>Отобразить запасы городской казны."
+      deposit: "<#FDAEE0><bold>/town deposit [Сумма] <#AAAAAA>— <#ffffff>Положить средств на счёт города."
+      withdraw: "<#FDAEE0><bold>/town withdraw <#AAAAAA>— <#ffffff>Снять средств из городской казны (только для мэра)."
 
   active-text:
     accept: "<#55FF55><bold>Принять<reset>"

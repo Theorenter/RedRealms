@@ -5,7 +5,8 @@ import net.tnemc.core.common.api.TNEAPI;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.gui.Menu;
-import org.concordiacraft.redrealms.commands.redcommands.town.Town;
+import org.concordiacraft.redrealms.commands.redcommands.Chunk;
+import org.concordiacraft.redrealms.commands.redcommands.Town;
 import org.concordiacraft.redrealms.config.ConfigDefault;
 import org.concordiacraft.redrealms.config.ConfigLoader;
 import org.concordiacraft.redrealms.config.ConfigLocalization;
@@ -18,7 +19,6 @@ import org.concordiacraft.redutils.main.RedPlugin;
 import org.concordiacraft.redutils.utils.RedLog;
 
 import java.io.File;
-import java.util.List;
 
 public class RedRealms extends JavaPlugin implements RedPlugin {
 
@@ -56,7 +56,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         // Commands
         getCommand("menu").setExecutor(new Menu());
         getCommand("town").setExecutor(new Town());
-        //getCommand("profile").setExecutor(new Profile());
+        getCommand("chunk").setExecutor(new Chunk());
         //getCommand("realm").setExecutor(new Realm());
 
         // Data
