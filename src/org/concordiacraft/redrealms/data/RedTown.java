@@ -84,6 +84,7 @@ public class RedTown extends RedData {
         Bukkit.getServer().getPluginManager().callEvent(new TownCreationConversationEvent(townName, townFounder, townBanner, capitalChunk));
         RedChunk rc = RedData.loadChunk(capitalChunk);
         rc.setTownOwner(name);
+        rc.setMunicipality(true);
         rc.updateFile();
         updateFile();
 
@@ -187,20 +188,23 @@ public class RedTown extends RedData {
     /**
      * Add a chunk to the town.
      *
-     * @param chunk
-     */
-    public void addChunk(List<Integer> chunk) {
-        chunks.add(chunk);
-    }
-
-    /**
-     * Add a chunk to the town.
-     *
      * @param chunk chunk to add to the town.
      */
     public void addChunk(Chunk chunk) {
         ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(chunk);
         chunks.add(ChunkCoords);
+        updateFile();
+    }
+
+    /**
+     * Remove a chunk from the town.
+     *
+     * @param chunk chunk to remove from the town.
+     */
+    public void removeChunk(Chunk chunk) {
+        ArrayList<Integer> ChunkCoords = ChunkWork.chunkCreate(chunk);
+        chunks.remove(ChunkCoords);
+        updateFile();
     }
 
     /**
@@ -247,6 +251,15 @@ public class RedTown extends RedData {
         redPlayer.setTownName(this.getName());
         redPlayer.updateFile();
         updateFile();
+    }
+
+    public boolean hasChunk(Chunk chunk) {
+        List<Integer> loc = new ArrayList<>();
+        loc.add(chunk.getX()); loc.add(chunk.getZ());
+        for (List<Integer> list : chunks) {
+            if ((list.get(0) == loc.get(0)) && (list.get(1) == loc.get(1))) return true;
+        }
+        return false;
     }
 
     public BigDecimal getBalance() {

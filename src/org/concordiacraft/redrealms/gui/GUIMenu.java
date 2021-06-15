@@ -47,12 +47,11 @@ public class GUIMenu extends RedGUI {
         inv.setItem(13, townItem);
         inv.setItem(14, townItem);
 
-        ItemStack realmItem = createFunctionalGUIItemStack(mat, nullItemTextureNum,
+        ItemStack realmItem = createGUIItemStack(mat, nullItemTextureNum,
                 RedRealms.getLocalization().getString("gui.menu.realm.name"),
-                "UNQ-GUI-COMMAND", "realm",
-                RedRealms.getLocalization().getString("gui.menu.realm.lore-1"),
-                RedRealms.getLocalization().getString("gui.menu.realm.lore-2"),
-                RedRealms.getLocalization().getString("gui.menu.realm.lore-3"));
+                RedRealms.getLocalization().getString("gui.menu.locked-lore-1"),
+                RedRealms.getLocalization().getString("gui.menu.locked-lore-2"),
+                RedRealms.getLocalization().getString("gui.menu.locked-lore-3"));
         inv.setItem(7, realmItem);
         inv.setItem(8, realmItem);
         inv.setItem(16, realmItem);

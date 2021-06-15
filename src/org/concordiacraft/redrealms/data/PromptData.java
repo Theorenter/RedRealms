@@ -19,12 +19,14 @@ import java.util.UUID;
  * belongings that they may have lost in the event of
  * an incomplete request.
  */
+
 public class PromptData {
     private static HashMap<UUID, Object> promptMap = new HashMap<>();
 
     private final static String fileName = "prompt-data.yml";
     private final static File promptDataFile = new File(RedRealms.getPlugin().getDataFolder() + File.separator + "data" + File.separator + fileName);
     private final static YamlConfiguration yamlConf = new YamlConfiguration();
+
 
     /**
      * Loading data about lost items.

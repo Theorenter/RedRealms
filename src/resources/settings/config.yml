@@ -41,8 +41,8 @@ network:
 world:
   # Here you can specify the name of the worlds in which you can create towns and realms.
   available-worlds:
-    - "world"
     - "NovaConcordia"
+    - "world"
 
 ############################################################
 # +------------------------------------------------------+ #
@@ -153,6 +153,7 @@ biomes:
     cold: 2.0
     temperate: 3.0
     warm: 2.0
+    water: 8.0
 
 ############################################################
 # +------------------------------------------------------+ #

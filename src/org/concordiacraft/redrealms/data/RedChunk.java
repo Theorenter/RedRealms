@@ -23,6 +23,7 @@ public class RedChunk extends RedData {
     private String townRegion;
     private String chunkProf;
     private String biomeType;
+    private String privateOwnerUUID;
 
     /**
      * RedChunk constructor.
@@ -53,6 +54,21 @@ public class RedChunk extends RedData {
             updateFile();
         }
     }
+
+    /**
+     * Sets chunk's owner by UUID.
+     *
+     * @param privateOwnerUUID player's who will be owner of the chunk.
+     */
+    public void setPrivateOwnerUUID(String privateOwnerUUID) {
+        this.municipality = false;
+        this.privateOwnerUUID = privateOwnerUUID;
+    }
+
+    /**
+     * @return the UUID of the chunk's owner
+     */
+    public String getPrivateOwnerUUID() { return privateOwnerUUID; }
 
     /**
      * @return world name of the chunk.
@@ -145,6 +161,7 @@ public class RedChunk extends RedData {
      */
     public void setMunicipality(Boolean municipality) {
         this.municipality = municipality;
+        this.privateOwnerUUID = null;
     }
 
     public String getTownRegion() {

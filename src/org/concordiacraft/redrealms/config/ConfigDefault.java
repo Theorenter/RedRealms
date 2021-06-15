@@ -31,6 +31,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
     // fields biomes
     private final Map<String, List<String>> biomeTypes;
     private final List<String> availableBiomeTypes;
+    private final Map<String, Double> priceBiomeTypes;
 
     // fields string-format
     private final int nameMaxLength;
@@ -62,6 +63,7 @@ public final class ConfigDefault extends ExtendedRedConfig {
         // biomes
         this.biomeTypes = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("biomes.biomes-list")));
         this.availableBiomeTypes = new ArrayList<>(customConfig.getStringList("biomes.available-types"));
+        this.priceBiomeTypes = new HashMap(RedDataConverter.getMapFromSection(customConfig.getConfigurationSection("biomes.prices")));
 
         // string-format
         this.nameMaxLength = customConfig.getInt("string-format.name-max-length");
@@ -98,6 +100,8 @@ public final class ConfigDefault extends ExtendedRedConfig {
     public Map<String, List<String>> getBiomeTypes() { return biomeTypes; }
 
     public List<String> getAvailableBiomeTypes() { return availableBiomeTypes; }
+
+    public Map<String, Double> getPriceBiomeTypes() { return priceBiomeTypes; }
 
     public int getNameMaxLength() { return nameMaxLength; }
 

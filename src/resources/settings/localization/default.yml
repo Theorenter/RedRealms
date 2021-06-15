@@ -35,6 +35,8 @@ messages:
     only-for-players: "Данная команда доступна только игрокам на сервере!"
     don't-have-permissions-to-do: "΃ У Вас недостаточно прав для выполнения данного действия!"
     don't-have-permissions-command: "΃ У Вас недостаточно прав для использования данной команды!"
+    number-format-exception: "΃ Значение аргумента должно быть числовым!"
+    number-must-be-positive: "΃ Значение не может быть отрицательным!"
 
     this-name-too-short: "΃ Название слишком короткое. Мин.длина — <#FDAEE0><bold>%s"
     this-name-too-long: "΃ Название слишком длинное. Макс.длина — <#FDAEE0><bold>%s"
@@ -63,6 +65,12 @@ messages:
     not-enough-money: "΃ У Вас недостаточно средств!"
     not-enough-money-town: "΃ У города <#FDAEE0><bold>%s<#FFFFFF> нет столько средств (всего в городской кзане: <#FDAEE0><bold>%s<#FFFFFF>)"
 
+    not-wilderness-chunk: "΃ Вы не можете присваивать себе чужие чанки!"
+    not-your-town-chunk: "΃ Этот чанк не принадлежит вашему городу!"
+    you-can-not-give-another-chunks: "΃ Вы не можете управлять чужими чанками!"
+    can-not-forcibly-remove-chunk: "΃ Вы не можете насильно изъять данный участок!"
+    this-chunk-is-wilderness: "΃ Данный чанк никому не принадлежит!"
+
   notifications:
     player-accept-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> присоединился к Вашему городу!"
     player-decline-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> отклонил Ваше приглашение в город."
@@ -78,6 +86,8 @@ messages:
     town-balance: "΁ Баланс города <#FDAEE0><bold>%s<#FFFFFF>: <#FDAEE0><bold>%sG"
     successful-deposit: "΁ Вы пополнили баланс города <#FDAEE0><bold>%s<#FFFFFF> на <#FDAEE0><bold>%sG"
     successful-withdraw: "΁ Вы успешно сняли <#FDAEE0><bold>%sG<#FFFFFF> со счёта города <#FDAEE0><bold>%s"
+    successful-capture: "΁ Вы успешно присвоили себе чанк <#FDAEE0><bold>%s<#FFFFFF> за <#FDAEE0><bold>%sG"
+    successful-drop-chunk: "΁ Вы успешно исключили из города чанк <#FDAEE0><bold>%s"
 
   help:
     town:
@@ -188,6 +198,7 @@ map:
   default-chunk: "■"
 
   colors:
+    your-chunk:
     your-town: "<#FDAEE0>"
     wilderness: "<#808080>"
     another-town: "<#B57072>"

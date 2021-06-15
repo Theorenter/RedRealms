@@ -287,21 +287,37 @@ public class Town extends RedCommand {
             return;
         }
 
-        BigDecimal s = new BigDecimal(args[1]);
-        RedTown rt = RedData.loadTown(rp.getTownName());
+        try {
 
-        Account depAcc = RedRealms.getTNEAPI().getAccount(p.getUniqueId());
-        if (!depAcc.hasHoldings(s)) {
-            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.not-enough-money"));
+            BigDecimal s = new BigDecimal(args[1]);
+            RedTown rt = RedData.loadTown(rp.getTownName());
+
+            double a = Double.parseDouble(args[1]);
+
+            if (a < 0) {
+                p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-must-be-positive"));
+                p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                        RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+                return;
+            }
+
+            Account depAcc = RedRealms.getTNEAPI().getAccount(p.getUniqueId());
+            if (!depAcc.hasHoldings(s)) {
+                p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.not-enough-money"));
+                p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                        RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+                return;
+            }
+
+            depAcc.removeHoldings(s);
+            rt.addBalance(s);
+
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-deposit"), rp.getTownName(), s));
+        } catch (NumberFormatException e) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-format-exception"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
-            return;
         }
-
-        depAcc.removeHoldings(s);
-        rt.addBalance(s);
-
-        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-deposit"), rp.getTownName(), s));
     }
     public void withdrawCMD() {
         if (!(sender instanceof Player)) {
@@ -335,19 +351,36 @@ public class Town extends RedCommand {
             return;
         }
 
-        BigDecimal s = new BigDecimal(args[1]);
-        RedTown rt = RedData.loadTown(rp.getTownName());
+        try {
 
-        if (rt.getBalance().compareTo(s) < 0) {
-            p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.errors.not-enough-money-town")), rp.getTownName(), s));
+            BigDecimal s = new BigDecimal(args[1]);
+
+            double a = Double.parseDouble(args[1]);
+
+            if (a < 0) {
+                p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-must-be-positive"));
+                p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                        RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+                return;
+            }
+
+            RedTown rt = RedData.loadTown(rp.getTownName());
+
+            if (rt.getBalance().compareTo(s) < 0) {
+                p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.errors.not-enough-money-town")), rp.getTownName(), rt.getBalance()));
+                p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                        RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+                return;
+            }
+
+            rt.decBalance(s);
+            RedRealms.getTNEAPI().getAccount(p.getUniqueId()).addHoldings(s);
+
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-withdraw"), s, rp.getTownName()));
+        } catch (NumberFormatException e) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-format-exception"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
-            return;
         }
-
-        rt.decBalance(s);
-        RedRealms.getTNEAPI().getAccount(p.getUniqueId()).addHoldings(s);
-
-        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-withdraw"), s, rp.getTownName()));
     }
 }
