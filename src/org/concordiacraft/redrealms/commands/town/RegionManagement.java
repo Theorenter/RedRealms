@@ -84,7 +84,7 @@ public class RegionManagement implements CommandExecutor {
                 commandSender.sendMessage("Данной специализации региона не существует");
                 return true; }
             region.getChunks().forEach(chunk -> {
-                RedChunk mChunk = new RedChunk(chunk);
+                RedChunk mChunk = new RedChunk(player.getWorld().getName(), chunk);
                 mChunk.setChunkProf(strings[2]);
             });
             commandSender.sendMessage("Специализация чанков успешно изменена!");

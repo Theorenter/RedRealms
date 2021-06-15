@@ -138,13 +138,13 @@ public abstract class RedData {
             return newChunk;
         }
     }
-    public static RedChunk loadChunk(ArrayList<Integer> chunk) {
+    public static RedChunk loadChunk(String worldName, ArrayList<Integer> chunk) {
 
         if (allChunks.containsKey(chunk)){
             return allChunks.get(chunk);
         } else {
-            RedChunk newChunk = new RedChunk(chunk);
-            allChunks.put(chunk,newChunk);
+            RedChunk newChunk = new RedChunk(worldName, chunk);
+            allChunks.put(chunk, newChunk);
             return newChunk;
         }
     }

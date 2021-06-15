@@ -25,6 +25,7 @@ public class RedTown extends RedData {
 
     private String homeBiomeType;
     private String title;
+    private String worldName;
 
     private List<String> citizensIDs = new ArrayList<>();
     private List<Integer> capitalChunk = new ArrayList<>();
@@ -67,6 +68,7 @@ public class RedTown extends RedData {
         this.citizensIDs = new ArrayList<>();
         this.citizensIDs.add(townFounder.getUniqueId().toString());
         this.homeBiomeType = homeBiomeType;
+        this.worldName = capitalChunk.getWorld().getName();
 
         RedPlayer redPlayer = RedData.loadPlayer(townFounder);
         redPlayer.setTownName(townName);
@@ -291,7 +293,7 @@ public class RedTown extends RedData {
             for (Player p : Bukkit.getServer().getOnlinePlayers())
                 p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-was-deserted"), name));
             for (List<Integer> chunk : chunks) {
-                RedChunk newChunk = RedData.loadChunk((ArrayList<Integer>) chunk);
+                RedChunk newChunk = RedData.loadChunk(this.worldName, (ArrayList<Integer>) chunk);
                 newChunk.setTownOwner(null);
                 newChunk.updateFile();
             }
@@ -320,7 +322,7 @@ public class RedTown extends RedData {
     public void delete() {
         getAllTowns().remove(this.name);
         for (List<Integer> chunk : chunks) {
-            RedChunk newChunk = RedData.loadChunk((ArrayList<Integer>) chunk);
+            RedChunk newChunk = RedData.loadChunk(this.worldName, (ArrayList<Integer>) chunk);
             newChunk.setTownOwner(null);
             newChunk.updateFile();
         }

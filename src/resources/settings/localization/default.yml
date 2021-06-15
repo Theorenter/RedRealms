@@ -91,6 +91,13 @@ messages:
       deposit: "<#FDAEE0><bold>/town deposit [Сумма] <#AAAAAA>— <#ffffff>Положить средств на счёт города."
       withdraw: "<#FDAEE0><bold>/town withdraw <#AAAAAA>— <#ffffff>Снять средств из городской казны (только для мэра)."
 
+    chunk:
+      header: "<#ffffff>Команды взаимодействия с <#FDAEE0><bold>чанком:"
+      map: "<#FDAEE0><bold>/chunk map <#AAAAAA>— <#ffffff>Отображает местную карту чанков в текстовом формате."
+      capture: "<#FDAEE0><bold>/chunk capture <#AAAAAA>— <#ffffff>Присоединить чанк к городу (только для мэра)."
+      drop: "<#FDAEE0><bold>/chunk drop <#AAAAAA>— <#ffffff>Исключить чанк из города (только для мэра)."
+      give: "<#FDAEE0><bold>/chunk give [Игрок] <#AAAAAA>— <#ffffff>Передать чанк другому игроку (только для владельца чанка/мэра и отдаваемый участок - муниципальная собственность)."
+
   active-text:
     accept: "<#55FF55><bold>Принять<reset>"
     decline: "<#D42625><bold>Отказать<reset>"
@@ -175,3 +182,12 @@ gui:
     locked-lore-1: "<#B57072>Данная игровая механика"
     locked-lore-2: "<#B57072>и раздел будут добавлены"
     locked-lore-3: "<#B57072>в последующих обновлениях."
+
+map:
+  vignette: "<#FDAEE0>.oOo.__________.[ <#FFFFFF>(%s, %s) <#FDAEE0>].__________.oOo."
+  default-chunk: "■"
+
+  colors:
+    your-town: "<#FDAEE0>"
+    wilderness: "<#808080>"
+    another-town: "<#B57072>"

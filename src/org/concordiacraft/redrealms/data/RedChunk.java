@@ -41,12 +41,14 @@ public class RedChunk extends RedData {
     /**
      * RedChunk constructor.
      * WARNING: All valid RedChunks must be created via RedData.loadChunk()!
+     * @param worldName name of the chunk's world;
      * @param chunkLocation X (first value) and Z (second value) location values of the chunk.
      */
-    public RedChunk(ArrayList<Integer> chunkLocation){
+    public RedChunk(String worldName, ArrayList<Integer> chunkLocation){
         RedRealms.getPlugin().getRedLogger().debug("Создание нового чанка...");
         this.X = chunkLocation.get(0);
         this.Z = chunkLocation.get(1);
+        this.worldName = worldName;
         if (!readFile()){
             updateFile();
         }
