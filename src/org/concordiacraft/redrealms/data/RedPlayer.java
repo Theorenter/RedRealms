@@ -1,5 +1,6 @@
 package org.concordiacraft.redrealms.data;
 
+import net.tnemc.core.TNE;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -129,9 +130,9 @@ public class RedPlayer extends RedData {
         if (!RedRealms.getDefaultConfig().isNetworkEnabled())
             return;
         String jsonInputString = "{\"UUID\": \""+this.id+"\"," +
-                " \"Nickname\": \""+this.name+"\"";
-                //" \"Cash\": \""+this.townName+"\""; //TODO after economy integration
-        if (this.townName!=null) jsonInputString +=" \"Town\": \""+this.townName+"\"";
+                " \"Nickname\": \""+this.name+"\"," +
+                " \"Cash\": \""+RedRealms.getTNEAPI().getAccount(this.id).getHoldings().toString()+"\""; //TODO after economy integration
+        if (this.townName!=null) jsonInputString +=" ,\"Town\": \""+this.townName+"\"";
         jsonInputString +="}";
         String finalJsonInputString = jsonInputString;
         new BukkitRunnable() {

@@ -98,6 +98,7 @@ public class RedTown extends RedData {
         RedPlayer mayor = RedData.loadPlayer(this.mayorID);
         String jsonInputString = "{\"Name\": \"" + this.name + "\"," +
                 " \"Owner\": \"" + mayor.getName() + "\"" +
+                " \"Cash\": \"" + RedRealms.getTNEAPI().getAccount(this.getName()).getHoldings() + "\"" +
                 "}";
 
         new BukkitRunnable() {
