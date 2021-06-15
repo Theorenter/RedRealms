@@ -30,9 +30,10 @@ public final class ChunkWork {
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
         if (redChunk.getTownOwner() == null) return true;
-
+        if (redChunk.getPrivateOwnerUUID()!=null) {
+            return redChunk.getPrivateOwnerUUID().equals(player.getUniqueId().toString());
+        }
         RedTown town = RedData.loadTown(redChunk.getTownOwner());
-
         return town.getCitizenIDs().contains(redPlayer.getId());
     }
     /*

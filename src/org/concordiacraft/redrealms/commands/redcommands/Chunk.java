@@ -240,4 +240,13 @@ public class Chunk extends RedCommand {
         RedTown rt = RedData.loadTown(rp.getTownName());
 
     }
+    public void giveCMD(){
+
+    }
+    public void dropCMD(){
+
+    }
+    public void nationalizeCMD(){
+
+    }
 }

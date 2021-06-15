@@ -4,6 +4,7 @@ import net.tnemc.core.TNE;
 import net.tnemc.core.common.api.TNEAPI;
 import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.addons.AddonManager;
+import org.concordiacraft.redrealms.commands.AddChunk;
 import org.concordiacraft.redrealms.commands.gui.Menu;
 import org.concordiacraft.redrealms.commands.redcommands.Chunk;
 import org.concordiacraft.redrealms.commands.redcommands.Town;
@@ -37,7 +38,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         AddonManager.init();
 
         // Economy
-        TNEAPI = TNE.instance().api();
+        //TNEAPI = TNE.instance().api();
         // Settings init
         ConfigLoader.init(this);
         DataLoader.init(this);
@@ -57,6 +58,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         getCommand("menu").setExecutor(new Menu());
         getCommand("town").setExecutor(new Town());
         getCommand("chunk").setExecutor(new Chunk());
+        getCommand("addchunk").setExecutor(new AddChunk(this));
         //getCommand("realm").setExecutor(new Realm());
 
         // Data

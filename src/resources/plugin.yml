@@ -22,3 +22,6 @@ commands:
   chunk:
     description: "Управление чанками"
     usage: /chunk
+  addchunk:
+    description: "Пошел нахуй"
+    usage: /addchunk
