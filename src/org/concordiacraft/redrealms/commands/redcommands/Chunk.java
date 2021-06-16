@@ -139,7 +139,8 @@ public class Chunk extends RedCommand {
 
         rt.decBalance(s);
         rt.addChunk(p.getLocation().getChunk());
-        p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.errors.successful-capture")), rc.getX() + ", " + rc.getZ(), s.toString()));
+        rc.setTownOwner(rt.getName());
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.notifications.successful-capture")), rc.getX() + ", " + rc.getZ(), s.toString()));
     }
 
     public void dropCMD() {
@@ -186,7 +187,8 @@ public class Chunk extends RedCommand {
         RedTown rt = RedData.loadTown(rp.getTownName());
 
         rt.removeChunk(p.getLocation().getChunk());
-        p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.errors.successful-drop-chunk")), p.getLocation().getChunk().getX() + ", " + p.getLocation().getChunk().getZ()));
+        rc.setTownOwner(null);
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.notifications.successful-drop-chunk")), p.getLocation().getChunk().getX() + ", " + p.getLocation().getChunk().getZ()));
     }
 
     public void giveCMD() {
