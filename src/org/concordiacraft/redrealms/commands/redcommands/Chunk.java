@@ -216,7 +216,7 @@ public class Chunk extends RedCommand {
             return;
         }
 
-        if ((!rp.isMayor()) || (!rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString()))) {
+        if ((!rp.isMayor()) || (rc.getPrivateOwnerUUID() == null || (!rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString())))) {
             sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.you-can-not-give-another-chunks"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
