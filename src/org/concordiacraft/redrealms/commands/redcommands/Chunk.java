@@ -214,7 +214,7 @@ public class Chunk extends RedCommand {
             return;
         }
 
-        if (!rp.isMayor() || !rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString())) {
+        if ((!rp.isMayor()) || (!rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString()))) {
             sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.you-can-not-give-another-chunks"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
@@ -236,17 +236,28 @@ public class Chunk extends RedCommand {
         }
 
         Player pReceiver = Bukkit.getPlayer(args[1]);
-
+        RedPlayer rRec = RedData.loadPlayer(pReceiver);
         RedTown rt = RedData.loadTown(rp.getTownName());
 
-    }
-    public void giveCMD(){
+        if ((rt.getCapitalChunk().get(0).equals(rc.getX())) && (rt.getCapitalChunk().get(1).equals(rc.getZ()))) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.you-can-not-get-capital"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
 
-    }
-    public void dropCMD(){
+        if (!rRec.getTownName().equals(rp.getTownName())) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.you-must-be-fellow-citizens"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+        if (!rRec.isMayor())
+            rc.setPrivateOwnerUUID(rRec.getId());
+        else
+            rc.setMunicipality(true);
 
-    }
-    public void nationalizeCMD(){
-
+        pReceiver.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.player-give-chunk-for-you"), p.getName(), rc.getX() + ", " + rc.getZ()));
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.you-give-chunk"), rc.getX() + ", " + rc.getZ(), pReceiver.getName()));
     }
 }

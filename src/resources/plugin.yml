@@ -5,7 +5,7 @@ api-version: 1.13
 authors:
   - Theorenter
   - Nicekita
-softdepend: [RedUtils]
+softdepend: [RedUtils, TheNewEconomy]
 commands:
   menu:
     description: "Открыть внутриигровое меню"
@@ -22,6 +22,3 @@ commands:
   chunk:
     description: "Управление чанками"
     usage: /chunk
-  addchunk:
-    description: "Пошел нахуй"
-    usage: /addchunk

@@ -70,6 +70,8 @@ messages:
     you-can-not-give-another-chunks: "΃ Вы не можете управлять чужими чанками!"
     can-not-forcibly-remove-chunk: "΃ Вы не можете насильно изъять данный участок!"
     this-chunk-is-wilderness: "΃ Данный чанк никому не принадлежит!"
+    you-must-be-fellow-citizens: "΃ Вы должны являться согражданами!"
+    you-can-not-get-capital: "΃ Вы не можете передать столичный чанк!"
 
   notifications:
     player-accept-town-invite: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> присоединился к Вашему городу!"
@@ -88,6 +90,8 @@ messages:
     successful-withdraw: "΁ Вы успешно сняли <#FDAEE0><bold>%sG<#FFFFFF> со счёта города <#FDAEE0><bold>%s"
     successful-capture: "΁ Вы успешно присвоили себе чанк <#FDAEE0><bold>%s<#FFFFFF> за <#FDAEE0><bold>%sG"
     successful-drop-chunk: "΁ Вы успешно исключили из города чанк <#FDAEE0><bold>%s"
+    player-give-chunk-for-you: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> передал Вам чанк <#FDAEE0><bold>%s"
+    you-give-chunk: "΁ Вы успешно передали чанк <#FDAEE0><bold>%s<#FFFFFF> игроку <#FDAEE0><bold>%s"
 
   help:
     town:

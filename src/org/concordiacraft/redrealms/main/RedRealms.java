@@ -38,7 +38,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         AddonManager.init();
 
         // Economy
-        //TNEAPI = TNE.instance().api();
+        TNEAPI = TNE.instance().api();
         // Settings init
         ConfigLoader.init(this);
         DataLoader.init(this);
@@ -58,7 +58,6 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         getCommand("menu").setExecutor(new Menu());
         getCommand("town").setExecutor(new Town());
         getCommand("chunk").setExecutor(new Chunk());
-        getCommand("addchunk").setExecutor(new AddChunk(this));
         //getCommand("realm").setExecutor(new Realm());
 
         // Data

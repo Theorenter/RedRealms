@@ -338,6 +338,8 @@ public class RedTown extends RedData {
         for (List<Integer> chunk : chunks) {
             RedChunk newChunk = RedData.loadChunk(this.worldName, (ArrayList<Integer>) chunk);
             newChunk.setTownOwner(null);
+            newChunk.setMunicipality(null);
+            newChunk.setPrivateOwnerUUID(null);
             newChunk.updateFile();
         }
         deleteFile();
