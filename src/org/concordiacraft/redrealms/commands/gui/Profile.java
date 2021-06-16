@@ -16,8 +16,7 @@ public class Profile implements CommandExecutor {
             RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
             return true;
         }
-        GUIProfile gui = new GUIProfile();
-        gui.openInventory((Player) sender);
+        sender.sendMessage("Не реализовано!");
         return true;
     }
 }

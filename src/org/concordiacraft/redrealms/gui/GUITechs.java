@@ -1,4 +1,14 @@
 package org.concordiacraft.redrealms.gui;
 
-public class GUITechs {
+import org.bukkit.inventory.InventoryHolder;
+
+public class GUITechs extends RedGUI {
+    protected GUITechs(InventoryHolder owner, int invSlots, String invName) {
+        super(owner, invSlots, invName);
+    }
+
+    @Override
+    void initializeItems() {
+
+    }
 }

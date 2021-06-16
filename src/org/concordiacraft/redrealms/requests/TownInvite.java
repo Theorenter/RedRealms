@@ -39,7 +39,7 @@ public class TownInvite extends BinaryRequest {
 
         RedTown redTown = RedData.loadTown(rSender.getTownName());
         redTown.addCitizen(rReceiver);
-        requestSender.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.player-accept-town-invite"), rReceiver.getName()));
+        redTown.sendMessageToAllCitizens(String.format(RedRealms.getLocalization().getString("messages.notifications.player-accept-town-invite"), rReceiver.getName()));
         rReceiver.removeRequest(type);
     }
 

@@ -2,7 +2,7 @@
 # WARNING: If you decide to add a new rule to techs, socs, or reforms, be sure to specify it here!
 rules:
   to-craft:
-  # Armor
+    # Armor
     GOLDEN_HELMET: true
     GOLDEN_CHESTPLATE: true
     GOLDEN_LEGGINGS: true

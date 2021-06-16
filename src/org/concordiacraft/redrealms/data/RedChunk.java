@@ -65,6 +65,10 @@ public class RedChunk extends RedData {
         this.privateOwnerUUID = privateOwnerUUID;
     }
 
+    public boolean hasPrivateOwner() {
+        return privateOwnerUUID != null;
+    }
+
     /**
      * @return the UUID of the chunk's owner
      */

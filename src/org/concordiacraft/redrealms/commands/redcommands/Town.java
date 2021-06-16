@@ -13,11 +13,14 @@ import org.concordiacraft.redrealms.requests.TownInvite;
 import org.concordiacraft.redutils.commands.RedCommand;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Town extends RedCommand {
     @Override
     public void init() {
         command = "/town";
+        commands.put("info", "Получить информацию о городе");
         commands.put("invite", "Пригласить игрока в город");
         commands.put("leave", "Покинуть город");
         commands.put("menu", "Открыть меню города");
@@ -26,12 +29,14 @@ public class Town extends RedCommand {
         commands.put("balance", "Посмотреть баланс города");
         commands.put("deposit", "Положить золото в казну города");
         commands.put("withdraw", "Изъять золото из казны города");
+        commands.put("techs", "Открывает меню исследования технологий");
     }
 
     @Override
     public void showHelp() {
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.header"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.menu"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.info"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.invite"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.leave"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.join"));
@@ -39,6 +44,51 @@ public class Town extends RedCommand {
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.balance"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.deposit"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.withdraw"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.techs"));
+    }
+
+    public void infoCMD() {
+
+        if (!(sender instanceof Player)) {
+            RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
+            return;
+        }
+        Player p = (Player) sender;
+
+        if (args.length != 2) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.invalid-length-arguments"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        if (!RedData.getAllTowns().containsKey(args[1])) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.town-does-not-exist"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        RedTown rt = RedData.loadTown(args[1]);
+
+        String name = rt.getName();
+        String mayorName = RedData.loadPlayer(rt.getMayorID()).getName();
+        int chunks = rt.getChunks().size();
+        String balance = rt.getBalance().toString();
+        String citizens = "";
+
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-info.header"), name));
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-info.balance"), balance));
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-info.mayor"), mayorName));
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.town-info.chunks"), chunks));
+        p.sendRawMessage(RedRealms.getLocalization().getString("messages.notifications.town-info.citizens"));
+        for (String uuid : rt.getCitizenIDs()) {
+            RedPlayer citizen = RedData.loadPlayer(uuid);
+            citizens += citizen.getName() + ", ";
+        }
+        p.sendRawMessage(citizens);
+
+
     }
 
     public void leaveCMD() {
@@ -312,7 +362,7 @@ public class Town extends RedCommand {
             depAcc.removeHoldings(s);
             rt.addBalance(s);
 
-            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-deposit"), rp.getTownName(), s));
+            rt.sendMessageToAllCitizens(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-deposit"), p.getName(), rp.getTownName(), s));
         } catch (NumberFormatException e) {
             p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-format-exception"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
@@ -376,7 +426,7 @@ public class Town extends RedCommand {
             rt.decBalance(s);
             RedRealms.getTNEAPI().getAccount(p.getUniqueId()).addHoldings(s);
 
-            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-withdraw"), s, rp.getTownName()));
+            rt.sendMessageToAllCitizens(String.format(RedRealms.getLocalization().getString("messages.notifications.successful-withdraw"), p.getName(), s, rp.getTownName()));
         } catch (NumberFormatException e) {
             p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.number-format-exception"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),

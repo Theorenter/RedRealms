@@ -24,7 +24,7 @@ public class ChunkGuardListener implements Listener {
         Block block = e.getClickedBlock();
         RedData.loadChunk(block.getChunk());
 
-        if ((!ChunkWork.canInteract(block.getChunk(),e.getPlayer()) && (!e.getPlayer().isOp()))) {
+        if ((!ChunkWork.canInteract(block.getChunk(), e.getPlayer()) && (!e.getPlayer().isOp()))) {
             e.setCancelled(true);
             e.getPlayer().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.can-not-break-there"));
         }

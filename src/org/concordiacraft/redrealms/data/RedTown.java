@@ -37,6 +37,9 @@ public class RedTown extends RedData {
     private Map<String, Boolean> craftRules;
     private Map<String, Boolean> useRules;
 
+    // Extended rules
+    private List<String> researchedTechsID = new ArrayList<>();
+
     // Economy
     private BigDecimal balance = new BigDecimal(0);
 
@@ -164,7 +167,6 @@ public class RedTown extends RedData {
         this.capitalChunk = capitalChunk;
 
     }
-
     /**
      * @param capitalChunk main town Chunk.
      */
@@ -278,6 +280,40 @@ public class RedTown extends RedData {
     }
 
     /**
+     * Sends a message to all citizens of the city who are online.
+     * WARNING: The method is executed asynchronously!
+     * @param message message.
+     */
+    public void sendMessageToAllCitizens(String message) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (!citizensIDs.contains(p.getUniqueId().toString()))
+                        continue;
+                    p.sendRawMessage(message);
+                }
+            }
+        }.runTaskAsynchronously(RedRealms.getPlugin());
+
+    }
+
+    /**
+     * @return researched town's techs.
+     */
+    public List<String> getResearchedTechsID() {
+        return researchedTechsID;
+    }
+
+    /**
+     * @param id identifier of the tech.
+     * @return true if the tech is researched and false if not.
+     */
+    public boolean hasResearchedTech(String id) {
+        return researchedTechsID.contains(id);
+    }
+
+    /**
      * @return craft rules.
      */
     public Map<String, Boolean> getCraftRules() {
@@ -309,7 +345,7 @@ public class RedTown extends RedData {
             for (List<Integer> chunk : chunks) {
                 RedChunk newChunk = RedData.loadChunk(this.worldName, (ArrayList<Integer>) chunk);
                 newChunk.setTownOwner(null);
-                if (newChunk.getPrivateOwnerUUID().equals(player.getUniqueId().toString()))
+                if ((newChunk.getPrivateOwnerUUID() != null) && (newChunk.getPrivateOwnerUUID().equals(player.getUniqueId().toString())))
                     newChunk.setPrivateOwnerUUID(null);
                 newChunk.updateFile();
             }
@@ -322,8 +358,11 @@ public class RedTown extends RedData {
             List<String> civicList;
             civicList = citizensIDs;
             civicList.remove(mayorID);
+            RedPlayer redP;
             for (String citizenID : citizensIDs) {
                 this.setMayorID(citizenID);
+                redP = RedData.loadPlayer(citizenID);
+                sendMessageToAllCitizens(String.format(RedRealms.getLocalization().getString(("messages.notifications.force-mayor-change")), redP.getName(), this.name));
                 updateFile();
                 return;
             }

@@ -19,6 +19,7 @@ public class Chunk extends RedCommand {
     public void init() {
         command = "/chunk";
         //commands.put("map", "Передать чанк игроку");
+        commands.put("info", "Информация о чанке");
         commands.put("capture", "Приобрести чанк");
         commands.put("drop", "Покинуть чанк");
         commands.put("give", "Передать чанк игроку");
@@ -28,6 +29,7 @@ public class Chunk extends RedCommand {
     public void showHelp() {
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.header"));
         //sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.map"));
+        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.info"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.capture"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.drop"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.chunk.give"));
@@ -119,7 +121,7 @@ public class Chunk extends RedCommand {
         RedChunk rc = RedData.loadChunk(p.getLocation().getChunk());
 
         if (rc.hasTownOwner()) {
-            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.not-your-town-chunk"));
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.already-captured-chunk"), rc.getTownOwner()));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
@@ -141,6 +143,48 @@ public class Chunk extends RedCommand {
         rt.addChunk(p.getLocation().getChunk());
         rc.setTownOwner(rt.getName());
         p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.notifications.successful-capture")), rc.getX() + ", " + rc.getZ(), s.toString()));
+    }
+
+    public void infoCMD() {
+        if (!(sender instanceof Player)) {
+            RedRealms.getPlugin().getRedLogger().info(RedRealms.getLocalization().getRawString("messages.errors.only-for-players"));
+            return;
+        }
+
+        Player p = (Player) sender;
+
+        if (!sender.hasPermission("redrealms.chunk.info")) {
+            sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.don't-have-permissions-command"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
+        RedChunk redChunk = RedData.loadChunk(p.getLocation().getChunk());
+
+        p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.chunk-info.header"), redChunk.getX() + ", " + redChunk.getZ()));
+        if (!redChunk.hasTownOwner()) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.notifications.chunk-info.wilderness"));
+        } else {
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.chunk-info.town"), redChunk.getTownOwner()));
+            RedTown rt = RedData.loadTown(redChunk.getTownOwner());
+
+            if (redChunk.hasPrivateOwner()) {
+                RedPlayer owner = RedData.loadPlayer(redChunk.getPrivateOwnerUUID());
+                p.sendRawMessage(String.format(RedRealms.getLocalization().getString(("messages.notifications.chunk-info.private-owner")), owner.getName()));
+            } else {
+                p.sendRawMessage(RedRealms.getLocalization().getString("messages.notifications.chunk-info.municipal"));
+                if ((rt.getCapitalChunk().get(0).equals(redChunk.getX())) && (rt.getCapitalChunk().get(1).equals(redChunk.getZ()))) {
+                    p.sendRawMessage(RedRealms.getLocalization().getString("messages.notifications.chunk-info.capital"));
+                }
+            }
+        }
+        Double price = RedRealms.getDefaultConfig().getPriceBiomeTypes().get(redChunk.getBiomeType());
+        if (price != null)
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.chunk-info.price-and-type"), redChunk.getBiomeType(), price));
+        else
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.chunk-info.price-and-type"), redChunk.getBiomeType(),
+                    RedRealms.getLocalization().getRawString("messages.notifications.chunk-info.not-for-sale")));
     }
 
     public void dropCMD() {
@@ -216,7 +260,7 @@ public class Chunk extends RedCommand {
             return;
         }
 
-        if ((!rp.isMayor() && rc.getPrivateOwnerUUID() == null) || (rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString()))) {
+        if ((!rp.isMayor() && rc.getPrivateOwnerUUID() == null) && (rc.getPrivateOwnerUUID() == null || !rc.getPrivateOwnerUUID().equals(p.getUniqueId().toString()))) {
             sender.sendMessage(RedRealms.getLocalization().getString("messages.errors.you-can-not-give-another-chunks"));
             p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
@@ -239,6 +283,14 @@ public class Chunk extends RedCommand {
 
         Player pReceiver = Bukkit.getPlayer(args[1]);
         RedPlayer rRec = RedData.loadPlayer(pReceiver);
+
+        if (!rRec.hasTown()) {
+            p.sendRawMessage(RedRealms.getLocalization().getString("messages.errors.you-must-be-fellow-citizens"));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
         RedTown rt = RedData.loadTown(rp.getTownName());
 
         if ((rt.getCapitalChunk().get(0).equals(rc.getX())) && (rt.getCapitalChunk().get(1).equals(rc.getZ()))) {
@@ -258,6 +310,7 @@ public class Chunk extends RedCommand {
             rc.setPrivateOwnerUUID(rRec.getId());
         else
             rc.setMunicipality(true);
+        rc.updateFile();
 
         pReceiver.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.player-give-chunk-for-you"), p.getName(), rc.getX() + ", " + rc.getZ()));
         p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.notifications.you-give-chunk"), rc.getX() + ", " + rc.getZ(), pReceiver.getName()));
