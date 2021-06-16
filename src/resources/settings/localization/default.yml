@@ -37,6 +37,7 @@ messages:
     don't-have-permissions-command: "΃ У Вас недостаточно прав для использования данной команды!"
     number-format-exception: "΃ Значение аргумента должно быть числовым!"
     number-must-be-positive: "΃ Значение не может быть отрицательным!"
+    can-not-break-there: "΃ Вы не можете ломать и строить здесь!"
 
     this-name-too-short: "΃ Название слишком короткое. Мин.длина — <#FDAEE0><bold>%s"
     this-name-too-long: "΃ Название слишком длинное. Макс.длина — <#FDAEE0><bold>%s"

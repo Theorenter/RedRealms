@@ -24,10 +24,9 @@ public class ChunkGuardListener implements Listener {
         Block block = e.getClickedBlock();
         RedData.loadChunk(block.getChunk());
 
-        if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
-        {
+        if ((!ChunkWork.canInteract(block.getChunk(),e.getPlayer()) && (!e.getPlayer().isOp()))) {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(RedRealms.getLocalization().getString("msg_error_private_territory_break"));
+            e.getPlayer().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.can-not-break-there"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -35,10 +34,9 @@ public class ChunkGuardListener implements Listener {
         Block block = e.getBlock();
         RedData.loadChunk(block.getChunk());
 
-        if (!ChunkWork.canInteract(block.getChunk(),e.getPlayer()))
-        {
+        if ((!ChunkWork.canInteract(block.getChunk(),e.getPlayer())) && (!e.getPlayer().isOp())) {
             e.setCancelled(true);
-            e.getPlayer().sendMessage(RedRealms.getLocalization().getString("msg_error_private_territory_break"));
+            e.getPlayer().sendRawMessage(RedRealms.getLocalization().getString("messages.errors.can-not-break-there"));
         }
     }
     @EventHandler(priority = EventPriority.HIGHEST)
