@@ -93,6 +93,7 @@ messages:
     successful-drop-chunk: "΁ Вы успешно исключили из города чанк <#FDAEE0><bold>%s"
     player-give-chunk-for-you: "΁ Игрок <#FDAEE0><bold>%s<#FFFFFF> передал Вам чанк <#FDAEE0><bold>%s"
     you-give-chunk: "΁ Вы успешно передали чанк <#FDAEE0><bold>%s<#FFFFFF> игроку <#FDAEE0><bold>%s"
+    forcejoin-town: "΁ Вы успешно присоеденились к городу <#FDAEE0><bold>%s"
 
   help:
     town:
@@ -111,7 +112,11 @@ messages:
       map: "<#FDAEE0><bold>/chunk map <#AAAAAA>— <#ffffff>Отображает местную карту чанков в текстовом формате."
       capture: "<#FDAEE0><bold>/chunk capture <#AAAAAA>— <#ffffff>Присоединить чанк к городу (только для мэра)."
       drop: "<#FDAEE0><bold>/chunk drop <#AAAAAA>— <#ffffff>Исключить чанк из города (только для мэра)."
-      give: "<#FDAEE0><bold>/chunk give [Игрок] <#AAAAAA>— <#ffffff>Передать чанк другому игроку (только для владельца чанка/мэра и отдаваемый участок - муниципальная собственность)."
+      give: "<#FDAEE0><bold>/chunk give [Имя игрока] <#AAAAAA>— <#ffffff>Передать чанк другому игроку (только для владельца чанка/мэра и отдаваемый участок - муниципальная собственность)."
+
+    admin:
+      header: "<#ffffff>Команды взаимодействия с <#FDAEE0><bold>чанком:"
+      forcejoin: "<#FDAEE0><bold>/jorcejoin [Название города] <#AAAAAA>— <#ffffff>Форсированно присоедениться к городу"
 
   active-text:
     accept: "<#55FF55><bold>Принять<reset>"

@@ -16,9 +16,9 @@ commands:
   town:
     description: "Открыть информацию связанную с городами"
     usage: /town
-  realm:
-    description: "Открыть меню взаимодействия с Вашей державой"
-    usage: /realm
+  admin:
+    description: "Админ-управление"
+    usage: /admin
   chunk:
     description: "Управление чанками"
     usage: /chunk

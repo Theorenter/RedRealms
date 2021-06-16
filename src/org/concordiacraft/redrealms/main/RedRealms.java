@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.concordiacraft.redrealms.addons.AddonManager;
 import org.concordiacraft.redrealms.commands.AddChunk;
 import org.concordiacraft.redrealms.commands.gui.Menu;
+import org.concordiacraft.redrealms.commands.redcommands.Admin;
 import org.concordiacraft.redrealms.commands.redcommands.Chunk;
 import org.concordiacraft.redrealms.commands.redcommands.Town;
 import org.concordiacraft.redrealms.config.ConfigDefault;
@@ -58,7 +59,7 @@ public class RedRealms extends JavaPlugin implements RedPlugin {
         getCommand("menu").setExecutor(new Menu());
         getCommand("town").setExecutor(new Town());
         getCommand("chunk").setExecutor(new Chunk());
-        //getCommand("realm").setExecutor(new Realm());
+        getCommand("admin").setExecutor(new Admin());
 
         // Data
         PromptData.loadPromptData(this);
