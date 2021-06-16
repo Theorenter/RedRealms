@@ -309,6 +309,8 @@ public class RedTown extends RedData {
             for (List<Integer> chunk : chunks) {
                 RedChunk newChunk = RedData.loadChunk(this.worldName, (ArrayList<Integer>) chunk);
                 newChunk.setTownOwner(null);
+                if (newChunk.getPrivateOwnerUUID().equals(player.getUniqueId().toString()))
+                    newChunk.setPrivateOwnerUUID(null);
                 newChunk.updateFile();
             }
             RedRealms.getPlugin().getRedLogger().info("Town \"" + this.name + "\" was deleted because there were no citizens left in it" );
