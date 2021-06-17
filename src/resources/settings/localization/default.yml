@@ -72,6 +72,7 @@ messages:
     you-can-not-give-another-chunks: "΃ Вы не можете управлять чужими чанками!"
     can-not-forcibly-remove-chunk: "΃ Вы не можете насильно изъять данный участок!"
     this-chunk-is-wilderness: "΃ Данный чанк никому не принадлежит!"
+    this-chunk-is-private-by: "΃ Данный чанк является частной территоерией игрока <#FDAEE0><bold>%s<#FFFFFF>!"
     you-must-be-fellow-citizens: "΃ Вы должны являться согражданами!"
     you-can-not-get-capital: "΃ Вы не можете передать столичный чанк!"
 
@@ -138,7 +139,7 @@ messages:
 
     admin:
       header: "<#ffffff>Команды взаимодействия с <#FDAEE0><bold>чанком:"
-      forcejoin: "<#FDAEE0><bold>/jorcejoin [Название города] <#AAAAAA>— <#ffffff>Форсированно присоедениться к городу"
+      forcejoin: "<#FDAEE0><bold>/forcejoin [Название города] <#AAAAAA>— <#ffffff>Форсированно присоедениться к городу"
 
   active-text:
     accept: "<#55FF55><bold>Принять<reset>"

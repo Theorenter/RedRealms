@@ -131,7 +131,7 @@ public class RedPlayer extends RedData {
             return;
         String jsonInputString = "{\"UUID\": \""+this.id+"\"," +
                 " \"Nickname\": \""+this.name+"\"," +
-                " \"Cash\": \""+RedRealms.getTNEAPI().getAccount(this.id).getHoldings().toString()+"\""; //TODO after economy integration
+                " \"Cash\": \""+RedRealms.getTNEAPI().getAccount(this.id).getHoldings().toString()+"\"";
         if (this.townName!=null) jsonInputString +=" ,\"Town\": \""+this.townName+"\"";
         jsonInputString +="}";
         String finalJsonInputString = jsonInputString;

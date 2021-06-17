@@ -13,8 +13,6 @@ import org.concordiacraft.redrealms.requests.TownInvite;
 import org.concordiacraft.redutils.commands.RedCommand;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Town extends RedCommand {
     @Override
@@ -29,7 +27,7 @@ public class Town extends RedCommand {
         commands.put("balance", "Посмотреть баланс города");
         commands.put("deposit", "Положить золото в казну города");
         commands.put("withdraw", "Изъять золото из казны города");
-        commands.put("techs", "Открывает меню исследования технологий");
+        //commands.put("techs", "Открывает меню исследования технологий");
     }
 
     @Override
@@ -44,7 +42,7 @@ public class Town extends RedCommand {
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.balance"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.deposit"));
         sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.withdraw"));
-        sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.techs"));
+        //sender.sendMessage(RedRealms.getLocalization().getString("messages.help.town.techs"));
     }
 
     public void infoCMD() {

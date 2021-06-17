@@ -306,6 +306,15 @@ public class Chunk extends RedCommand {
                     RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
             return;
         }
+
+        if ((rc.hasPrivateOwner()) && (!rc.getPrivateOwnerUUID().equals(rp.getId()))) {
+            RedPlayer chunkOwner = RedData.loadPlayer(rc.getPrivateOwnerUUID());
+            p.sendRawMessage(String.format(RedRealms.getLocalization().getString("messages.errors.this-chunk-is-private-by"), chunkOwner.getName()));
+            p.playSound(p.getLocation(), RedRealms.getDefaultConfig().getErrorSoundName(),
+                    RedRealms.getDefaultConfig().getErrorSoundVolume(), RedRealms.getDefaultConfig().getErrorSoundPitch());
+            return;
+        }
+
         if (!rRec.isMayor())
             rc.setPrivateOwnerUUID(rRec.getId());
         else

@@ -29,8 +29,14 @@ public final class ChunkWork {
     public static boolean canInteract(Chunk chunk, Player player) {
         RedPlayer redPlayer = RedData.loadPlayer(player);
         RedChunk redChunk = RedData.loadChunk(chunk);
-        if (redChunk.getTownOwner() == null) return true;
-        if (redChunk.getPrivateOwnerUUID() != null) {
+        if (!redChunk.hasTownOwner())
+            return true;
+        // Municipality owner check
+        if ((redChunk.isMunicipality()) && (!redPlayer.isMayor()))
+            return false;
+        // Private owner check
+        if (redChunk.hasPrivateOwner()) {
+            RedRealms.getPlugin().getRedLogger().info(redChunk.getPrivateOwnerUUID() + " ?== " + player.getUniqueId().toString());
             return redChunk.getPrivateOwnerUUID().equals(player.getUniqueId().toString());
         }
         RedTown town = RedData.loadTown(redChunk.getTownOwner());
